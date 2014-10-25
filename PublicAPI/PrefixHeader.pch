@@ -1,0 +1,28 @@
+//
+//  PrefixHeader.pch
+//  OneTheBike
+//
+//  Created by szk on 14-9-24.
+//  Copyright (c) 2014年 szk. All rights reserved.
+//
+
+#ifndef OneTheBike_PrefixHeader_pch
+#define OneTheBike_PrefixHeader_pch
+
+#import "PublicDefine.h"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "GMAPI.h"
+
+#import "MAPolyline+UN.h"
+#define BASE_URL @"http://182.254.242.58:8080/QiBa/"
+
+#pragma mark - 屏幕宽度
+#define DEVICE_WIDTH  [UIScreen mainScreen].bounds.size.width
+#pragma mark - 屏幕高度
+#define DEVICE_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+
+#endif

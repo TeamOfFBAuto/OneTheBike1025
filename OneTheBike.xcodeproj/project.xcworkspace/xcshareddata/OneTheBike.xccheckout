@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D682A092-0BB9-4E09-93D9-A8686AC7BE1C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>OneTheBike</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>95147B85624912964C5D8554F036A201730F00CF</key>
+		<string>https://github.com/TeamOfFBAuto/YouKnow.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>OneTheBike/OneTheBike.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>95147B85624912964C5D8554F036A201730F00CF</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/TeamOfFBAuto/YouKnow.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>95147B85624912964C5D8554F036A201730F00CF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>95147B85624912964C5D8554F036A201730F00CF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>YouKnow</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SharePlatformView">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="150"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4Zm-FH-GdY">
+                    <rect key="frame" x="31" y="15" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="share_sina_image.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap1:" destination="iN0-l3-epB" eventType="touchUpInside" id="RE0-Ex-GGv"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pRI-c2-uMv">
+                    <rect key="frame" x="119" y="15" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Button" image="share_weixinpengyouquan_image.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap2:" destination="iN0-l3-epB" eventType="touchUpInside" id="agF-KV-FSd"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="F2h-dt-1CH">
+                    <rect key="frame" x="205" y="15" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="share_qqkongjian_image.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap3:" destination="iN0-l3-epB" eventType="touchUpInside" id="rRD-ij-DhO"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3gy-fJ-jiA">
+                    <rect key="frame" x="31" y="82" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="share_tencentweibo_image.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap4:" destination="iN0-l3-epB" eventType="touchUpInside" id="OEx-Km-6fB"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Sco-jo-LPm">
+                    <rect key="frame" x="205" y="82" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="share_qqhaoyou_image.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap6:" destination="iN0-l3-epB" eventType="touchUpInside" id="asu-43-PJP"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PcO-2b-LPX">
+                    <rect key="frame" x="119" y="82" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="share_weixinhaoyou_image.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap5:" destination="iN0-l3-epB" eventType="touchUpInside" id="9Ma-ge-hxe"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="qqhaoyou_button" destination="Sco-jo-LPm" id="4cg-2d-GXB"/>
+                <outlet property="qqkongjian_button" destination="F2h-dt-1CH" id="n9r-1R-mbN"/>
+                <outlet property="qqweibo_button" destination="3gy-fJ-jiA" id="Isq-3C-nFC"/>
+                <outlet property="sina_button" destination="4Zm-FH-GdY" id="ioq-A6-1ae"/>
+                <outlet property="weixin_circle_button" destination="pRI-c2-uMv" id="lks-NX-cdC"/>
+                <outlet property="weixin_friend_button" destination="PcO-2b-LPX" id="Arx-hj-tmF"/>
+            </connections>
+            <point key="canvasLocation" x="88" y="332"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="share_qqhaoyou_image.png" width="106" height="100"/>
+        <image name="share_qqkongjian_image.png" width="106" height="100"/>
+        <image name="share_sina_image.png" width="106" height="100"/>
+        <image name="share_tencentweibo_image.png" width="106" height="100"/>
+        <image name="share_weixinhaoyou_image.png" width="106" height="100"/>
+        <image name="share_weixinpengyouquan_image.png" width="106" height="100"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
