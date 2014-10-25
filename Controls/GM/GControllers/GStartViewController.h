@@ -84,7 +84,7 @@
 @property(nonatomic,strong)GyundongCanshuModel *gYunDongCanShuModel;
 
 //四个自定义view
-@property(nonatomic,strong)NSArray *fourCustomView;
+@property(nonatomic,strong)NSArray *fiveCustomView;
 
 
 //清理 地图 搜索服务的相关代理

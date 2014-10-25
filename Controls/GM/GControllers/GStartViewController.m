@@ -165,7 +165,7 @@
 //    _zuoxiaView.backgroundColor = [UIColor greenColor];
 //    _youxiaView.backgroundColor = [UIColor purpleColor];
     
-    self.fourCustomView = @[_dingView,_zuoshangView,_youshangView,_zuoxiaView,_youshangView];
+    self.fiveCustomView = @[_dingView,_zuoshangView,_youshangView,_zuoxiaView,_youshangView];
     
     
     
@@ -282,11 +282,11 @@
             _zuoxiaView.titleImv.frame = CGRectMake(10, 20, 30, 30);
             [_zuoxiaView.titleImv setImage:titleImageArr[i-1]];
             
-            _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.titleImv.frame)+5, _zuoshangView.titleImv.frame.origin.y-5, 70, 35);
+            _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame)+5, _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
             _zuoxiaView.contentLable.text = @"0";
             
             
-            _zuoxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.contentLable.frame)+5, _zuoshangView.titleImv.frame.origin.y, 40, 30);
+            _zuoxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.contentLable.frame)+5, _zuoxiaView.titleImv.frame.origin.y, 40, 30);
             _zuoxiaView.danweiLabel.text = @"米";
             [_zuoxiaView addSubview:_zuoxiaView.danweiLabel];
             
@@ -446,7 +446,7 @@
             _zuoxiaView.titleImv.image = theImage;
             _zuoxiaView.contentLable.text = theStr;
             _zuoxiaView.danweiLabel.text = theDanwei;
-            _zuoshangView.viewTypeStr = theViewType;
+            _zuoxiaView.viewTypeStr = theViewType;
             
             
             if ([theViewType isEqualToString:@"计时"]) {//是计时的话 加宽contentLabel
@@ -489,6 +489,7 @@
 -(void)gChooseCanshu:(UITapGestureRecognizer*)sender{
     GstarCanshuViewController *cc = [[GstarCanshuViewController alloc]init];
     cc.passTag = sender.view.tag;
+    
     cc.delegate = self;
     cc.yundongModel = self.gYunDongCanShuModel;
 //    cc.hidesBottomBarWhenPushed = YES;
@@ -575,7 +576,7 @@
     
     
 #pragma 数据model赋值  计时时间--------
-    for (GyundongCustomView *view in self.fourCustomView) {
+    for (GyundongCustomView *view in self.fiveCustomView) {
         if ([view.viewTypeStr isEqualToString:@"计时"]) {
             view.contentLable.text = self.gYunDongCanShuModel.timeRunLabel.text;
         }
@@ -729,7 +730,7 @@
             
         }else if (buttonIndex == 0){//放弃保存
             
-            for (GyundongCustomView *view in self.fourCustomView) {
+            for (GyundongCustomView *view in self.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"计时"]) {
                     view.contentLable.text = @"00:00:00";
                 }else{
@@ -1151,7 +1152,7 @@
         
 
         
-        for (GyundongCustomView *view in self.fourCustomView) {
+        for (GyundongCustomView *view in self.fiveCustomView) {
             if ([view.viewTypeStr isEqualToString:@"海拔"]) {
                 
                 view.contentLable.text = self.gYunDongCanShuModel.haiba;
@@ -1204,7 +1205,7 @@
 #pragma mark - 数据model赋值--------------- 距离
         self.gYunDongCanShuModel.juli = [NSString stringWithFormat:@"%.2f",_distance/1000];
         
-        for (GyundongCustomView *view in self.fourCustomView) {
+        for (GyundongCustomView *view in self.fiveCustomView) {
             if ([view.viewTypeStr isEqualToString:@"公里"]) {
                 view.contentLable.text = self.gYunDongCanShuModel.juli;//给距离label赋值 单位是公里
             }
@@ -1224,7 +1225,7 @@
     self.gYunDongCanShuModel.dangqiansudu = [NSString stringWithFormat:@"%.1f",suduOfGongli];//单位 公里每小时
     
     
-    for (GyundongCustomView *view in self.fourCustomView) {
+    for (GyundongCustomView *view in self.fiveCustomView) {
         if ([view.viewTypeStr isEqualToString:@"速度"]) {
             view.contentLable.text = self.gYunDongCanShuModel.dangqiansudu;
         }

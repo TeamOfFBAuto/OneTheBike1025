@@ -179,7 +179,7 @@
         {
             contentStr = self.yundongModel.timeRunLabel.text;
             BOOL isChange = YES;
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"计时"]) {
                     isChange = NO;
                 }
@@ -199,7 +199,7 @@
             contentStr = self.yundongModel.podu;
             BOOL isChange = YES;
             
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"坡度"]) {
                     isChange = NO;
                 }
@@ -220,7 +220,7 @@
             
             contentStr =self.yundongModel.peisu;
             BOOL ischange = YES;
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"配速"]) {
                     ischange = NO;
                 }
@@ -245,7 +245,7 @@
             
             contentStr = self.yundongModel.pashenglv;
             BOOL isChange = YES;
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"爬升率"]) {
                     isChange = NO;
                 }
@@ -263,7 +263,7 @@
             
             contentStr = [NSString stringWithFormat:@"%d",([self.yundongModel.maxHaiba intValue] - [self.yundongModel.haiba intValue])];
             BOOL isChange = YES;
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"海拔上升"]) {
                     isChange = NO;
                 }
@@ -283,7 +283,7 @@
             contentStr = [NSString stringWithFormat:@"%d",([self.yundongModel.startHaiba intValue]-[self.yundongModel.minHaiba intValue])];
             
             BOOL isChange = YES;
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"海拔下降"]) {
                     isChange = NO;
                 }
@@ -302,7 +302,7 @@
             if (self.passTag == 51) {//顶部较宽 单位用 公里/时间
                 
                 BOOL isChange = YES;
-                for (GyundongCustomView *view in self.delegate.fourCustomView) {
+                for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                     if ([view.viewTypeStr isEqualToString:@"速度"]) {
                         isChange = NO;
                     }
@@ -316,7 +316,7 @@
             }else{
                 
                 BOOL isChange = YES;
-                for (GyundongCustomView *view in self.delegate.fourCustomView) {
+                for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                     if ([view.viewTypeStr isEqualToString:@"速度"]) {
                         isChange = NO;
                     }
@@ -341,7 +341,7 @@
             contentStr = self.yundongModel.maxSudu;
             
             BOOL isChange = YES;
-            for (GyundongCustomView *view in self.delegate.fourCustomView) {
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"最高速度"]) {
                     isChange = NO;
                 }
