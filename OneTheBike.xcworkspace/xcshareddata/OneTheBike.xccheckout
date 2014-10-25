@@ -10,31 +10,31 @@
 	<string>OneTheBike</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>95147B85624912964C5D8554F036A201730F00CF</key>
-		<string>https://github.com/TeamOfFBAuto/YouKnow.git</string>
+		<key>2F9BAF96CDA3EBF91E2379287841432026F1C97F</key>
+		<string>https://github.com/TeamOfFBAuto/OneTheBike1025.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>OneTheBike/OneTheBike.xcworkspace</string>
+	<string>OneTheBike.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>95147B85624912964C5D8554F036A201730F00CF</key>
-		<string>../..</string>
+		<key>2F9BAF96CDA3EBF91E2379287841432026F1C97F</key>
+		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/TeamOfFBAuto/YouKnow.git</string>
+	<string>https://github.com/TeamOfFBAuto/OneTheBike1025.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>95147B85624912964C5D8554F036A201730F00CF</string>
+	<string>2F9BAF96CDA3EBF91E2379287841432026F1C97F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>95147B85624912964C5D8554F036A201730F00CF</string>
+			<string>2F9BAF96CDA3EBF91E2379287841432026F1C97F</string>
 			<key>IDESourceControlWCCName</key>
-			<string>YouKnow</string>
+			<string>OneTheBike1025</string>
 		</dict>
 	</array>
 </dict>
