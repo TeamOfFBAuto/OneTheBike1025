@@ -180,10 +180,18 @@
     //灰条
     UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 35)];
     shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
+    //方向
     _fangxiangLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 5, 50, 30)];
     _fangxiangLabel.font = [UIFont systemFontOfSize:13];
     _fangxiangLabel.textColor = [UIColor whiteColor];
     _fangxiangLabel.textAlignment = NSTextAlignmentCenter;
+    //标题
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 50, 30)];
+    titleLabel.font = [UIFont systemFontOfSize:13];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.text = @"骑叭";
+    
+    [shangGrayView addSubview:titleLabel];
     [shangGrayView addSubview:_fangxiangLabel];
     [self.view addSubview:shangGrayView];
     shangGrayView.tag = 50;
@@ -400,6 +408,16 @@
 }
 
 
+///初始化地图上面的4个按钮 路书显示 定位到地图中心点 gps强弱信号
+-(void)initThreeBtn{
+    for (int i = 0; i<3; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setFrame:CGRectMake(280, 250, 30, 30)];
+        
+    }
+}
+
+
 
 ///初始化地图
 -(void)initMap{
@@ -419,7 +437,7 @@
     self.mapView.customizeUserLocationAccuracyCircleRepresentation = YES;//自定义定位样式
     self.mapView.userTrackingMode = MAUserTrackingModeNone;//定位模式
     
-    self.mapView.showsCompass= YES;//开启指南针
+    self.mapView.showsCompass= NO;//开启指南针
     self.mapView.compassOrigin= CGPointMake(280, 10); //设置指南针位置
     
     self.mapView.showsScale= NO; //关闭比例尺

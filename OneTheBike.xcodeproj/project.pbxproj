@@ -531,6 +531,17 @@
 		E3B8024E19FC0C2600AF9831 /* LRoadClass.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8022119FC0C2600AF9831 /* LRoadClass.m */; };
 		E3B8024F19FC0C2600AF9831 /* MAPolyline+UN.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8022319FC0C2600AF9831 /* MAPolyline+UN.m */; };
 		E3B8025019FC0C2600AF9831 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8022619FC0C2600AF9831 /* CommonUtility.m */; };
+		E3B8025319FC2EF800AF9831 /* 地图起点图标.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025119FC2EF800AF9831 /* 地图起点图标.png */; };
+		E3B8025419FC2EF800AF9831 /* 地图终点图标.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025219FC2EF800AF9831 /* 地图终点图标.png */; };
+		E3B8025A19FC2F0B00AF9831 /* 地图路书导入.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025519FC2F0B00AF9831 /* 地图路书导入.png */; };
+		E3B8025B19FC2F0B00AF9831 /* 地图路书关闭.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025619FC2F0B00AF9831 /* 地图路书关闭.png */; };
+		E3B8025C19FC2F0B00AF9831 /* 地图陀螺仪点击图标.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025719FC2F0B00AF9831 /* 地图陀螺仪点击图标.png */; };
+		E3B8025D19FC2F0B00AF9831 /* 地图陀螺仪图标.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025819FC2F0B00AF9831 /* 地图陀螺仪图标.png */; };
+		E3B8025E19FC2F0B00AF9831 /* 地图位置图标.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025919FC2F0B00AF9831 /* 地图位置图标.png */; };
+		E3B8026319FC2F1C00AF9831 /* gps图标1格.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025F19FC2F1C00AF9831 /* gps图标1格.png */; };
+		E3B8026419FC2F1C00AF9831 /* gps图标2格.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8026019FC2F1C00AF9831 /* gps图标2格.png */; };
+		E3B8026519FC2F1C00AF9831 /* gps图标3格.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8026119FC2F1C00AF9831 /* gps图标3格.png */; };
+		E3B8026619FC2F1C00AF9831 /* gps图标4格.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8026219FC2F1C00AF9831 /* gps图标4格.png */; };
 		E3BB362719E7C1B20096131D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BB362619E7C1B20096131D /* QuartzCore.framework */; };
 		E3BB362919E7C1BE0096131D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BB362819E7C1BE0096131D /* CoreLocation.framework */; };
 		E3BB362B19E7C1EE0096131D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BB362A19E7C1EE0096131D /* OpenGLES.framework */; };
@@ -1152,10 +1163,10 @@
 		E3B8020A19FC0C2600AF9831 /* Gmap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gmap.m; sourceTree = "<group>"; };
 		E3B8020B19FC0C2600AF9831 /* GyundongCanshuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCanshuModel.h; sourceTree = "<group>"; };
 		E3B8020C19FC0C2600AF9831 /* GyundongCanshuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCanshuModel.m; sourceTree = "<group>"; };
-		E3B8020D19FC0C2600AF9831 /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCustomView.h; sourceTree = "<group>"; };
-		E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCustomView.m; sourceTree = "<group>"; };
-		E3B8020F19FC0C2600AF9831 /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAHeaderView.h; sourceTree = "<group>"; };
-		E3B8021019FC0C2600AF9831 /* MAHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAHeaderView.m; sourceTree = "<group>"; };
+		E3B8020D19FC0C2600AF9831 /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GyundongCustomView.h; path = ../GModel/GyundongCustomView.h; sourceTree = "<group>"; };
+		E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GyundongCustomView.m; path = ../GModel/GyundongCustomView.m; sourceTree = "<group>"; };
+		E3B8020F19FC0C2600AF9831 /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAHeaderView.h; path = ../GModel/MAHeaderView.h; sourceTree = "<group>"; };
+		E3B8021019FC0C2600AF9831 /* MAHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAHeaderView.m; path = ../GModel/MAHeaderView.m; sourceTree = "<group>"; };
 		E3B8021119FC0C2600AF9831 /* ReGeocodeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReGeocodeAnnotation.h; sourceTree = "<group>"; };
 		E3B8021219FC0C2600AF9831 /* ReGeocodeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReGeocodeAnnotation.m; sourceTree = "<group>"; };
 		E3B8021519FC0C2600AF9831 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
@@ -1174,6 +1185,17 @@
 		E3B8022319FC0C2600AF9831 /* MAPolyline+UN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MAPolyline+UN.m"; sourceTree = "<group>"; };
 		E3B8022519FC0C2600AF9831 /* CommonUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtility.h; sourceTree = "<group>"; };
 		E3B8022619FC0C2600AF9831 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtility.m; sourceTree = "<group>"; };
+		E3B8025119FC2EF800AF9831 /* 地图起点图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图起点图标.png"; sourceTree = "<group>"; };
+		E3B8025219FC2EF800AF9831 /* 地图终点图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图终点图标.png"; sourceTree = "<group>"; };
+		E3B8025519FC2F0B00AF9831 /* 地图路书导入.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图路书导入.png"; sourceTree = "<group>"; };
+		E3B8025619FC2F0B00AF9831 /* 地图路书关闭.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图路书关闭.png"; sourceTree = "<group>"; };
+		E3B8025719FC2F0B00AF9831 /* 地图陀螺仪点击图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图陀螺仪点击图标.png"; sourceTree = "<group>"; };
+		E3B8025819FC2F0B00AF9831 /* 地图陀螺仪图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图陀螺仪图标.png"; sourceTree = "<group>"; };
+		E3B8025919FC2F0B00AF9831 /* 地图位置图标.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "地图位置图标.png"; sourceTree = "<group>"; };
+		E3B8025F19FC2F1C00AF9831 /* gps图标1格.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps图标1格.png"; sourceTree = "<group>"; };
+		E3B8026019FC2F1C00AF9831 /* gps图标2格.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps图标2格.png"; sourceTree = "<group>"; };
+		E3B8026119FC2F1C00AF9831 /* gps图标3格.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps图标3格.png"; sourceTree = "<group>"; };
+		E3B8026219FC2F1C00AF9831 /* gps图标4格.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps图标4格.png"; sourceTree = "<group>"; };
 		E3BB362619E7C1B20096131D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3BB362819E7C1BE0096131D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E3BB362A19E7C1EE0096131D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -2644,19 +2666,15 @@
 		E3B801EF19FC0C2600AF9831 /* GModel */ = {
 			isa = PBXGroup;
 			children = (
-				E3B801F019FC0C2600AF9831 /* GeocodeAnnotation.h */,
-				E3B801F119FC0C2600AF9831 /* GeocodeAnnotation.m */,
 				E3B801F219FC0C2600AF9831 /* Gimages */,
 				E3B8020919FC0C2600AF9831 /* Gmap.h */,
 				E3B8020A19FC0C2600AF9831 /* Gmap.m */,
 				E3B8020B19FC0C2600AF9831 /* GyundongCanshuModel.h */,
 				E3B8020C19FC0C2600AF9831 /* GyundongCanshuModel.m */,
-				E3B8020D19FC0C2600AF9831 /* GyundongCustomView.h */,
-				E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */,
-				E3B8020F19FC0C2600AF9831 /* MAHeaderView.h */,
-				E3B8021019FC0C2600AF9831 /* MAHeaderView.m */,
 				E3B8021119FC0C2600AF9831 /* ReGeocodeAnnotation.h */,
 				E3B8021219FC0C2600AF9831 /* ReGeocodeAnnotation.m */,
+				E3B801F019FC0C2600AF9831 /* GeocodeAnnotation.h */,
+				E3B801F119FC0C2600AF9831 /* GeocodeAnnotation.m */,
 			);
 			path = GModel;
 			sourceTree = "<group>";
@@ -2664,6 +2682,17 @@
 		E3B801F219FC0C2600AF9831 /* Gimages */ = {
 			isa = PBXGroup;
 			children = (
+				E3B8025F19FC2F1C00AF9831 /* gps图标1格.png */,
+				E3B8026019FC2F1C00AF9831 /* gps图标2格.png */,
+				E3B8026119FC2F1C00AF9831 /* gps图标3格.png */,
+				E3B8026219FC2F1C00AF9831 /* gps图标4格.png */,
+				E3B8025519FC2F0B00AF9831 /* 地图路书导入.png */,
+				E3B8025619FC2F0B00AF9831 /* 地图路书关闭.png */,
+				E3B8025719FC2F0B00AF9831 /* 地图陀螺仪点击图标.png */,
+				E3B8025819FC2F0B00AF9831 /* 地图陀螺仪图标.png */,
+				E3B8025919FC2F0B00AF9831 /* 地图位置图标.png */,
+				E3B8025119FC2EF800AF9831 /* 地图起点图标.png */,
+				E3B8025219FC2EF800AF9831 /* 地图终点图标.png */,
 				E3B801F319FC0C2600AF9831 /* gback160x98.png */,
 				E3B801F419FC0C2600AF9831 /* gbpm.png */,
 				E3B801F519FC0C2600AF9831 /* gbtndown.png */,
@@ -2693,6 +2722,10 @@
 		E3B8021319FC0C2600AF9831 /* GViews */ = {
 			isa = PBXGroup;
 			children = (
+				E3B8020D19FC0C2600AF9831 /* GyundongCustomView.h */,
+				E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */,
+				E3B8020F19FC0C2600AF9831 /* MAHeaderView.h */,
+				E3B8021019FC0C2600AF9831 /* MAHeaderView.m */,
 			);
 			path = GViews;
 			sourceTree = "<group>";
@@ -2883,6 +2916,7 @@
 				19DAE9C619D311D300519D22 /* xiaoxiyixing-bg-270_60@2x.png in Resources */,
 				19DAE9AA19D311D300519D22 /* fengmian_loading_640_512@2x.png in Resources */,
 				19DAE9B119D311D300519D22 /* pinglun-bg2-down-216_76@2x.png in Resources */,
+				E3B8026319FC2F1C00AF9831 /* gps图标1格.png in Resources */,
 				19DAEA5319D311D300519D22 /* bbs_add_member_tiao@2x.png in Resources */,
 				19DAEA0619D311D300519D22 /* tianjia-44_44@2x.png in Resources */,
 				19DAEA0919D311D300519D22 /* jieshoukuang-duihao38_38@2x.png in Resources */,
@@ -2920,6 +2954,7 @@
 				19DAEA5719D311D300519D22 /* BBS-kuang@2x.png in Resources */,
 				19DAE9FC19D311D300519D22 /* duihua1-66_82@2x.png in Resources */,
 				19DAE9EE19D311D300519D22 /* xiaoxi-46_40-xy510_404@2x.png in Resources */,
+				E3B8026519FC2F1C00AF9831 /* gps图标3格.png in Resources */,
 				19DAEA7619D311D300519D22 /* classification_big4@2x.png in Resources */,
 				565DF22219FBE31D00DE99EA /* share_sina_image@2x.png in Resources */,
 				19DAE9A819D311D300519D22 /* fbquanzan@2x.png in Resources */,
@@ -2978,6 +3013,7 @@
 				19DAEA1A19D311D300519D22 /* xiangqing-biaoqing-icon-56_56@2x.png in Resources */,
 				19DAE98519D311D300519D22 /* add_sanjiao@2x.png in Resources */,
 				19DAEA2419D311D300519D22 /* duihao-doun-46_46@2x.png in Resources */,
+				E3B8025A19FC2F0B00AF9831 /* 地图路书导入.png in Resources */,
 				56442E1019F55B1E00BAE678 /* RankingFunctionView.xib in Resources */,
 				19DAEA6719D311D300519D22 /* mirco_icon_19@2x.png in Resources */,
 				19DAE99F19D311D300519D22 /* biaoqing-56_56@2x.png in Resources */,
@@ -3065,6 +3101,7 @@
 				19DAE9C119D311D300519D22 /* touxiang-150_150@2x.png in Resources */,
 				19DAEA6119D311D300519D22 /* mirco_icon_13@2x.png in Resources */,
 				13D21C8D19F4095C0015AAF2 /* gps图标2格.png in Resources */,
+				E3B8025D19FC2F0B00AF9831 /* 地图陀螺仪图标.png in Resources */,
 				1965031019FB902800B19738 /* nav_btn_bg.png in Resources */,
 				19DAEA0019D311D300519D22 /* tianjiahaoyou-36_36@2x.png in Resources */,
 				137D9FBE19F25EC700B31100 /* more_help@2x.png in Resources */,
@@ -3074,6 +3111,7 @@
 				13D21C9919F4095C0015AAF2 /* 地图路书导入.png in Resources */,
 				19DAE9FF19D311D300519D22 /* shortSearch486_60@2x.png in Resources */,
 				19DAEA3919D311D300519D22 /* gongyi@2x.png in Resources */,
+				E3B8025419FC2EF800AF9831 /* 地图终点图标.png in Resources */,
 				19DAE9BD19D311D300519D22 /* pinglunkuang-640_208@2x.png in Resources */,
 				13D21C9019F4095C0015AAF2 /* 公里.png in Resources */,
 				56442DFF19F5533500BAE678 /* find_huodong_image@2x.png in Resources */,
@@ -3115,6 +3153,7 @@
 				E3B8023F19FC0C2600AF9831 /* gtimeout.png in Resources */,
 				19DAE9A019D311D300519D22 /* duihao-up-46_46@2x.png in Resources */,
 				19DAEA4519D311D300519D22 /* pen@2x.png in Resources */,
+				E3B8026619FC2F1C00AF9831 /* gps图标4格.png in Resources */,
 				19DAEA3019D311D300519D22 /* chahua@2x.png in Resources */,
 				E3B8023619FC0C2600AF9831 /* gpashenglv.png in Resources */,
 				19DAEA1219D311D300519D22 /* duanxin-icon-94_94@2x.png in Resources */,
@@ -3134,6 +3173,7 @@
 				19DAE9F419D311D300519D22 /* biaoqing-icon-56_56@2x.png in Resources */,
 				56442E0019F5533500BAE678 /* find_paihang_image@2x.png in Resources */,
 				565DF22319FBE31D00DE99EA /* share_tencentweibo_image@2x.png in Resources */,
+				E3B8026419FC2F1C00AF9831 /* gps图标2格.png in Resources */,
 				13D21C9619F4095C0015AAF2 /* map_start@2x.png in Resources */,
 				13D21C9A19F4095C0015AAF2 /* tuoluo@2x.png in Resources */,
 				19DAE9E919D311D300519D22 /* fankui-46_46-xy300_618@2x.png in Resources */,
@@ -3143,6 +3183,7 @@
 				19DAE98319D311D300519D22 /* add_login@2x.png in Resources */,
 				13D21C9319F4095C0015AAF2 /* 向上收缩.png in Resources */,
 				19DAEA7719D311D300519D22 /* classification_big5@2x.png in Resources */,
+				E3B8025E19FC2F0B00AF9831 /* 地图位置图标.png in Resources */,
 				13A146FA19F75B3000F8D442 /* RoadCell.xib in Resources */,
 				1965030919FB902800B19738 /* messages_right_bubble@2x.png in Resources */,
 				137B0C5119F567E5001F3507 /* UMSocialLoginViewController.xib in Resources */,
@@ -3175,6 +3216,7 @@
 				19DAEA2919D311D300519D22 /* yulan-button-kedian-100_58@2x.png in Resources */,
 				19DAEA6019D311D300519D22 /* mirco_icon_12@2x.png in Resources */,
 				19DAE9F619D311D300519D22 /* fabiao-tianjia-130_130@2x.png in Resources */,
+				E3B8025B19FC2F0B00AF9831 /* 地图路书关闭.png in Resources */,
 				19DAE97F19D311D300519D22 /* add_beijing@2x.png in Resources */,
 				137D9FB419F25EC700B31100 /* 背景图片.png in Resources */,
 				19DAEA4C19D311D300519D22 /* sendPosts_camera@2x.png in Resources */,
@@ -3236,9 +3278,11 @@
 				19DAEA6519D311D300519D22 /* mirco_icon_17@2x.png in Resources */,
 				19DAE9A119D311D300519D22 /* fabu-40_40@2x.png in Resources */,
 				19DAE9F519D311D300519D22 /* dingwei-icon-30_36@2x.png in Resources */,
+				E3B8025319FC2EF800AF9831 /* 地图起点图标.png in Resources */,
 				137D9FBF19F25EC700B31100 /* more_update@2x.png in Resources */,
 				19DAE9C519D311D300519D22 /* xiangqing-pinglun-icon-24_24@2x.png in Resources */,
 				13D21CA219F4095C0015AAF2 /* 海拔.png in Resources */,
+				E3B8025C19FC2F0B00AF9831 /* 地图陀螺仪点击图标.png in Resources */,
 				19DAEA4019D311D300519D22 /* join@2x.png in Resources */,
 				19DAEA7C19D311D300519D22 /* selected_found_image@2x.png in Resources */,
 				13D21C8C19F4095C0015AAF2 /* gps图标1格.png in Resources */,
