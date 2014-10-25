@@ -12,6 +12,7 @@
 
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
+    self.backgroundColor = [UIColor whiteColor];
     self.viewTypeStr = @"";
     self.titleImv = [[UIImageView alloc]initWithFrame:CGRectZero];
     

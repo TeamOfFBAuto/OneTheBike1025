@@ -14,6 +14,7 @@
     self = [super init];
     if (self) {
         self.timeRunLabel = [[UILabel alloc]initWithFrame:CGRectZero];
+        self.localTimeLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         self.timeRunLabel.text = @"00:00:00";
         self.juli = @"0";
         self.dangqiansudu = @"0";

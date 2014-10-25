@@ -43,6 +43,9 @@
 //计时器label
 @property(nonatomic,strong)UILabel *timeRunLabel;
 
+//本地时间label
+@property(nonatomic,strong)UILabel *localTimeLabel;
+
 
 //清空所有数据
 -(void)cleanAllData;

@@ -17,7 +17,7 @@
 
 #define FRAME_IPHONE5_MAP_UP CGRectMake(0, 30, 320, 568-60-20)
 #define FRAME_IPHONE5_MAP_DOWN CGRectMake(0, 230+20, 320, 568-230-20)
-#define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -165, 320, 230)
+#define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -115, 320, 230)
 #define FRAME_IPHONE5_UPVIEW_DOWN CGRectMake(0, 20, 320, 230)
 
 
@@ -48,6 +48,16 @@
     
     
     BOOL _isFirstStartCanshu;//是否为刚开始时候的参数 用于记录开始时候的海拔 起点
+    
+    
+//    NSString *_saveViewTag54ViewType;//upview上移之前的type
+//    NSString *_saveViewTag55ViewType;
+    
+    GyundongCustomView *_saveViewTag54View;//upview上移之前的view样式
+    GyundongCustomView *_saveViewTag55View;
+    
+    NSTimer *_localTimer;//本地时钟
+    
     
     
     
@@ -103,8 +113,13 @@
     _distance = 0.0f;
     _isFirstStartCanshu = NO;
     
+    
+    
     [self initMap];//初始化地图
     [self initMapUpView];//初始化地图上面的view
+    
+    [self initTopWhiteAndGrayView];//状态栏和灰条g
+    
     [self initStartDownView];//初始化地图下面的view
     
     
@@ -127,9 +142,53 @@
     
     
     
+    _localTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(localTimeModel) userInfo:nil repeats:TRUE];
+    [main addTimer:_localTimer forMode:NSRunLoopCommonModes];
+    
+    
+    
+    
 //    [self initHistoryMap];
     
 }
+
+//给model对象赋值本地时间
+-(void)localTimeModel{
+    
+    NSDate *date = [NSDate date];
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate: date];
+    NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
+    
+    NSString *localeDateStr = [[NSString stringWithFormat:@"%@",localeDate] substringWithRange:NSMakeRange(11, 8)];
+    self.gYunDongCanShuModel.localTimeLabel.text = localeDateStr;
+    
+    _saveViewTag55View.contentLable.text = self.gYunDongCanShuModel.localTimeLabel.text;
+    
+}
+
+
+//初始化上面灰条和状态栏白条
+-(void)initTopWhiteAndGrayView{
+    
+    //白条
+    UIView *baitiaoView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 20)];
+    baitiaoView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:baitiaoView];
+    
+    
+    //灰条
+    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 35)];
+    shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
+    _fangxiangLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 5, 50, 30)];
+    _fangxiangLabel.font = [UIFont systemFontOfSize:13];
+    _fangxiangLabel.textColor = [UIColor whiteColor];
+    _fangxiangLabel.textAlignment = NSTextAlignmentCenter;
+    [shangGrayView addSubview:_fangxiangLabel];
+    [self.view addSubview:shangGrayView];
+    shangGrayView.tag = 50;
+}
+
 
 
 
@@ -169,14 +228,7 @@
     
     
     
-    //添加到upview上
-    [_upview addSubview:_dingView];
-    [_upview addSubview:_zuoshangView];
-    [_upview addSubview:_youshangView];
-    [_upview addSubview:_zuoxiaView];
-    [_upview addSubview:_youxiaView];
-    [_upview addSubview:_upOrDownBtn];
-    [self.view addSubview:_upview];
+    
     
     //图标数组
     NSArray *titleImageArr = @[[UIImage imageNamed:@"gspeed.png"],[UIImage imageNamed:@"gstartime.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"ghaiba.png"],[UIImage imageNamed:@"gbpm.png"]];
@@ -195,15 +247,7 @@
         //内容label
         
         if (i == 0) {//上面灰条
-            UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 35)];
-            shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
-            _fangxiangLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 5, 50, 30)];
-            _fangxiangLabel.font = [UIFont systemFontOfSize:13];
-            _fangxiangLabel.textColor = [UIColor whiteColor];
-            _fangxiangLabel.textAlignment = NSTextAlignmentCenter;
-            [shangGrayView addSubview:_fangxiangLabel];
-            [_upview addSubview:shangGrayView];
-            shangGrayView.tag = 50;
+            
             
         }else if (i == 1){//公里/时 顶 tag 51
             
@@ -314,6 +358,44 @@
         
         
         
+        
+        //隐藏view 位置在 左下 和 右下
+        _saveViewTag54View = [[GyundongCustomView alloc]initWithFrame:CGRectMake(0, 165, 160, 65)];
+        _saveViewTag54View.line.frame = CGRectMake(0, 64, 160, 1);
+        _saveViewTag54View.line1.frame = CGRectMake(159, 0, 1, 65);
+        _saveViewTag54View.titleImv.frame = CGRectMake(10, 20, 30, 30);
+        [_saveViewTag54View.titleImv setImage:[UIImage imageNamed:@"gspeed.png"]];
+        _saveViewTag54View.contentLable.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.titleImv.frame)+5, _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
+        _saveViewTag54View.contentLable.text = @"0";
+        _saveViewTag54View.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.contentLable.frame)+5, _saveViewTag54View.titleImv.frame.origin.y, 40, 30);
+        _saveViewTag54View.danweiLabel.text = @"km/时";
+        _saveViewTag54View.hidden = YES;
+        
+        
+        
+        _saveViewTag55View = [[GyundongCustomView alloc]initWithFrame:CGRectMake(160, 165, 160, 65)];
+        _saveViewTag55View.line.frame = CGRectMake(0, 64, 160, 1);
+        _saveViewTag55View.titleImv.frame = CGRectMake(10, 20, 30, 30);
+        [_saveViewTag55View.titleImv setImage:[UIImage imageNamed:@"gstartime.png"]];
+        _saveViewTag55View.contentLable.frame =  CGRectMake(CGRectGetMaxX(_saveViewTag55View.titleImv.frame)+5, _saveViewTag55View.titleImv.frame.origin.y-5, 100, 35);
+        _saveViewTag55View.contentLable.text = @"0";
+        _saveViewTag55View.hidden = YES;
+        
+        
+        
+        
+        //添加到upview上
+        [_upview addSubview:_dingView];
+        [_upview addSubview:_zuoshangView];
+        [_upview addSubview:_youshangView];
+        [_upview addSubview:_zuoxiaView];
+        [_upview addSubview:_youxiaView];
+        [_upview addSubview:_saveViewTag54View];
+        [_upview addSubview:_saveViewTag55View];
+        [_upview addSubview:_upOrDownBtn];
+        [self.view addSubview:_upview];
+        
+        
     }
 }
 
@@ -397,7 +479,7 @@
 
 
 
-//参数选择
+/// 根据传入的参数设置 _upview上的GyundongCustomView
 -(void)setImage:(UIImage*)theImage andContent:(NSString *)theStr andDanwei:(NSString *)theDanwei withTag:(NSInteger)theTag    
    withType:(NSString *)theViewType{
     switch (theTag) {
@@ -475,6 +557,7 @@
                 _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+5, _youxiaView.titleImv.frame.origin.y, 40, 30);
                 _youxiaView.danweiLabel.hidden = NO;
             }
+            
             
             
         }
@@ -765,22 +848,30 @@
 #pragma mark - 地图变大 upview上移动
 -(void)gShou{
     
-    if (_isUpViewShow) {
+    if (_isUpViewShow) {//上移上面的view
         _isUpViewShow = NO;
         [_upOrDownBtn setImage:[UIImage imageNamed:@"gbtndown.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:0.2 animations:^{
             _upview.frame = FRAME_IPHONE5_UPVIEW_UP;
             [self.mapView setFrame:FRAME_IPHONE5_MAP_UP];
+            
+            
         } completion:^(BOOL finished) {
             
+            _saveViewTag54View.hidden = NO;
+            _saveViewTag55View.hidden = NO;
+            
         }];
-    }else{
+    }else{//下移上面的view
         _isUpViewShow = YES;
         [_upOrDownBtn setImage:[UIImage imageNamed:@"gbtnup.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:0.2 animations:^{
             _upview.frame = FRAME_IPHONE5_UPVIEW_DOWN;
+            
             [self.mapView setFrame:FRAME_IPHONE5_MAP_DOWN];
         } completion:^(BOOL finished) {
+            _saveViewTag54View.hidden = YES;
+            _saveViewTag55View.hidden = YES;
             
         }];
     }
