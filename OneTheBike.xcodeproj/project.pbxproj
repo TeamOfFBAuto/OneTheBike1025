@@ -542,6 +542,8 @@
 		E3B8026419FC2F1C00AF9831 /* gps2.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8026019FC2F1C00AF9831 /* gps2.png */; };
 		E3B8026519FC2F1C00AF9831 /* gps3.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8026119FC2F1C00AF9831 /* gps3.png */; };
 		E3B8026619FC2F1C00AF9831 /* gps4.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8026219FC2F1C00AF9831 /* gps4.png */; };
+		E3B8027A19FC4DAE00AF9831 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8027919FC4DAE00AF9831 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3B8027D19FC4E4900AF9831 /* LoadingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8027C19FC4E4900AF9831 /* LoadingIndicatorView.m */; };
 		E3BB362719E7C1B20096131D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BB362619E7C1B20096131D /* QuartzCore.framework */; };
 		E3BB362919E7C1BE0096131D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BB362819E7C1BE0096131D /* CoreLocation.framework */; };
 		E3BB362B19E7C1EE0096131D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BB362A19E7C1EE0096131D /* OpenGLES.framework */; };
@@ -1196,6 +1198,10 @@
 		E3B8026019FC2F1C00AF9831 /* gps2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps2.png; sourceTree = "<group>"; };
 		E3B8026119FC2F1C00AF9831 /* gps3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps3.png; sourceTree = "<group>"; };
 		E3B8026219FC2F1C00AF9831 /* gps4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps4.png; sourceTree = "<group>"; };
+		E3B8027819FC4DAE00AF9831 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		E3B8027919FC4DAE00AF9831 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		E3B8027B19FC4E4900AF9831 /* LoadingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingIndicatorView.h; sourceTree = "<group>"; };
+		E3B8027C19FC4E4900AF9831 /* LoadingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicatorView.m; sourceTree = "<group>"; };
 		E3BB362619E7C1B20096131D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3BB362819E7C1BE0096131D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E3BB362A19E7C1EE0096131D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -2733,6 +2739,10 @@
 		E3B8021419FC0C2600AF9831 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E3B8027B19FC4E4900AF9831 /* LoadingIndicatorView.h */,
+				E3B8027C19FC4E4900AF9831 /* LoadingIndicatorView.m */,
+				E3B8027819FC4DAE00AF9831 /* EGORefreshTableHeaderView.h */,
+				E3B8027919FC4DAE00AF9831 /* EGORefreshTableHeaderView.m */,
 				E3B8021519FC0C2600AF9831 /* AMap.bundle */,
 				E3B8021619FC0C2600AF9831 /* AMapSearchKit.framework */,
 				E3B8021719FC0C2600AF9831 /* DataBase.h */,
@@ -3344,6 +3354,7 @@
 				E3B8024419FC0C2600AF9831 /* GyundongCustomView.m in Sources */,
 				13CFBAD219F6B887006B9684 /* JSONKit.m in Sources */,
 				134BA69F19D948E800282D7D /* MineCellTwo.m in Sources */,
+				E3B8027D19FC4E4900AF9831 /* LoadingIndicatorView.m in Sources */,
 				196502FE19FB902800B19738 /* UMEGORefreshTableHeaderView.m in Sources */,
 				56442E0E19F55AD300BAE678 /* RankingFunctionView.m in Sources */,
 				19DAE80A19D30C2D00519D22 /* OneTheBike.xcdatamodeld in Sources */,
@@ -3413,6 +3424,7 @@
 				E3B8024219FC0C2600AF9831 /* Gmap.m in Sources */,
 				56442E0B19F55A7200BAE678 /* FindRankingViewController.m in Sources */,
 				E3B8025019FC0C2600AF9831 /* CommonUtility.m in Sources */,
+				E3B8027A19FC4DAE00AF9831 /* EGORefreshTableHeaderView.m in Sources */,
 				134BA6A419D94D1A00282D7D /* UIColor+ConvertColor.m in Sources */,
 				56442DF519F5468B00BAE678 /* NSTimer+Addition.m in Sources */,
 				139467E019F4F80D001DAEA9 /* MapCacheDashClass.m in Sources */,

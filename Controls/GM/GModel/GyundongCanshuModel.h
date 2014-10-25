@@ -16,6 +16,7 @@
 
 @property(nonatomic,assign)NSString* podu;//坡度
 @property(nonatomic,assign)NSString* pashenglv;//爬升率
+@property(nonatomic,assign)NSString* bpm;//卡路里
 
 
 @property(nonatomic,strong)NSString * juli;//距离 单位公里

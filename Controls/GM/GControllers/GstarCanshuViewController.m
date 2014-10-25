@@ -55,10 +55,10 @@
     [shangGrayView addSubview:btn];
     [self.view addSubview:shangGrayView];
     
-    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"]];
-    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度"];
+    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"ghaiba.png"],[UIImage imageNamed:@"gbpm.png"]];
+    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"当前海拔",@"卡路里"];
     
-    _tabelView = [[UITableView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5?(568-55):(480-55)) style:UITableViewStylePlain];
+    _tabelView = [[UITableView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5?(568-55-48):(480-55-48)) style:UITableViewStylePlain];
     _tabelView.delegate = self;
     _tabelView.dataSource = self;
     [self.view addSubview:_tabelView];
@@ -82,6 +82,14 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
+    
+    
+    for (UIView *view in cell.contentView.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    
+    
     //图标
     UIImageView *titleImv = [[UIImageView alloc]initWithFrame:CGRectMake(20, 15, 25, 25)];
     [titleImv setImage:_imageArray[indexPath.row]];
@@ -96,61 +104,84 @@
     [cell.contentView addSubview:titleLabel];
     
     //内容
-    UILabel *contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(titleLabel.frame)+90, titleImv.frame.origin.y, 100, 25)];
+    UILabel *contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(titleLabel.frame)+60, titleImv.frame.origin.y, 130, 25)];
     contentLabel.font = [UIFont systemFontOfSize:15];
     contentLabel.textColor = RGBCOLOR(190, 190, 190);
     contentLabel.textAlignment = NSTextAlignmentRight;
     [cell.contentView addSubview:contentLabel];
     
+
     
-//    //调试颜色
+    //调试颜色
 //    titleLabel.backgroundColor = [UIColor grayColor];
 //    contentLabel.backgroundColor = [UIColor orangeColor];
+
     
     
     
     switch (indexPath.row) {
         case 0://时间
         {
+            
             contentLabel.text = self.yundongModel.timeRunLabel.text;
         }
             break;
         case 1://坡度
         {
-            contentLabel.text = self.yundongModel.podu;
+            
+            contentLabel.text = [self.yundongModel.podu stringByAppendingString:@"%"];
         }
             break;
         case 2://配速
         {
-            contentLabel.text = self.yundongModel.peisu;
+            
+            contentLabel.text = [self.yundongModel.peisu stringByAppendingString:@"分钟/公里"];
         }
             break;
         case 3://爬升率
         {
-            contentLabel.text = self.yundongModel.pashenglv;
+            
+            contentLabel.text = [self.yundongModel.pashenglv stringByAppendingString:@"米/分钟"];
         }
             break;
         case 4://海拔上升
         {
             int num = [self.yundongModel.maxHaiba intValue] - [self.yundongModel.startHaiba intValue];
-            contentLabel.text = [NSString stringWithFormat:@"%d",num];
+            contentLabel.text = [[NSString stringWithFormat:@"%d",num] stringByAppendingString:@"米"];
         }
             break;
         case 5://海拔下降
         {
+            
             int num = [self.yundongModel.startHaiba intValue]-[self.yundongModel.minHaiba intValue];
-            contentLabel.text = [NSString stringWithFormat:@"%d",num];
+            contentLabel.text = [[NSString stringWithFormat:@"%d",num] stringByAppendingString:@"米"];
         }
             break;
         case 6://平均速度
         {
            
-            contentLabel.text = self.yundongModel.dangqiansudu;
+            contentLabel.text = [self.yundongModel.dangqiansudu stringByAppendingString:@"km/时"];
         }
             break;
         case 7://最高速度
         {
-            contentLabel.text = self.yundongModel.maxSudu;
+            
+            contentLabel.text = [self.yundongModel.maxSudu stringByAppendingString:@"km/时"];
+        }
+            break;
+        case 8://距离
+        {
+            contentLabel.text = [self.yundongModel.juli stringByAppendingString:@"公里"];
+        }
+            break;
+        case 9://当前海拔
+        {
+            contentLabel.text = [self.yundongModel.haiba stringByAppendingString:@"米"];
+        }
+            break;
+        case 10://卡路里
+        {
+            contentLabel.text = [self.yundongModel.bpm stringByAppendingString:@"bpm"];
         }
             break;
         default:
@@ -162,7 +193,7 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 8;
+    return 11;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -229,9 +260,9 @@
             if (ischange) {
                 
                 if (self.passTag == 51) {//顶部较宽 单位用分钟/公里
-                    [self.delegate setImage:_imageArray[indexPath.row] andContent:nil andDanwei:@"分钟/公里" withTag:self.passTag withType:@"配速"];
+                    [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"分钟/公里" withTag:self.passTag withType:@"配速"];
                 }else{//单位用m/km
-                    [self.delegate setImage:_imageArray[indexPath.row] andContent:nil andDanwei:@"m/km" withTag:self.passTag withType:@"配速"];
+                    [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"m/km" withTag:self.passTag withType:@"配速"];
                 }
                 
                 
@@ -252,7 +283,7 @@
             }
             
             if (isChange) {
-                [self.delegate setImage:_imageArray[indexPath.row] andContent:nil andDanwei:@"米/分钟" withTag:self.passTag withType:@"爬升率"];
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"米/分钟" withTag:self.passTag withType:@"爬升率"];
             }
             
             
@@ -349,9 +380,55 @@
             
             
             if (isChange) {
-                [self.delegate setImage:_imageArray[indexPath.row] andContent:nil andDanwei:nil withTag:self.passTag withType:@"最高速度"];
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"km/时" withTag:self.passTag withType:@"最高速度"];
             }
             
+        }
+            break;
+            
+        case 8://距离
+        {
+            contentStr = self.yundongModel.juli;
+            BOOL isChange = YES;
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
+                if ([view.viewTypeStr isEqualToString:@"公里"]) {
+                    isChange = NO;
+                }
+            }
+            
+            if (isChange) {
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"公里" withTag:self.passTag withType:@"公里"];
+            }
+        }
+            break;
+        case 9://当前海拔
+        {
+            contentStr = self.yundongModel.haiba;
+            BOOL isChange = YES;
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
+                if ([view.viewTypeStr isEqualToString:@"海拔"]) {
+                    isChange = NO;
+                }
+            }
+            
+            if (isChange) {
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"米" withTag:self.passTag withType:@"海拔"];
+            }
+        }
+            break;
+        case 10://卡路里
+        {
+            contentStr = self.yundongModel.bpm;
+            BOOL isChange = YES;
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
+                if ([view.viewTypeStr isEqualToString:@"热量"]) {
+                    isChange = NO;
+                }
+            }
+            
+            if (isChange) {
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"bpm" withTag:self.passTag withType:@"热量"];
+            }
         }
             break;
         default:

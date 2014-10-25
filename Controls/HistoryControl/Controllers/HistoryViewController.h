@@ -15,7 +15,9 @@
 }
 
 
-@property(nonatomic,strong)NSMutableArray *dataArray;//里面装字典 key为天数  数据源
+@property(nonatomic,strong)NSMutableArray *netDataArray;//请求到的网络数据数组
+
+@property(nonatomic,strong)NSMutableArray *dataArray;//二维数组
 
 
 
