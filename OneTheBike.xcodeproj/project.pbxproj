@@ -492,6 +492,8 @@
 		E30B129319FBF3B5005D5DA9 /* SharePlatformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */; };
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
+		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
+		E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A419FD5455002E69CA /* MAHeaderView.m */; };
 		E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801E819FC0C2600AF9831 /* GMapStarViewController.m */; };
 		E3B8022819FC0C2600AF9831 /* GOffLineMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801EA19FC0C2600AF9831 /* GOffLineMapViewController.m */; };
 		E3B8022919FC0C2600AF9831 /* GstarCanshuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801EC19FC0C2600AF9831 /* GstarCanshuViewController.m */; };
@@ -521,8 +523,6 @@
 		E3B8024119FC0C2600AF9831 /* userPosition@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8020819FC0C2600AF9831 /* userPosition@2x.png */; };
 		E3B8024219FC0C2600AF9831 /* Gmap.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8020A19FC0C2600AF9831 /* Gmap.m */; };
 		E3B8024319FC0C2600AF9831 /* GyundongCanshuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8020C19FC0C2600AF9831 /* GyundongCanshuModel.m */; };
-		E3B8024419FC0C2600AF9831 /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */; };
-		E3B8024519FC0C2600AF9831 /* MAHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8021019FC0C2600AF9831 /* MAHeaderView.m */; };
 		E3B8024619FC0C2600AF9831 /* ReGeocodeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8021219FC0C2600AF9831 /* ReGeocodeAnnotation.m */; };
 		E3B8024719FC0C2600AF9831 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3B8021519FC0C2600AF9831 /* AMap.bundle */; };
 		E3B8024819FC0C2600AF9831 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B8021619FC0C2600AF9831 /* AMapSearchKit.framework */; };
@@ -1137,6 +1137,10 @@
 		E30B129119FBF3B5005D5DA9 /* ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareView.m; sourceTree = "<group>"; };
 		E31F584719F638450064959E /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		E3AD66A119FD5455002E69CA /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCustomView.h; sourceTree = "<group>"; };
+		E3AD66A219FD5455002E69CA /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCustomView.m; sourceTree = "<group>"; };
+		E3AD66A319FD5455002E69CA /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAHeaderView.h; sourceTree = "<group>"; };
+		E3AD66A419FD5455002E69CA /* MAHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAHeaderView.m; sourceTree = "<group>"; };
 		E3B801E719FC0C2600AF9831 /* GMapStarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMapStarViewController.h; sourceTree = "<group>"; };
 		E3B801E819FC0C2600AF9831 /* GMapStarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMapStarViewController.m; sourceTree = "<group>"; };
 		E3B801E919FC0C2600AF9831 /* GOffLineMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOffLineMapViewController.h; sourceTree = "<group>"; };
@@ -1173,10 +1177,6 @@
 		E3B8020A19FC0C2600AF9831 /* Gmap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gmap.m; sourceTree = "<group>"; };
 		E3B8020B19FC0C2600AF9831 /* GyundongCanshuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCanshuModel.h; sourceTree = "<group>"; };
 		E3B8020C19FC0C2600AF9831 /* GyundongCanshuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCanshuModel.m; sourceTree = "<group>"; };
-		E3B8020D19FC0C2600AF9831 /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GyundongCustomView.h; path = ../GModel/GyundongCustomView.h; sourceTree = "<group>"; };
-		E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GyundongCustomView.m; path = ../GModel/GyundongCustomView.m; sourceTree = "<group>"; };
-		E3B8020F19FC0C2600AF9831 /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAHeaderView.h; path = ../GModel/MAHeaderView.h; sourceTree = "<group>"; };
-		E3B8021019FC0C2600AF9831 /* MAHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAHeaderView.m; path = ../GModel/MAHeaderView.m; sourceTree = "<group>"; };
 		E3B8021119FC0C2600AF9831 /* ReGeocodeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReGeocodeAnnotation.h; sourceTree = "<group>"; };
 		E3B8021219FC0C2600AF9831 /* ReGeocodeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReGeocodeAnnotation.m; sourceTree = "<group>"; };
 		E3B8021519FC0C2600AF9831 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
@@ -2741,10 +2741,10 @@
 		E3B8021319FC0C2600AF9831 /* GViews */ = {
 			isa = PBXGroup;
 			children = (
-				E3B8020D19FC0C2600AF9831 /* GyundongCustomView.h */,
-				E3B8020E19FC0C2600AF9831 /* GyundongCustomView.m */,
-				E3B8020F19FC0C2600AF9831 /* MAHeaderView.h */,
-				E3B8021019FC0C2600AF9831 /* MAHeaderView.m */,
+				E3AD66A119FD5455002E69CA /* GyundongCustomView.h */,
+				E3AD66A219FD5455002E69CA /* GyundongCustomView.m */,
+				E3AD66A319FD5455002E69CA /* MAHeaderView.h */,
+				E3AD66A419FD5455002E69CA /* MAHeaderView.m */,
 			);
 			path = GViews;
 			sourceTree = "<group>";
@@ -3365,7 +3365,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3B8024419FC0C2600AF9831 /* GyundongCustomView.m in Sources */,
 				13CFBAD219F6B887006B9684 /* JSONKit.m in Sources */,
 				134BA69F19D948E800282D7D /* MineCellTwo.m in Sources */,
 				E3B8027D19FC4E4900AF9831 /* LoadingIndicatorView.m in Sources */,
@@ -3375,6 +3374,7 @@
 				137D9FD819F26E7000B31100 /* MoreViewController.m in Sources */,
 				19DAE80719D30C2D00519D22 /* AppDelegate.m in Sources */,
 				565DF20119FBDF1C00DE99EA /* ActivityModel.m in Sources */,
+				E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */,
 				1965031819FB902800B19738 /* UMFeedbackTableViewCellLeft.m in Sources */,
 				137D76E519F4BB5B00DD29D7 /* MJConst.m in Sources */,
 				137D76E919F4BB5B00DD29D7 /* MJMethod.m in Sources */,
@@ -3416,7 +3416,6 @@
 				137D76E619F4BB5B00DD29D7 /* MJFoundation.m in Sources */,
 				137D76EC19F4BB5B00DD29D7 /* NSObject+MJCoding.m in Sources */,
 				13736EA919FD13D6009E50D2 /* RootViewController.m in Sources */,
-				E3B8024519FC0C2600AF9831 /* MAHeaderView.m in Sources */,
 				137D76EE19F4BB5B00DD29D7 /* NSObject+MJMember.m in Sources */,
 				137D76E419F4BB5B00DD29D7 /* MJArgument.m in Sources */,
 				13E8EE1319F60C04006FA5CE /* LMapTools.m in Sources */,
@@ -3445,6 +3444,7 @@
 				56442DF519F5468B00BAE678 /* NSTimer+Addition.m in Sources */,
 				139467E019F4F80D001DAEA9 /* MapCacheDashClass.m in Sources */,
 				13E8EE1619F60CE8006FA5CE /* LMaplineClass.m in Sources */,
+				E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */,
 				19DAE80419D30C2D00519D22 /* main.m in Sources */,
 				19DAE84419D30F4E00519D22 /* HistoryViewController.m in Sources */,
 				137D9FE219F27A6500B31100 /* RoadProduceController.m in Sources */,

@@ -35,5 +35,21 @@
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Controls/GM/GControllers/GStartViewController.m"
+            timestampString = "436032677.919767"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1757"
+            endingLineNumber = "1757"
+            landmarkName = "-saveRoadlinesJsonString:startName:endName:cyclingKm:upMetre:downMetre:costCalories:avgSpeed:topSpeed:heartRate:beginTime:endTime:costTime:beginSite:endSite:beginCoordinates:endCoordinates:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
