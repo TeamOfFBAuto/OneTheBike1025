@@ -890,6 +890,9 @@
         }else if (buttonIndex == 0){//放弃保存
             
             for (GyundongCustomView *view in self.fiveCustomView) {
+                
+                [self.gYunDongCanShuModel cleanAllData];
+                
                 if ([view.viewTypeStr isEqualToString:@"计时"]) {
                     view.contentLable.text = @"00:00:00";
                 }else{
