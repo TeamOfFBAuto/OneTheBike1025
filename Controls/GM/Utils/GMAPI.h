@@ -52,6 +52,19 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
                   startCoorStr:(NSString *)startCoorString
                     endCoorStr:(NSString *)endCoorString;
 
+
+//网络请求的才调用此方法（添加了 serverRoadId\isUpload 参数）
+
++ (void)addRoadLinesJsonString:(NSString *)jsonstr
+                     startName:(NSString *)startName
+                       endName:(NSString *)endName
+                      distance:(NSString *)distance
+                          type:(HistoryType)type
+                  startCoorStr:(NSString *)startCoorString
+                    endCoorStr:(NSString *)endCoorString
+                  serverRoadId:(NSString *)serverRoadId
+                      isUpload:(BOOL)isUpload;
+
 + (BOOL)existForServerRoadId:(NSString *)serverRoadId;//判断是否存在该serverRoadId对应路书
 
 + (NSString *)getRoadLinesJSonStringForRoadId:(int)roadId;//根据id获取roadline的json数据

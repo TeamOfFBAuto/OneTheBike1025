@@ -76,8 +76,6 @@
     titles_arr = @[@"地图上显示",@"起点",@"终点",@"距离"];
     params_arr = @[self.aRoad.startName,self.aRoad.endName,self.aRoad.distance];
     
-    loading = [LTools MBProgressWithText:@"路书上传" addToView:self.view];
-
 }
 
 #pragma mark 事件处理
@@ -134,17 +132,7 @@
             
         }else if(buttonIndex == 1){
             
-            //删除
-            
-            BOOL result = [GMAPI deleteRoadId:self.aRoad.roadId type:Type_Road];
-            
-            if (result) {
-                
-                [self clickToBack:nil];
-            }else
-            {
-                [LTools showMBProgressWithText:@"删除失败" addToView:self.view];
-            }
+            [self deleteRoadlineForId:self.aRoad.serverRoadId];
         }
     }
 }
@@ -171,6 +159,47 @@
 
 #pragma mark - 网络请求
 
+- (void)deleteRoadlineForId:(NSString *)serverRoadId
+{
+    loading = [LTools MBProgressWithText:@"路书删除中" addToView:self.view];
+
+    NSString *url = [NSString stringWithFormat:BIKE_ROAD_DELETE,serverRoadId];
+    LTools *tool = [[LTools alloc]initWithUrl:url isPost:NO postData:nil];
+    [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
+        
+        NSLog(@"result %@ erro %@",result,erro);
+        int status = [[result objectForKey:@"status"]integerValue];
+        
+        if (status == 1) {
+            
+            //删除数据库
+            
+            BOOL result1 = [GMAPI deleteRoadId:self.aRoad.roadId type:Type_Road];
+            
+            if (result1) {
+                
+                [self clickToBack:nil];
+            }else
+            {
+                [LTools showMBProgressWithText:@"删除失败" addToView:self.view];
+            }
+        }
+        
+        [loading hide:YES];
+        
+        
+    } failBlock:^(NSDictionary *failDic, NSError *erro) {
+        
+        NSLog(@"failDic %@ erro %@",failDic,erro);
+        
+        [loading hide:YES];
+        
+        [LTools showMBProgressWithText:@"路书删除失败" addToView:self.view];
+        
+    }];
+
+}
+
 //保存到服务器
 - (void)saveRoadlinesJsonString:(NSString *)jsonStr
                       startName:(NSString *)startNameL
@@ -179,6 +208,8 @@
                    startCoorStr:(NSString *)startString
                      endCoorStr:(NSString *)endString
 {
+    loading = [LTools MBProgressWithText:@"路书上传" addToView:self.view];
+    
     NSString *custId = [LTools cacheForKey:USER_CUSTID];
     
     NSString *post = [NSString stringWithFormat:@"&roadlines=%@",jsonStr];

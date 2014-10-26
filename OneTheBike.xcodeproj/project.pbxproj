@@ -21,6 +21,7 @@
 		13736EA519FD0FD8009E50D2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA319FD0FD8009E50D2 /* LoginViewController.m */; };
 		13736EA619FD0FD8009E50D2 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13736EA419FD0FD8009E50D2 /* LoginViewController.xib */; };
 		13736EA919FD13D6009E50D2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA819FD13D6009E50D2 /* RootViewController.m */; };
+		13736EAC19FD563E009E50D2 /* ServerRoadClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EAB19FD563E009E50D2 /* ServerRoadClass.m */; };
 		137B0C4719F556C2001F3507 /* road_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4119F556C2001F3507 /* road_cancel@2x.png */; };
 		137B0C4819F556C2001F3507 /* road_end@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4219F556C2001F3507 /* road_end@2x.png */; };
 		137B0C4919F556C2001F3507 /* road_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4319F556C2001F3507 /* road_middle@2x.png */; };
@@ -584,6 +585,8 @@
 		13736EA419FD0FD8009E50D2 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		13736EA719FD13D6009E50D2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		13736EA819FD13D6009E50D2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		13736EAA19FD563E009E50D2 /* ServerRoadClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerRoadClass.h; sourceTree = "<group>"; };
+		13736EAB19FD563E009E50D2 /* ServerRoadClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerRoadClass.m; sourceTree = "<group>"; };
 		137B0C4119F556C2001F3507 /* road_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_cancel@2x.png"; sourceTree = "<group>"; };
 		137B0C4219F556C2001F3507 /* road_end@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_end@2x.png"; sourceTree = "<group>"; };
 		137B0C4319F556C2001F3507 /* road_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_middle@2x.png"; sourceTree = "<group>"; };
@@ -2779,6 +2782,8 @@
 				E3B8022119FC0C2600AF9831 /* LRoadClass.m */,
 				E3B8022219FC0C2600AF9831 /* MAPolyline+UN.h */,
 				E3B8022319FC0C2600AF9831 /* MAPolyline+UN.m */,
+				13736EAA19FD563E009E50D2 /* ServerRoadClass.h */,
+				13736EAB19FD563E009E50D2 /* ServerRoadClass.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3406,6 +3411,7 @@
 				56442E0719F5567300BAE678 /* ActivityTableViewCell.m in Sources */,
 				13A9266B19FB9EA30015CB79 /* BaseModel.m in Sources */,
 				1965031A19FB902800B19738 /* UMFeedbackViewController.m in Sources */,
+				13736EAC19FD563E009E50D2 /* ServerRoadClass.m in Sources */,
 				137D76E819F4BB5B00DD29D7 /* MJMember.m in Sources */,
 				1965031619FB902800B19738 /* UMContactViewController.m in Sources */,
 				E3B8024A19FC0C2600AF9831 /* GMAPI.m in Sources */,

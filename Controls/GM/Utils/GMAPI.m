@@ -131,6 +131,45 @@
     sqlite3_finalize(stmt);
 }
 
+//网络请求的才调用此方法
+
++ (void)addRoadLinesJsonString:(NSString *)jsonstr
+                     startName:(NSString *)startName
+                       endName:(NSString *)endName
+                      distance:(NSString *)distance
+                          type:(HistoryType)type
+                  startCoorStr:(NSString *)startCoorString
+                    endCoorStr:(NSString *)endCoorString
+                  serverRoadId:(NSString *)serverRoadId
+                      isUpload:(BOOL)isUpload
+{
+    
+    sqlite3 *db = [DataBase openDB];
+    sqlite3_stmt *stmt = nil;
+    
+    int result = sqlite3_prepare(db, "insert into RoadLines(startName,endName,distance,lineString,date,type,startCoordinate,endCoordinate,serverRoadId,isUpload) values(?,?,?,?,?,?,?,?,?,?)", -1, &stmt, nil);//?相当于%@格式
+    
+    sqlite3_bind_text(stmt, 1, [startName UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 2, [endName UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 3, [distance UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 4, [jsonstr UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 5, [[LTools timechangeToDateline] UTF8String], -1, NULL);
+    sqlite3_bind_int(stmt, 6, type);
+    
+    sqlite3_bind_text(stmt, 7, [startCoorString UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 8, [endCoorString UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 9, [serverRoadId UTF8String], -1, NULL);
+    
+    sqlite3_bind_int(stmt, 10, isUpload ? 1 : 0);
+    
+    result = sqlite3_step(stmt);
+
+    NSLog(@"网络请求的添加 %@ brandResult:%d",startName,result);
+    
+    sqlite3_finalize(stmt);
+}
+
+
 + (NSString *)getRoadLinesJSonStringForRoadId:(int)roadId
 {
     //打开数据库

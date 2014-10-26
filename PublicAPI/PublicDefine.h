@@ -55,6 +55,6 @@ alpha:(a)]
 
 #define BIKE_ROAD_LIST @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_queryRdbkListByPage.action?custId=%@&page=%d"//路书列表
 
-
+#define BIKE_ROAD_DELETE @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_deleteRdbk.action?rdbkId=%@"
 
 #endif

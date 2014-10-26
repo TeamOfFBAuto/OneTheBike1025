@@ -17,6 +17,8 @@
 
 #import "RoadInfoViewController.h"
 
+#import "ServerRoadClass.h"
+
 @interface RoadManagerController ()
 {
     NSArray *titles_arr;
@@ -24,6 +26,8 @@
     int road_count;
     
     NSArray *roads_arr;
+    
+    MBProgressHUD *loading;
 }
 
 @end
@@ -37,9 +41,8 @@
 //    NSString *road_ids = [LTools cacheForKey:ROAD_IDS];
 //    road_count = [road_ids intValue];
     
-    roads_arr = [GMAPI getRoadLinesForType:Type_Road];
+    [self updateViewDataSource];
     
-    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad {
@@ -88,6 +91,7 @@
     header.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = header;
     
+    loading = [LTools MBProgressWithText:@"路书同步" addToView:self.view];
     
     NSString *custid = [LTools cacheForKey:USER_CUSTID];
     
@@ -112,24 +116,71 @@
 
 - (void)getRoadlistWithUserId:(NSString *)userId page:(int)page
 {
+    [loading show:YES];
+    
     NSString *url = [NSString stringWithFormat:BIKE_ROAD_LIST,userId,page];
     LTools *tool = [[LTools alloc]initWithUrl:url isPost:NO postData:nil];
     [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
         
         NSLog(@"result %@ erro %@",result,erro);
+        NSArray *rows = [result objectForKey:@"Rows"];
         
+        if ([rows isKindOfClass:[NSArray class]] && (rows.count >= 1)) {
+            
+            NSArray *arr = [rows objectAtIndex:0];
+            
+            if ([arr isKindOfClass:[NSArray class]]) {
+                
+                for (NSDictionary *aDic in arr) {
+                    
+                    ServerRoadClass *aRoad = [[ServerRoadClass alloc]initWithDictionary:aDic];
+                    
+                    if (![GMAPI existForServerRoadId:aRoad.rdbkId]) {
+                        
+                        NSString *distace = [NSString stringWithFormat:@"%f",aRoad.distance];
+                        
+                        [GMAPI addRoadLinesJsonString:aRoad.roadlines startName:aRoad.beginSite endName:aRoad.endSite distance:distace type:Type_Road startCoorStr:aRoad.beginCoordinates endCoorStr:aRoad.endCoordinates serverRoadId:aRoad.rdbkId isUpload:YES];
+                        
+                    }else
+                    {
+                        NSLog(@"you");
+                    }
+                    
+                    
+                }
+            }
+            
+        }
         
+        [self updateViewDataSource];
+        
+        [loading hide:YES];
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         
         NSLog(@"failDic %@ erro %@",failDic,erro);
         
+        [self updateViewDataSource];
+        
+        [loading hide:YES];
+        
+        [LTools showMBProgressWithText:@"路书同步失败" addToView:self.view];
+        
     }];
 }
+
 
 #pragma mark - 视图创建
 
 #pragma mark - 事件处理
+
+//更新显示数据
+- (void)updateViewDataSource
+{
+    roads_arr = [GMAPI getRoadLinesForType:Type_Road];
+    
+    [self.tableView reloadData];
+}
 
 - (void)clickToAdd:(UIButton *)sender
 {
