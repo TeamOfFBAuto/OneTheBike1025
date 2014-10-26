@@ -25,6 +25,7 @@
 @property(nonatomic,retain)NSString *sex;
 @property(nonatomic,retain)NSString *vip;
 @property(nonatomic,retain)NSString *weight;
+@property(nonatomic,retain)NSString *headPhoto;
 
 
 @end

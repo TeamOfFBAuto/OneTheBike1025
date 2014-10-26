@@ -18,6 +18,9 @@
 		134BA6AA19D9581200282D7D /* mine_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 134BA6A619D9581200282D7D /* mine_more@2x.png */; };
 		134BA6AB19D9581200282D7D /* mine_road.png in Resources */ = {isa = PBXBuildFile; fileRef = 134BA6A719D9581200282D7D /* mine_road.png */; };
 		134BA6AC19D9581200282D7D /* mine_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 134BA6A819D9581200282D7D /* mine_share@2x.png */; };
+		13736EA519FD0FD8009E50D2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA319FD0FD8009E50D2 /* LoginViewController.m */; };
+		13736EA619FD0FD8009E50D2 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13736EA419FD0FD8009E50D2 /* LoginViewController.xib */; };
+		13736EA919FD13D6009E50D2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA819FD13D6009E50D2 /* RootViewController.m */; };
 		137B0C4719F556C2001F3507 /* road_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4119F556C2001F3507 /* road_cancel@2x.png */; };
 		137B0C4819F556C2001F3507 /* road_end@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4219F556C2001F3507 /* road_end@2x.png */; };
 		137B0C4919F556C2001F3507 /* road_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4319F556C2001F3507 /* road_middle@2x.png */; };
@@ -576,6 +579,11 @@
 		134BA6A619D9581200282D7D /* mine_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_more@2x.png"; sourceTree = "<group>"; };
 		134BA6A719D9581200282D7D /* mine_road.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mine_road.png; sourceTree = "<group>"; };
 		134BA6A819D9581200282D7D /* mine_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_share@2x.png"; sourceTree = "<group>"; };
+		13736EA219FD0FD8009E50D2 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		13736EA319FD0FD8009E50D2 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		13736EA419FD0FD8009E50D2 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		13736EA719FD13D6009E50D2 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		13736EA819FD13D6009E50D2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		137B0C4119F556C2001F3507 /* road_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_cancel@2x.png"; sourceTree = "<group>"; };
 		137B0C4219F556C2001F3507 /* road_end@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_end@2x.png"; sourceTree = "<group>"; };
 		137B0C4319F556C2001F3507 /* road_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_middle@2x.png"; sourceTree = "<group>"; };
@@ -1545,6 +1553,9 @@
 				137D76F519F4E53300DD29D7 /* models */,
 				134BA69119D9454000282D7D /* view */,
 				13A2AA9A19D7BF18008D1B9F /* controllers */,
+				13736EA219FD0FD8009E50D2 /* LoginViewController.h */,
+				13736EA319FD0FD8009E50D2 /* LoginViewController.m */,
+				13736EA419FD0FD8009E50D2 /* LoginViewController.xib */,
 			);
 			path = MyControl;
 			sourceTree = "<group>";
@@ -1744,6 +1755,8 @@
 				19DAE80619D30C2D00519D22 /* AppDelegate.m */,
 				19DAE80B19D30C2D00519D22 /* ViewController.h */,
 				19DAE80C19D30C2D00519D22 /* ViewController.m */,
+				13736EA719FD13D6009E50D2 /* RootViewController.h */,
+				13736EA819FD13D6009E50D2 /* RootViewController.m */,
 				19DAE80E19D30C2D00519D22 /* Main.storyboard */,
 				19DAE81119D30C2D00519D22 /* Images.xcassets */,
 				19DAE81319D30C2D00519D22 /* LaunchScreen.xib */,
@@ -3166,6 +3179,7 @@
 				E3B8026619FC2F1C00AF9831 /* gps4.png in Resources */,
 				19DAEA3019D311D300519D22 /* chahua@2x.png in Resources */,
 				E3B8023619FC0C2600AF9831 /* gpashenglv.png in Resources */,
+				13736EA619FD0FD8009E50D2 /* LoginViewController.xib in Resources */,
 				19DAEA1219D311D300519D22 /* duanxin-icon-94_94@2x.png in Resources */,
 				19DAE81219D30C2D00519D22 /* Images.xcassets in Resources */,
 				19DAEA0119D311D300519D22 /* toujxiang-moren-94_94@2x.png in Resources */,
@@ -3372,6 +3386,7 @@
 				137D9F9119F250A900B31100 /* UIView+Frame.m in Sources */,
 				137D9F9019F250A900B31100 /* UIColor+ConvertColor.m in Sources */,
 				137D9FDD19F272E500B31100 /* RoadManagerController.m in Sources */,
+				13736EA519FD0FD8009E50D2 /* LoginViewController.m in Sources */,
 				137D76EA19F4BB5B00DD29D7 /* MJType.m in Sources */,
 				137D9F9D19F25E0600B31100 /* UserInfoViewController.m in Sources */,
 				E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */,
@@ -3400,6 +3415,7 @@
 				137B0C5019F567E5001F3507 /* UMSocialLoginViewController.m in Sources */,
 				137D76E619F4BB5B00DD29D7 /* MJFoundation.m in Sources */,
 				137D76EC19F4BB5B00DD29D7 /* NSObject+MJCoding.m in Sources */,
+				13736EA919FD13D6009E50D2 /* RootViewController.m in Sources */,
 				E3B8024519FC0C2600AF9831 /* MAHeaderView.m in Sources */,
 				137D76EE19F4BB5B00DD29D7 /* NSObject+MJMember.m in Sources */,
 				137D76E419F4BB5B00DD29D7 /* MJArgument.m in Sources */,
@@ -3591,7 +3607,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
+				PROVISIONING_PROFILE = "663bce84-31f1-462e-a50d-ebbe7bacfbf5";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -3625,7 +3641,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
+				PROVISIONING_PROFILE = "663bce84-31f1-462e-a50d-ebbe7bacfbf5";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};

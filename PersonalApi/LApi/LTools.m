@@ -350,6 +350,18 @@
 
 #pragma mark - NSUserDefault缓存
 
++ (void)cacheBool:(BOOL)boo ForKey:(NSString *)key
+{
+    [[NSUserDefaults standardUserDefaults]setBool:boo forKey:key];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
++ (BOOL)cacheBoolForKey:(NSString *)key
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:key];
+}
+
 //存
 + (void)cache:(id)dataInfo ForKey:(NSString *)key
 {

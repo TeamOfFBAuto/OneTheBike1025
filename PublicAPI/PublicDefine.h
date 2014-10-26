@@ -28,12 +28,15 @@ alpha:(a)]
 #define USER_AUTHKEY_OHTER @"otherKey"//第三方key
 #define USRR_AUTHKEY @"authkey"
 #define USER_HEAD_IMAGEURL @"head_image_url"//
-#define USER_GENDER @"gender" //性别
+#define USER_GOLD @"gold" //轨币
+
 #define USER_QIANMIN @"qianming"//签名
 #define USER_HIGHT @"height" //身高
 #define USER_WEIGHT @"weight"//体重
 
 #define USER_CUSTID @"custid"//服务器返回用户id
+
+#define LOGIN_STATE @"successOrFail"//登录状态 yes or no
 
 #define ROAD_IDS @"road_ids"//路书id
 
@@ -46,7 +49,7 @@ alpha:(a)]
 
 //=========================接口
 
-#define BIKE_LOGIN @"http://182.254.242.58:8080/QiBa/QiBa/custAction_login.action?loginId=%@&nickName=%@&headPhoto=%@"//登录
+#define BIKE_LOGIN @"http://182.254.242.58:8080/QiBa/QiBa/custAction_xxloginxx.action?loginId=%@&nickName=%@&headPhoto=%@"//登录
 
 #define BIKE_ROAD_LINE @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_saveRdbk.action?custId=%@&beginSite=%@&waySite=%@&endSite=%@&beginCoordinates=%@&wayCoordinates=%@&endCoordinates=%@&distance=%@"//保存路书
 

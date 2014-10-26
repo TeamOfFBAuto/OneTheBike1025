@@ -88,6 +88,10 @@ typedef void(^versionBlock)(BOOL isNewVersion,NSString *updateUrl,NSString *upda
 //取
 + (id)cacheForKey:(NSString *)key;
 
++ (void)cacheBool:(BOOL)boo ForKey:(NSString *)key;//存储bool值
+
++ (BOOL)cacheBoolForKey:(NSString *)key;
+
 #pragma mark - 常用视图快速创建
 
 + (UIButton *)createButtonWithType:(UIButtonType)buttonType

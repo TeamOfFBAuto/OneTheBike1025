@@ -18,6 +18,8 @@
 
 #import "MineViewController.h"
 
+#import "RootViewController.h"
+
 /*
  第三方登录
  Q Q 2765869240
@@ -76,7 +78,7 @@
     BOOL _isStart;//用于判断是否点击开始弹出alertview  开始定位后点击返回的时候值为yes 点击完成按钮后值为no
     
     //骑行完成后tabbar调到历史标签
-    UITabBarController * _tabbarVC;
+    RootViewController * _tabbarVC;
 }
 @end
 
@@ -125,7 +127,7 @@
     navc5.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的" image:[UIImage imageNamed:@"mine.png"] selectedImage:[UIImage imageNamed:@"mine.png"]];
     
     
-    _tabbarVC = [[UITabBarController alloc] init];
+    _tabbarVC = [[RootViewController alloc] init];
     
     _tabbarVC.viewControllers = [NSArray arrayWithObjects:navc1,navc2,_navc3,navc4,navc5,nil];
     _tabbarVC.delegate = self;
@@ -144,7 +146,6 @@
     
     //友盟第三方登录分享
     [self umengShare];
-    
     
     
     
