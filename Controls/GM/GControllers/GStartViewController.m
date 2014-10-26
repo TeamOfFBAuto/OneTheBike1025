@@ -1387,7 +1387,7 @@
         self.gYunDongCanShuModel.juli = [NSString stringWithFormat:@"%.2f",_distance/1000];
         
         for (GyundongCustomView *view in self.fiveCustomView) {
-            if ([view.viewTypeStr isEqualToString:@"公里"]) {
+            if ([view.viewTypeStr isEqualToString:@"距离"]) {
                 view.contentLable.text = self.gYunDongCanShuModel.juli;//给距离label赋值 单位是公里
             }
         }

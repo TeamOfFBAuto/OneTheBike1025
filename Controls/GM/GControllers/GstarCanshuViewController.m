@@ -391,13 +391,13 @@
             contentStr = self.yundongModel.juli;
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
-                if ([view.viewTypeStr isEqualToString:@"公里"]) {
+                if ([view.viewTypeStr isEqualToString:@"距离"]) {
                     isChange = NO;
                 }
             }
             
             if (isChange) {
-                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"公里" withTag:self.passTag withType:@"公里"];
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"公里" withTag:self.passTag withType:@"距离"];
             }
         }
             break;
