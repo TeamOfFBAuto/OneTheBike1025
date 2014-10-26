@@ -43,6 +43,10 @@
     [super viewDidAppear:animated];
     
     [self updateUSerInfo];
+    
+    NSLog(@"--uid %@",[LTools cacheForKey:USER_CUSTID]);
+    
+    //http://182.254.242.58:8080/QiBa/QiBa/custAction_updateCust.action?custId=1414327474970&nickName=华丽毛毛&sex=1&cellphone=18612389982&personSign=theOne&height=176&weight=145&birthday=1989-5-21&city=linyi
 }
 
 - (void)viewDidLoad {

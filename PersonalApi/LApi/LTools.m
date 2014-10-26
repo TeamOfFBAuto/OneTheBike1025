@@ -34,11 +34,11 @@
 {
     if (distance < 1000) {
         
-        return [NSString stringWithFormat:@"%dm",distance];
+        return [NSString stringWithFormat:@"%d",distance];
     }else if(distance >= 1000){
-        return [NSString stringWithFormat:@"%.2fkm",distance/1000.0];
+        return [NSString stringWithFormat:@"%.2f",distance/1000.0];
     }
-    return @"0m";
+    return @"0";
 }
 
 #pragma - mark MD5 加密

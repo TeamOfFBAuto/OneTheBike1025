@@ -80,6 +80,7 @@
                   startCoorStr:(NSString *)startCoorString
                     endCoorStr:(NSString *)endCoorString
 {
+    
     sqlite3 *db = [DataBase openDB];
     sqlite3_stmt *stmt = nil;
     
@@ -96,6 +97,34 @@
     sqlite3_bind_text(stmt, 8, [endCoorString UTF8String], -1, NULL);
     
     result = sqlite3_step(stmt);
+    
+    //查询最大id
+    
+    int result_select = sqlite3_prepare_v2(db, "select max(roadId) from RoadLines", -1, &stmt, nil);
+    
+    int roadid;
+    
+    if (result_select == SQLITE_OK) {
+        
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            
+            roadid = sqlite3_column_int(stmt, 0);
+            
+            NSString *serverId = [NSString stringWithFormat:@"%d",roadid];
+            
+            int result = sqlite3_prepare(db, "update RoadLines set serverRoadId = ? where roadId = ?", -1, &stmt, nil);
+            
+            sqlite3_bind_text(stmt, 1, [serverId UTF8String], -1, nil);
+            sqlite3_bind_int(stmt, 2, roadid);
+            
+    
+            if (result == SQLITE_OK) {
+                sqlite3_step(stmt);
+            }
+            
+        }
+        
+    }
     
     NSLog(@"save brand %@ brandResult:%d",startName,result);
     
@@ -126,6 +155,34 @@
     }
     sqlite3_finalize(stmt);
     return @"";
+}
+
++ (BOOL)existForServerRoadId:(NSString *)serverRoadId
+{
+    //打开数据库
+    sqlite3 *db = [DataBase openDB];
+    //创建操作指针
+    sqlite3_stmt *stmt = nil;
+    //执行SQL语句
+    int result = sqlite3_prepare_v2(db, "select count(*) from RoadLines where serverRoadId = ?", -1, &stmt, nil);
+    
+    NSLog(@"RoadLinesJSonString %d %@",result,serverRoadId);
+    
+    if (result == SQLITE_OK) {
+        
+        sqlite3_bind_text(stmt, 1, [serverRoadId UTF8String], -1, nil);
+        
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            
+            int count = sqlite3_column_int(stmt, 0);
+            
+            if (count > 0) {
+                return YES;
+            }
+        }
+    }
+    sqlite3_finalize(stmt);
+    return NO;
 }
 
 + (NSDictionary *)getRoadLinesForRoadId:(int)roadId
@@ -189,6 +246,8 @@
             int isOpen = sqlite3_column_int(stmt, 9);
             int isUpload = sqlite3_column_int(stmt, 10);
             
+            NSString *serverRoadId = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 11)];
+            
             NSArray *start_arr = [startStr componentsSeparatedByString:@","];
             
             CLLocationCoordinate2D start;
@@ -205,6 +264,7 @@
             LRoadClass *road = [[LRoadClass alloc]initWithRoadId:roadid startName:startName endName:endName distance:distance lineString:lineString dateline:date startCoor:start endCoor:end];
             road.isOpen = isOpen;
             road.isUpload = isUpload;
+            road.serverRoadId = serverRoadId;
             [arr addObject:road];
         }
     }
@@ -255,7 +315,11 @@
                 end = CLLocationCoordinate2DMake([[end_arr objectAtIndex:0]floatValue], [[end_arr objectAtIndex:1]floatValue]);
             }
             
+            NSString *serverRoadId = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 11)];
+            
             LRoadClass *road = [[LRoadClass alloc]initWithRoadId:roadid startName:startName endName:endName distance:distance lineString:lineString dateline:date startCoor:start endCoor:end];
+            road.serverRoadId = serverRoadId;
+            
             [arr addObject:road];
         }
     }
@@ -288,6 +352,48 @@
     
 }
 
++ (void)updateRoadOpenForId:(int)roadId
+{
+    sqlite3 *db = [DataBase openDB];
+    sqlite3_stmt *stmt = nil;
+    
+    int result = sqlite3_prepare(db, "update RoadLines set isOpen = 1 where roadId = ?", -1, &stmt, nil);
+    
+    sqlite3_bind_int(stmt, 1, roadId);
+    
+    if (result == SQLITE_OK) {
+        sqlite3_step(stmt);
+    }
+    
+    result = sqlite3_prepare(db, "update RoadLines set isOpen = 0 where roadId != ? and type = ?", -1, &stmt, nil);
+    
+    sqlite3_bind_int(stmt, 1, roadId);
+    sqlite3_bind_int(stmt, 2, 1);//1代表路书
+    
+    if (result == SQLITE_OK) {
+        sqlite3_step(stmt);
+    }
+
+    sqlite3_finalize(stmt);
+    
+}
+
++ (void)updateRoadCloseForId:(int)roadId
+{
+    sqlite3 *db = [DataBase openDB];
+    sqlite3_stmt *stmt = nil;
+    
+    int result = sqlite3_prepare(db, "update RoadLines set isOpen = 0 where roadId = ?", -1, &stmt, nil);
+    
+    sqlite3_bind_int(stmt, 1, roadId);
+    
+    if (result == SQLITE_OK) {
+        sqlite3_step(stmt);
+    }
+    
+    sqlite3_finalize(stmt);
+}
+
 + (void)updateRoadId:(int)roadId isUpload:(BOOL)finish
 {
     sqlite3 *db = [DataBase openDB];
@@ -302,6 +408,23 @@
     }
     sqlite3_finalize(stmt);
 }
+
++ (void)updateRoadId:(int)roadId serverRoadId:(NSString *)serverRoadID isUpload:(BOOL)finish;//是否上传成功以及更新serverRoadId
+{
+    sqlite3 *db = [DataBase openDB];
+    sqlite3_stmt *stmt = nil;
+    
+    int result = sqlite3_prepare(db, "update RoadLines set isUpload = ?,serverRoadId = ? where roadId = ?", -1, &stmt, nil);
+    sqlite3_bind_int(stmt, 1, finish ? 1 : 0);
+    sqlite3_bind_text(stmt, 2, [serverRoadID UTF8String], -1, nil);
+    sqlite3_bind_int(stmt, 3, roadId);
+    
+    if (result == SQLITE_OK) {
+        sqlite3_step(stmt);
+    }
+    sqlite3_finalize(stmt);
+}
+
 
 + (BOOL)deleteRoadId:(int)roadId type:(HistoryType)type
 {
@@ -327,6 +450,27 @@
     return isOk;
 }
 
+
++ (BOOL)deleteAllData
+{
+    sqlite3 *db = [DataBase openDB];
+    sqlite3_stmt *stmt = nil;
+    
+    int result = sqlite3_prepare(db, "delete from RoadLines where roadId != 0 ", -1, &stmt, nil);
+    
+    
+    BOOL isOk = NO;
+    
+    if (result == SQLITE_OK) {
+        sqlite3_step(stmt);
+        
+        isOk = YES;
+    }
+    
+    sqlite3_finalize(stmt);
+    
+    return isOk;
+}
 
 
 

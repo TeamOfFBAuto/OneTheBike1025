@@ -120,7 +120,8 @@
     
     [loading show:YES];
     
-    [self saveRoadlinesJsonString:self.aRoad.lineString startName:self.aRoad.startName endName:self.aRoad.endName distance:@"11" startCoorStr:startString endCoorStr:endString];
+    
+    [self saveRoadlinesJsonString:self.aRoad.lineString startName:self.aRoad.startName endName:self.aRoad.endName distance:self.aRoad.distance startCoorStr:startString endCoorStr:endString];
     
 }
 
@@ -150,7 +151,16 @@
 
 - (void)updateOpenState:(UISwitch *)sender
 {
-    [GMAPI updateRoadId:self.aRoad.roadId startName:self.aRoad.startName endName:self.aRoad.endName Open:sender.isOn];
+//    [GMAPI updateRoadId:self.aRoad.roadId startName:self.aRoad.startName endName:self.aRoad.endName Open:sender.isOn];
+    
+    if (sender.isOn) {
+        
+        [GMAPI updateRoadOpenForId:self.aRoad.roadId];
+    }else
+    {
+        [GMAPI updateRoadCloseForId:self.aRoad.roadId];
+    }
+    
     self.aRoad.isOpen = sender.isOn;
 }
 
@@ -175,6 +185,7 @@
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     
     NSString *url = [NSString stringWithFormat:BIKE_ROAD_LINE,custId,startNameL,@"middle",endNameL,startString,@"wayCoordinates",endString,totalDistanceL];
+    
     LTools *tool = [[LTools alloc]initWithUrl:url isPost:YES postData:postData];
     [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
         
@@ -192,12 +203,10 @@
             
             [self updateUploadState];
             
-            int roadId = [[result objectForKey:@"rdbkId"]integerValue];
+            NSString * serverRoadId = [result objectForKey:@"rdbkId"];
             
-            [GMAPI updateRoadId:self.aRoad.roadId isUpload:YES];
-            
-//            [GMAPI updateRoadId:self.aRoad.roadId newRoadId:roadId];
-            
+            [GMAPI updateRoadId:self.aRoad.roadId serverRoadId:serverRoadId isUpload:YES];
+                        
         }else
         {
             

@@ -21,6 +21,7 @@
 @property(nonatomic,assign)CLLocationCoordinate2D endCoor;
 @property(nonatomic,assign)BOOL isOpen;//是否在地图打开
 @property(nonatomic,assign)BOOL isUpload;//是否已经上传成功
+@property(nonatomic,retain)NSString *serverRoadId;//服务器返回的id
 
 @property(nonatomic,assign)BOOL time;
 

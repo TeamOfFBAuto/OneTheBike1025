@@ -168,6 +168,8 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_CHANGE_USER object:nil];
         
         [self.navigationController popViewControllerAnimated:YES];
+        
+        [GMAPI deleteAllData];
     }
 }
 #pragma mark-意见反馈

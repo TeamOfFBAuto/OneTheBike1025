@@ -398,6 +398,8 @@ enum{
     
     NSString *jsonStr = [dic_arr JSONString];
     
+    NSLog(@"jsonStr %@",jsonStr);
+    
     save_finish = YES;
     
     NSString *startString = [NSString stringWithFormat:@"%@,%@",[NSString stringWithFormat:@"%f",self.startCoordinate.latitude],[NSString stringWithFormat:@"%f",self.startCoordinate.longitude]];
@@ -847,6 +849,9 @@ enum{
     if (middle_points_arr.count == 0) {
         
         [self.mapView addOverlays:polylines];
+        
+        [polines_arr addObjectsFromArray:polylines];
+        
         /* 缩放地图使其适应polylines的展示. */
         self.mapView.visibleMapRect = [CommonUtility mapRectForOverlays:polylines];
         
