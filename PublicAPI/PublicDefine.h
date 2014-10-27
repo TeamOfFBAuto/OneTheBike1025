@@ -57,4 +57,12 @@ alpha:(a)]
 
 #define BIKE_ROAD_DELETE @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_deleteRdbk.action?rdbkId=%@"
 
+
+//上传轨迹
+#define BIKE_ROAD_LINE_GUIJI  @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_saveCycling.action?custId=%@&cyclingKm=%@&upMetre=%@&downMetre=%@&costCalories=%@&avgSpeed=%@&topSpeed=%@&heartRate=%@&beginTime=%@&endTime=%@&costTime=%@&beginSite=%@&endSite=%@&beginCoordinates=%@&endCoordinates=%@"
+//获取轨迹
+#define BIKE_ROAD_LINE_GETGUIJILIST
+
+
+
 #endif
