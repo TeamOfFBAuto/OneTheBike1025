@@ -57,4 +57,8 @@ alpha:(a)]
 
 #define BIKE_ROAD_DELETE @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_deleteRdbk.action?rdbkId=%@"
 
+#define BIKE_USER_INFO @"http://182.254.242.58:8080/QiBa/QiBa/custAction_loadCust.action?custId=%@"//个人信息
+
+#define BIKE_EDIT_USERINFO @"http://182.254.242.58:8080/QiBa/QiBa/custAction_updateCust.action?custId=%@&nickName=%@&sex=%d&cellphone=%@&personSign=%@&height=%@&weight=%@&birthday=%@&city=%@"//修改个人信息
+
 #endif

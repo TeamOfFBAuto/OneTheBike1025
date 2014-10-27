@@ -277,8 +277,8 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     NSString *newStr = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-    NSLog(@"requestUrl %@",newStr);
+//
+    NSLog(@"requestUrl %@",requestUrl);
     NSURL *urlS = [NSURL URLWithString:newStr];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlS cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];

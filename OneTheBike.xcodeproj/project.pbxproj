@@ -112,6 +112,8 @@
 		13AC6BAB19D805D800E7FF7B /* libSocialQQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AC6BA719D805D800E7FF7B /* libSocialQQ.a */; };
 		13AC6BAC19D805D800E7FF7B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AC6BA819D805D800E7FF7B /* TencentOpenAPI.framework */; };
 		13AC6BAD19D805D800E7FF7B /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 13AC6BA919D805D800E7FF7B /* TencentOpenApi_IOS_Bundle.bundle */; };
+		13B40C7619FE80D000D4F97A /* UserDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B40C7419FE80D000D4F97A /* UserDescriptionController.m */; };
+		13B40C7719FE80D000D4F97A /* UserDescriptionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B40C7519FE80D000D4F97A /* UserDescriptionController.xib */; };
 		13BE658A19FB8390006242A8 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 13BE658719FB8390006242A8 /* icon57.png */; };
 		13BE658B19FB8390006242A8 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 13BE658819FB8390006242A8 /* icon114.png */; };
 		13BE658C19FB8390006242A8 /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 13BE658919FB8390006242A8 /* icon120.png */; };
@@ -725,6 +727,9 @@
 		13AC6BA819D805D800E7FF7B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		13AC6BA919D805D800E7FF7B /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		13AC6BAA19D805D800E7FF7B /* UMSocialQQHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialQQHandler.h; sourceTree = "<group>"; };
+		13B40C7319FE80D000D4F97A /* UserDescriptionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDescriptionController.h; sourceTree = "<group>"; };
+		13B40C7419FE80D000D4F97A /* UserDescriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDescriptionController.m; sourceTree = "<group>"; };
+		13B40C7519FE80D000D4F97A /* UserDescriptionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDescriptionController.xib; sourceTree = "<group>"; };
 		13BE658719FB8390006242A8 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57.png; sourceTree = "<group>"; };
 		13BE658819FB8390006242A8 /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
 		13BE658919FB8390006242A8 /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
@@ -1572,6 +1577,9 @@
 				137D9F9A19F25E0600B31100 /* UserInfoViewController.h */,
 				137D9F9B19F25E0600B31100 /* UserInfoViewController.m */,
 				137D9F9C19F25E0600B31100 /* UserInfoViewController.xib */,
+				13B40C7319FE80D000D4F97A /* UserDescriptionController.h */,
+				13B40C7419FE80D000D4F97A /* UserDescriptionController.m */,
+				13B40C7519FE80D000D4F97A /* UserDescriptionController.xib */,
 				137D9FD519F26E7000B31100 /* MoreViewController.h */,
 				137D9FD619F26E7000B31100 /* MoreViewController.m */,
 				137D9FD719F26E7000B31100 /* MoreViewController.xib */,
@@ -3315,6 +3323,7 @@
 				19DAEA4019D311D300519D22 /* join@2x.png in Resources */,
 				19DAEA7C19D311D300519D22 /* selected_found_image@2x.png in Resources */,
 				13D21C8C19F4095C0015AAF2 /* gps图标1格.png in Resources */,
+				13B40C7719FE80D000D4F97A /* UserDescriptionController.xib in Resources */,
 				19DAEA3419D311D300519D22 /* photo@2x.png in Resources */,
 				19DAEA7319D311D300519D22 /* classification_big1@2x.png in Resources */,
 				19DAE98419D311D300519D22 /* add_quxiao@2x.png in Resources */,
@@ -3377,6 +3386,7 @@
 				56442E0E19F55AD300BAE678 /* RankingFunctionView.m in Sources */,
 				19DAE80A19D30C2D00519D22 /* OneTheBike.xcdatamodeld in Sources */,
 				137D9FD819F26E7000B31100 /* MoreViewController.m in Sources */,
+				13B40C7619FE80D000D4F97A /* UserDescriptionController.m in Sources */,
 				19DAE80719D30C2D00519D22 /* AppDelegate.m in Sources */,
 				565DF20119FBDF1C00DE99EA /* ActivityModel.m in Sources */,
 				E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */,
