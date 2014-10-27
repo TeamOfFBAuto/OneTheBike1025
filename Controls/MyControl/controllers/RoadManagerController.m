@@ -200,11 +200,27 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LRoadClass *road = [roads_arr objectAtIndex:indexPath.row];
+    
+    if (self.actionType == Action_SelectRoad) {
+        
+        if (_selectBlock) {
+            
+            _selectBlock(road.serverRoadId,road.lineString);
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        
+    }else
+    {
         RoadInfoViewController *produce = [[RoadInfoViewController alloc]initWithStyle:UITableViewStylePlain];
-        LRoadClass *road = [roads_arr objectAtIndex:indexPath.row];
+        
         produce.aRoad = road;
         produce.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:produce animated:YES];
+ 
+    }
 }
 
 #pragma mark - UITableViewDataSource
