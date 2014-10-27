@@ -40,6 +40,9 @@
 @property(nonatomic,strong)NSString *coorStr;//实时经纬度 定位结束后为终点经纬度
 
 
+@property(nonatomic,assign)MAUserLocation *userLocation;//用户定位信息
+
+
 
 //计时器label
 @property(nonatomic,strong)UILabel *timeRunLabel;

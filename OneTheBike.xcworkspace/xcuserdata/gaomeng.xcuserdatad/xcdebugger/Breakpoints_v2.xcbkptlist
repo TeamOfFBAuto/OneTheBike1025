@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Controls/GM/GControllers/GStartViewController.m"
-            timestampString = "436035882.041965"
+            timestampString = "436070986.737063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1758"
-            endingLineNumber = "1758"
+            startingLineNumber = "1764"
+            endingLineNumber = "1764"
             landmarkName = "-saveRoadlinesJsonString:startName:endName:cyclingKm:upMetre:downMetre:costCalories:avgSpeed:topSpeed:heartRate:beginTime:endTime:costTime:beginSite:endSite:beginCoordinates:endCoordinates:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Controls/GM/GControllers/GStartViewController.m"
-            timestampString = "436035882.041965"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "867"
-            endingLineNumber = "867"
-            landmarkName = "-actionSheet:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

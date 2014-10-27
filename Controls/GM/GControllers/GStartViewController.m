@@ -13,6 +13,9 @@
 
 #import "GstarCanshuViewController.h"
 #import "GyundongCustomView.h"
+
+#import "LRoadClass.h"
+
 @class GyundongCustomView;
 
 #define FRAME_IPHONE5_MAP_UP CGRectMake(0, 30, 320, 568-60-20)
@@ -153,7 +156,7 @@
     
     
     
-//    [self initHistoryMap];
+//    [self initHistoryMap];//显示路书
     
 }
 
@@ -470,6 +473,29 @@
     
     
     if (sender.tag == 40) {//路书开关
+        
+        RoadManagerController *cc = [[RoadManagerController alloc]init];
+        cc.actionType = Action_SelectRoad;
+        
+        [cc selectRoadlineBlock:^(NSString *serverRoadId, NSString *roadlineJson) {
+            [self.mapView removeOverlays:_lines];
+            [self.mapView removeAnnotation:startAnnotation];
+            [self.mapView removeAnnotation:detinationAnnotation];
+            
+            NSArray *roadLineArray = [GMAPI getRoadLinesForType:1 isOpen:YES];
+            if (roadLineArray && roadLineArray.count>0) {
+                LRoadClass *roadModelClass= roadLineArray[0];
+                
+                
+                
+            }
+            
+            
+            
+        }];
+        cc.hidesBottomBarWhenPushed = YES;
+        self.navigationController.navigationBarHidden = NO;
+        [self.navigationController pushViewController:cc animated:YES];
         
     }
     
@@ -831,8 +857,18 @@
                 endNameStr = [NSString stringWithFormat:@"%@",self.gYunDongCanShuModel.pingjunsudu];
             }
             
-            //保存轨迹到本地数据库
-            [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
+            
+            
+#pragma mark - 保存轨迹到本地数据库
+            
+            if (jsonStr) {//有轨迹再往本地存
+                [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
+            }else{
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"保存失败" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [al show];
+            }
+            
+            
             
             
 //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"起点和终点" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
@@ -868,28 +904,30 @@
             
             
             
-            jsonStr = @"[{classType:MAPolyline,rect_x:220973840,rect_y:101745872,rect_width:352,pointX:220973840,pointY:101749648,latitude:39.872806549072266,longitude:116.34925079345703,coordinatesString:116.349013,39.870864,116.349356,39.873589,116.349399,39.873984,116.349485,39.874750,pointCount:4,rect_height:3776},{classType:MAPolyline,rect_x:220974192,rect_y:101743896,rect_width:144,pointX:220974192,pointY:101745872,latitude:39.875766754150391,longitude:116.34957885742188,coordinatesString:116.349485,39.874750,116.349614,39.875260,116.349678,39.876002,116.349657,39.876784,pointCount:4,rect_height:1976},{classType:MAPolyline,rect_x:220973808,rect_y:101743920,rect_width:80,pointX:220973856,pointY:101743920,latitude:39.875846862792969,longitude:116.34902191162109,coordinatesString:116.349034,39.876759,116.349056,39.876281,116.349077,39.875705,116.349056,39.875458,116.348970,39.874931,pointCount:5,rect_height:1776},{classType:LineDashPolyline,rect_x:220973856,rect_y:101743896,rect_width:464,pointX:0,pointY:0,latitude:39.87677001953125,longitude:116.34934234619141,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220974320,pointY:101743896,latitude:0,longitude:0,coordinatesString:116.349657,39.876784,116.349034,39.876759,pointCount:2,rect_height:0},pointCount:0,rect_height:24},{classType:MAPolyline,rect_x:220973568,rect_y:101745696,rect_width:336,pointX:220973808,pointY:101745696,latitude:39.872745513916016,longitude:116.348876953125,coordinatesString:116.348970,39.874931,116.349099,39.874585,116.348970,39.873605,116.348906,39.873136,116.348777,39.871967,116.348648,39.870559,pointCount:6,rect_height:4248},{classType:MAPolyline,rect_x:220972080,rect_y:101749944,rect_width:1488,pointX:220973568,pointY:101749944,latitude:39.861549377441406,longitude:116.34764862060547,coordinatesString:116.348648,39.870559,116.348584,39.869357,116.348519,39.868632,116.348348,39.867084,116.348069,39.864490,116.347919,39.863411,116.347575,39.860191,116.347339,39.858371,116.346653,39.852540,pointCount:9,rect_height:17504},{classType:MAPolyline,rect_x:220970240,rect_y:101767456,rect_width:1824,pointX:220972064,pointY:101767456,latitude:39.851242065429688,longitude:116.34540557861328,coordinatesString:116.346631,39.852532,116.346180,39.852004,116.346052,39.851798,116.345773,39.851411,116.345451,39.851115,116.344764,39.850514,116.344399,39.850143,116.344185,39.849953,pointCount:8,rect_height:2504},{classType:LineDashPolyline,rect_x:220972064,rect_y:101767456,rect_width:16,pointX:0,pointY:0,latitude:39.852527618408203,longitude:116.34664154052734,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220972080,pointY:101767456,latitude:0,longitude:0,coordinatesString:116.346653,39.852532,116.346631,39.852523,pointCount:2,rect_height:0},pointCount:0,rect_height:8},{classType:MAPolyline,rect_x:220970240,rect_y:101769960,rect_width:1104,pointX:220970240,pointY:101769960,latitude:39.847480773925781,longitude:116.34492492675781,coordinatesString:116.344185,39.849953,116.344292,39.848949,116.344399,39.848496,116.344850,39.848043,116.344979,39.847902,116.345258,39.847532,116.345408,39.847244,116.345451,39.847112,116.345494,39.847013,116.345580,39.846815,116.345601,39.846650,116.345665,39.846206,116.345665,39.845991,116.345601,39.845448,116.345580,39.845011,pointCount:15,rect_height:4800}]";
+//            jsonStr = @"[{classType:MAPolyline,rect_x:220973840,rect_y:101745872,rect_width:352,pointX:220973840,pointY:101749648,latitude:39.872806549072266,longitude:116.34925079345703,coordinatesString:116.349013,39.870864,116.349356,39.873589,116.349399,39.873984,116.349485,39.874750,pointCount:4,rect_height:3776},{classType:MAPolyline,rect_x:220974192,rect_y:101743896,rect_width:144,pointX:220974192,pointY:101745872,latitude:39.875766754150391,longitude:116.34957885742188,coordinatesString:116.349485,39.874750,116.349614,39.875260,116.349678,39.876002,116.349657,39.876784,pointCount:4,rect_height:1976},{classType:MAPolyline,rect_x:220973808,rect_y:101743920,rect_width:80,pointX:220973856,pointY:101743920,latitude:39.875846862792969,longitude:116.34902191162109,coordinatesString:116.349034,39.876759,116.349056,39.876281,116.349077,39.875705,116.349056,39.875458,116.348970,39.874931,pointCount:5,rect_height:1776},{classType:LineDashPolyline,rect_x:220973856,rect_y:101743896,rect_width:464,pointX:0,pointY:0,latitude:39.87677001953125,longitude:116.34934234619141,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220974320,pointY:101743896,latitude:0,longitude:0,coordinatesString:116.349657,39.876784,116.349034,39.876759,pointCount:2,rect_height:0},pointCount:0,rect_height:24},{classType:MAPolyline,rect_x:220973568,rect_y:101745696,rect_width:336,pointX:220973808,pointY:101745696,latitude:39.872745513916016,longitude:116.348876953125,coordinatesString:116.348970,39.874931,116.349099,39.874585,116.348970,39.873605,116.348906,39.873136,116.348777,39.871967,116.348648,39.870559,pointCount:6,rect_height:4248},{classType:MAPolyline,rect_x:220972080,rect_y:101749944,rect_width:1488,pointX:220973568,pointY:101749944,latitude:39.861549377441406,longitude:116.34764862060547,coordinatesString:116.348648,39.870559,116.348584,39.869357,116.348519,39.868632,116.348348,39.867084,116.348069,39.864490,116.347919,39.863411,116.347575,39.860191,116.347339,39.858371,116.346653,39.852540,pointCount:9,rect_height:17504},{classType:MAPolyline,rect_x:220970240,rect_y:101767456,rect_width:1824,pointX:220972064,pointY:101767456,latitude:39.851242065429688,longitude:116.34540557861328,coordinatesString:116.346631,39.852532,116.346180,39.852004,116.346052,39.851798,116.345773,39.851411,116.345451,39.851115,116.344764,39.850514,116.344399,39.850143,116.344185,39.849953,pointCount:8,rect_height:2504},{classType:LineDashPolyline,rect_x:220972064,rect_y:101767456,rect_width:16,pointX:0,pointY:0,latitude:39.852527618408203,longitude:116.34664154052734,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220972080,pointY:101767456,latitude:0,longitude:0,coordinatesString:116.346653,39.852532,116.346631,39.852523,pointCount:2,rect_height:0},pointCount:0,rect_height:8},{classType:MAPolyline,rect_x:220970240,rect_y:101769960,rect_width:1104,pointX:220970240,pointY:101769960,latitude:39.847480773925781,longitude:116.34492492675781,coordinatesString:116.344185,39.849953,116.344292,39.848949,116.344399,39.848496,116.344850,39.848043,116.344979,39.847902,116.345258,39.847532,116.345408,39.847244,116.345451,39.847112,116.345494,39.847013,116.345580,39.846815,116.345601,39.846650,116.345665,39.846206,116.345665,39.845991,116.345601,39.845448,116.345580,39.845011,pointCount:15,rect_height:4800}]";
             
             
+            if (jsonStr ) {//有轨迹再上传
+                [self saveRoadlinesJsonString:jsonStr//轨迹大字符串
+                                    startName:@" "
+                                      endName:@" "
+                                    cyclingKm:self.gYunDongCanShuModel.juli//总距离
+                                      upMetre:upMetreStr//上升海拔
+                                    downMetre:downMetreStr//下降海拔
+                                 costCalories:self.gYunDongCanShuModel.bpm//卡路里
+                                     avgSpeed:self.gYunDongCanShuModel.pingjunsudu//平均速度
+                                     topSpeed:self.gYunDongCanShuModel.maxSudu//最高速度
+                                    heartRate:@" "//心率
+                                    beginTime:startTimeStr//开始时间
+                                      endTime:endTimeStr//结束时间
+                                     costTime:self.gYunDongCanShuModel.yongshi//用时
+                                    beginSite:@" "
+                                      endSite:@" "
+                             beginCoordinates:self.gYunDongCanShuModel.startCoorStr//起点的经纬度
+                               endCoordinates:self.gYunDongCanShuModel.coorStr];//终点的经纬度
+            }
             
             
-            [self saveRoadlinesJsonString:jsonStr//轨迹大字符串
-                                startName:@"你好"
-                                  endName:@"hello"
-                                cyclingKm:self.gYunDongCanShuModel.juli//总距离
-                                  upMetre:upMetreStr//上升海拔
-                                downMetre:downMetreStr//下降海拔
-                             costCalories:@"30"//卡路里
-                                 avgSpeed:self.gYunDongCanShuModel.pingjunsudu//平均速度
-                                 topSpeed:self.gYunDongCanShuModel.maxSudu//最高速度
-                                heartRate:@"30"//心率
-                                beginTime:startTimeStr//开始时间
-                                  endTime:endTimeStr//结束时间
-                                 costTime:@"30"//用时
-                                beginSite:@"hello"
-                                  endSite:@"hello"
-                         beginCoordinates:self.gYunDongCanShuModel.startCoorStr//起点的经纬度
-                           endCoordinates:self.gYunDongCanShuModel.coorStr];//终点的经纬度
             
             
             
@@ -1290,11 +1328,6 @@
 {
     
     
-    
-    
-    NSLog(@"lat ====== %f",userLocation.location.coordinate.latitude);
-    NSLog(@"lon ====== %f",userLocation.location.coordinate.longitude);
-    
     //方向
     NSString *headingStr = @"";
     if (userLocation) {
@@ -1374,6 +1407,9 @@
     
 #pragma mark -  划线=======================
     
+    
+//    self.gYunDongCanShuModel.userLocation = userLocation;
+    
     NSLog(@"lat ====== %f",userLocation.location.coordinate.latitude);
     NSLog(@"lon ====== %f",userLocation.location.coordinate.longitude);
     
@@ -1389,7 +1425,7 @@
     // check the move distance
     if (_points.count > 0) {
         CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
-        if (distance < 5 || distance > 10){
+        if (distance < 5 ){
             return;
         }
         _distance += distance;
@@ -1592,7 +1628,38 @@
 
 
 
-
+-(void)showRoadLineInMapViewWith:(LRoadClass*)model{
+    NSDictionary *dic1 = [GMAPI getRoadLinesForRoadId:model.roadId];
+    NSString *jsonString = [dic1 objectForKey:LINE_JSONSTRING];
+    NSArray *arr = [jsonString objectFromJSONString];
+    
+    CLLocationCoordinate2D start;
+    start = CLLocationCoordinate2DMake(model.startCoor.latitude, model.startCoor.longitude);
+    
+    CLLocationCoordinate2D end;
+    end = CLLocationCoordinate2DMake(model.endCoor.latitude, model.endCoor.longitude);
+    
+    if (0) {
+        return;
+    }
+    
+    NSDictionary *history_dic = [LMapTools parseMapHistoryMap:arr];
+    
+    NSArray *lines = [history_dic objectForKey:L_POLINES];
+    
+    self.startCoordinate = start;
+    [self addStartAnnotation];
+    
+    self.destinationCoordinate = end;
+    [self addDestinationAnnotation];
+    
+    [self.mapView addOverlays:lines];
+    
+    [self.mapView setCenterCoordinate:self.startCoordinate animated:YES];
+    
+    
+    
+}
 
 
 
