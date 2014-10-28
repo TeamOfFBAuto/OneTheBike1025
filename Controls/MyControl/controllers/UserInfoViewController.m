@@ -96,7 +96,7 @@
     NSString *height = [self labelForTag:104].text;
     NSString *weight = [self labelForTag:105].text;
     
-    NSString *url = [NSString stringWithFormat:BIKE_EDIT_USERINFO,custId,nickName,[sex intValue],@"11",personSign,height,weight,@"11",@"11"];
+    NSString *url = [NSString stringWithFormat:BIKE_EDIT_USERINFO,custId,nickName,sex,@"11",personSign,height,weight,@"2014-01-01",@"11"];
     LTools *tool = [[LTools alloc]initWithUrl:url isPost:NO postData:nil];
     [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
         
