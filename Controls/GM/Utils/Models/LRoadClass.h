@@ -23,7 +23,7 @@
 @property(nonatomic,assign)BOOL isUpload;//是否已经上传成功
 @property(nonatomic,retain)NSString *serverRoadId;//服务器返回的id
 
-@property(nonatomic,assign)BOOL time;
+@property(nonatomic,assign)BOOL time;//按天数排出二维数组的标志位
 
 -(instancetype)initWithRoadId:(NSInteger)roadId
                     startName:(NSString *)startName

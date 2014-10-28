@@ -20,5 +20,9 @@
 @property(nonatomic,strong)NSMutableArray *dataArray;//二维数组
 
 
+@property(nonatomic,strong)NSMutableArray *localDataArray;//本地数据
+
+
+
 
 @end

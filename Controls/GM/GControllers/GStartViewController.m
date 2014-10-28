@@ -7,82 +7,13 @@
 //
 
 #import "GStartViewController.h"
-#import "ReGeocodeAnnotation.h"
-#import "GOffLineMapViewController.h"
-#import "Gmap.h"
-
-#import "GstarCanshuViewController.h"
-#import "GyundongCustomView.h"
-
-#import "LRoadClass.h"
-
-@class GyundongCustomView;
-
-#define FRAME_IPHONE5_MAP_UP CGRectMake(0, 30, 320, 568-60-20)
-#define FRAME_IPHONE5_MAP_DOWN CGRectMake(0, 230+20, 320, 568-230-20)
-#define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -115, 320, 230)
-#define FRAME_IPHONE5_UPVIEW_DOWN CGRectMake(0, 20, 320, 230)
-
 
 
 
 @interface GStartViewController ()<UIActionSheetDelegate>
 {
-    UIView *_upview;//上面的运动信息view
-    BOOL _isUpViewShow;//当前是否显示运动信息view
-    UIButton *_upOrDownBtn;//上下收放btn
-    UIView *_downView;//运动开始时下方的view
     
-    UILabel *_fangxiangLabel;//方向
-    
-    GyundongCustomView *_fangxiangView;//方向
-    GyundongCustomView *_dingView;//速度
-    GyundongCustomView *_zuoshangView;//时间
-    GyundongCustomView *_youshangView;//公里
-    GyundongCustomView *_zuoxiaView;//海拔
-    GyundongCustomView *_youxiaView;//bpm
-    
-    
-    
-    BOOL _isTimeOutClicked;//暂停按钮点击
-    UIButton *_greenTimeOutBtn;//暂停按钮
-    
-    double _distance;//距离
-    
-    
-    BOOL _isFirstStartCanshu;//是否为刚开始时候的参数 用于记录开始时候的海拔 起点
-    
-    
-//    NSString *_saveViewTag54ViewType;//upview上移之前的type
-//    NSString *_saveViewTag55ViewType;
-    
-    GyundongCustomView *_saveViewTag54View;//upview上移之前的view样式
-    GyundongCustomView *_saveViewTag55View;
-    
-    NSTimer *_localTimer;//本地时钟
-    
-    UIImageView *_gpsQiangRuo;//gps强弱
-    
-    UIButton *_dingweiCenterBtn;//定位中心点按钮
-    
-    
-    //保存路书时起点和终点的输入框
-    UITextField *first;
-    UITextField *second;
-    
-    NSString *startName;//起点名字
-    NSString *endName;//终点名字
-    
-    
-    //路书
-    MAPointAnnotation *startAnnotation;//起点
-    MAPointAnnotation *detinationAnnotation;//终点
-    NSMutableArray *middleAnntations;//途经点
-    NSArray *_lines;//路书数组
 }
-@property (nonatomic,strong)NSMutableArray *cllocation2dsArray;
-@property (nonatomic, strong) NSMutableArray *overlays;
-
 
 @end
 
@@ -119,7 +50,7 @@
     _distance = 0.0f;
     _isFirstStartCanshu = NO;
     
-    
+    self.lines = [NSArray array];
     
     [self initMap];//初始化地图
     [self initMapUpView];//初始化地图上面的view
@@ -474,28 +405,38 @@
     
     if (sender.tag == 40) {//路书开关
         
-        RoadManagerController *cc = [[RoadManagerController alloc]init];
-        cc.actionType = Action_SelectRoad;
+        sender.selected = !sender.selected;
         
-        [cc selectRoadlineBlock:^(NSString *serverRoadId, NSString *roadlineJson) {
-            [self.mapView removeOverlays:_lines];
-            [self.mapView removeAnnotation:startAnnotation];
-            [self.mapView removeAnnotation:detinationAnnotation];
+        if (!sender.selected) {//路书为打开状态
             
-            NSArray *roadLineArray = [GMAPI getRoadLinesForType:1 isOpen:YES];
-            if (roadLineArray && roadLineArray.count>0) {
-                LRoadClass *roadModelClass= roadLineArray[0];
-                
-                
-                
+            if (self.lines.count>0) {
+                [self.mapView removeOverlays:self.lines];
             }
             
+        }else{//路书为关闭状态
+            RoadManagerController *cc = [[RoadManagerController alloc]init];
+            cc.actionType = Action_SelectRoad;
             
-            
-        }];
-        cc.hidesBottomBarWhenPushed = YES;
-        self.navigationController.navigationBarHidden = NO;
-        [self.navigationController pushViewController:cc animated:YES];
+            __weak typeof (self)bself = self;
+            [cc selectRoadlineBlock:^(NSString *serverRoadId, NSString *roadlineJson) {
+                
+                if (bself.lines.count>0) {
+                    [bself.mapView removeOverlays:self.lines];
+                    [bself.mapView removeAnnotation:startAnnotation];
+                    [bself.mapView removeAnnotation:detinationAnnotation];
+                }
+                
+                NSArray *roadLineArray = [GMAPI getRoadLinesForType:1 isOpen:YES];
+                if (roadLineArray && roadLineArray.count>0) {
+                    LRoadClass *roadModelClass= roadLineArray[0];
+                    [bself showRoadLineInMapViewWith:roadModelClass];
+                    
+                }
+            }];
+            cc.hidesBottomBarWhenPushed = YES;
+            bself.navigationController.navigationBarHidden = NO;
+            [bself.navigationController pushViewController:cc animated:YES];
+        }
         
     }
     
@@ -530,7 +471,7 @@
     
     //    [self initGestureRecognizer];//长按手势
     
-    [self.mapView addOverlays:self.overlays];//把线条添加到地图上
+//    [self.mapView addOverlays:self.overlays];//把线条添加到地图上
     
     [self configureRoutes];//划线
 }
@@ -1628,6 +1569,8 @@
 
 
 
+
+#pragma mark - 把路书添加到地图上
 -(void)showRoadLineInMapViewWith:(LRoadClass*)model{
     NSDictionary *dic1 = [GMAPI getRoadLinesForRoadId:model.roadId];
     NSString *jsonString = [dic1 objectForKey:LINE_JSONSTRING];
@@ -1645,7 +1588,7 @@
     
     NSDictionary *history_dic = [LMapTools parseMapHistoryMap:arr];
     
-    NSArray *lines = [history_dic objectForKey:L_POLINES];
+    self.lines = [history_dic objectForKey:L_POLINES];
     
     self.startCoordinate = start;
     [self addStartAnnotation];
@@ -1653,7 +1596,7 @@
     self.destinationCoordinate = end;
     [self addDestinationAnnotation];
     
-    [self.mapView addOverlays:lines];
+    [self.mapView addOverlays:self.lines];
     
     [self.mapView setCenterCoordinate:self.startCoordinate animated:YES];
     

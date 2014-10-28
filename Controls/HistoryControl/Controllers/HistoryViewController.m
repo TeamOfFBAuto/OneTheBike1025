@@ -12,6 +12,8 @@
 
 #import "GcustomHistoryTableViewCell.h"
 
+#import "GHistoryDetailViewController.h"
+
 @interface HistoryViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate>
 {
     UITableView *_tableView;
@@ -64,10 +66,24 @@
     
     
     
+    _currentPage = 1;
+    
+    //给属性分配内存
+    self.dataArray = [NSMutableArray arrayWithCapacity:1];
+    self.netDataArray = [NSMutableArray arrayWithCapacity:1];
+    self.localDataArray = [NSMutableArray arrayWithCapacity:1];
+    
+    //准备数据
+    [self prepareLocalDataAndNetData];
+    
+    
+    
+    
     self.view.backgroundColor=[UIColor whiteColor];
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, 568) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
     
     
     //下拉刷新
@@ -94,9 +110,36 @@
 }
 
 
+//准备本地数据和网络数据
+-(void)prepareLocalDataAndNetData{
+    
+    [self prepareNetDataWithPage:1];
+    
+    
+    
+}
+
+//取本地数据
+-(void)prepareLocalData{
+    self.localDataArray = [NSMutableArray arrayWithArray:[GMAPI GgetGuiji]];
+    
+    for (LRoadClass *model in self.localDataArray) {
+        NSString *localIdStr= [NSString stringWithFormat:@"%d",model.roadId];
+        
+        if ([localIdStr isEqualToString:model.serverRoadId]) {//已上传
+            
+        }else{
+            [self.netDataArray addObject:model];
+        }
+    }
+    
+}
+
+
+
 //按日期排序
--(void)panxuWithDateWithArray:(NSMutableArray *)array{//array为网络请求到得array
-    self.dataArray = [NSMutableArray arrayWithCapacity:1];
+-(void)paixuWithDateWithArray:(NSMutableArray *)array{//array为融合数组
+    
     
     NSArray *dataBaseArray = [GMAPI GgetGuiji];
     
@@ -205,7 +248,7 @@
     
     
     int num = self.dataArray.count;
-    num = 10;
+    num = 1;
     
     return num;
 }
@@ -216,7 +259,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    return 60;
 }
 
 
@@ -310,8 +353,6 @@
     }
     
     
-    [self panxuWithDateWithArray:self.netDataArray];
-    
     _isUpMoreSuccess = YES;//上提加载更多的标志位
     
     
@@ -324,6 +365,14 @@
 
     
     
+    //取本地数据
+    [self prepareLocalData];
+    
+    //按照天数排出二维数组
+    [self paixuWithDateWithArray:self.netDataArray];
+    
+    
+    //刷新tableview
     [self doneLoadingTableViewData];
     
     
@@ -393,6 +442,19 @@
 
 
 
+
+
+
+
+
+
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    GHistoryDetailViewController *cc = [[GHistoryDetailViewController alloc]init];
+    cc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:cc animated:YES];
+}
 
 
 

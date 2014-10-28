@@ -47,7 +47,7 @@
     [self.contentView addSubview:self.sportInfoLabel];
     
     //距离
-    self.spotrdistanceLabel = [[UILabel alloc]initWithFrame:CGRectMake(titleImv.frame.origin.x, titleImv.frame.origin.y, 30, 30)];
+    self.spotrdistanceLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.sportInfoLabel.frame)+20, titleImv.frame.origin.y, 30, 30)];
     [self.contentView addSubview:self.spotrdistanceLabel];
     
     

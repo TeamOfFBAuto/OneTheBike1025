@@ -498,6 +498,7 @@
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
 		E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */; };
+		E37C9DDD19FF86DE00B7F4BB /* GHistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */; };
 		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
 		E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A419FD5455002E69CA /* MAHeaderView.m */; };
 		E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801E819FC0C2600AF9831 /* GMapStarViewController.m */; };
@@ -1154,6 +1155,8 @@
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		E37C9DD819FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GcustomHistoryTableViewCell.h; sourceTree = SOURCE_ROOT; };
 		E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomHistoryTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHistoryDetailViewController.h; sourceTree = "<group>"; };
+		E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHistoryDetailViewController.m; sourceTree = "<group>"; };
 		E3AD66A119FD5455002E69CA /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCustomView.h; sourceTree = "<group>"; };
 		E3AD66A219FD5455002E69CA /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCustomView.m; sourceTree = "<group>"; };
 		E3AD66A319FD5455002E69CA /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAHeaderView.h; sourceTree = "<group>"; };
@@ -1889,6 +1892,8 @@
 			children = (
 				19DAE84219D30F4E00519D22 /* HistoryViewController.h */,
 				19DAE84319D30F4E00519D22 /* HistoryViewController.m */,
+				E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */,
+				E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3420,6 +3425,7 @@
 				137D9FDD19F272E500B31100 /* RoadManagerController.m in Sources */,
 				13736EA519FD0FD8009E50D2 /* LoginViewController.m in Sources */,
 				137D76EA19F4BB5B00DD29D7 /* MJType.m in Sources */,
+				E37C9DDD19FF86DE00B7F4BB /* GHistoryDetailViewController.m in Sources */,
 				137D9F9D19F25E0600B31100 /* UserInfoViewController.m in Sources */,
 				E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */,
 				137D9F8919F2508200B31100 /* LTools.m in Sources */,
@@ -3641,7 +3647,6 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4d09d2dd-2940-4eb4-aec5-372a03029734";
 				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
@@ -3676,7 +3681,6 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4d09d2dd-2940-4eb4-aec5-372a03029734";
 				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
