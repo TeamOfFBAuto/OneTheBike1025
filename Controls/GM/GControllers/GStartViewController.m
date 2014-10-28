@@ -1572,9 +1572,9 @@
 
 #pragma mark - 把路书添加到地图上
 -(void)showRoadLineInMapViewWith:(LRoadClass*)model{
-    NSDictionary *dic1 = [GMAPI getRoadLinesForRoadId:model.roadId];
-    NSString *jsonString = [dic1 objectForKey:LINE_JSONSTRING];
-    NSArray *arr = [jsonString objectFromJSONString];
+//    NSDictionary *dic1 = [GMAPI getRoadLinesForRoadId:model.roadId];
+//    NSString *jsonString = [dic1 objectForKey:LINE_JSONSTRING];
+    NSArray *arr = [model.lineString objectFromJSONString];
     
     CLLocationCoordinate2D start;
     start = CLLocationCoordinate2DMake(model.startCoor.latitude, model.startCoor.longitude);

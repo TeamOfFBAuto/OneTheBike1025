@@ -174,6 +174,12 @@
 
 #pragma mark - 事件处理
 
+
+- (void)selectRoadlineBlock:(SelectRoadBlock)aRoadBlock
+{
+    _selectBlock = aRoadBlock;
+}
+
 //更新显示数据
 - (void)updateViewDataSource
 {
@@ -203,6 +209,9 @@
     LRoadClass *road = [roads_arr objectAtIndex:indexPath.row];
     
     if (self.actionType == Action_SelectRoad) {
+        
+        
+        [GMAPI updateRoadOpenForId:road.roadId];
         
         if (_selectBlock) {
             
