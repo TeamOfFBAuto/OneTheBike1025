@@ -51,12 +51,17 @@
     [self.contentView addSubview:self.spotrdistanceLabel];
     
     
+    self.timeLabel.text = theModel.dateline;
+    self.spotrdistanceLabel.text = theModel.distance;
+    
+    
+    
     
     //调试颜色
-    titleImv.backgroundColor = [UIColor grayColor];
-    self.timeLabel.backgroundColor = [UIColor redColor];
-    self.sportInfoLabel.backgroundColor = [UIColor blueColor];
-    self.spotrdistanceLabel.backgroundColor = [UIColor orangeColor];
+//    titleImv.backgroundColor = [UIColor grayColor];
+//    self.timeLabel.backgroundColor = [UIColor redColor];
+//    self.sportInfoLabel.backgroundColor = [UIColor blueColor];
+//    self.spotrdistanceLabel.backgroundColor = [UIColor orangeColor];
     
 }
 

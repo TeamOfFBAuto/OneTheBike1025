@@ -508,6 +508,7 @@
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
 		E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */; };
 		E37C9DDD19FF86DE00B7F4BB /* GHistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */; };
+		E3A1095E19FFD9B00039C0AF /* GhistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A1095D19FFD9B00039C0AF /* GhistoryViewController.m */; };
 		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
 		E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A419FD5455002E69CA /* MAHeaderView.m */; };
 		E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801E819FC0C2600AF9831 /* GMapStarViewController.m */; };
@@ -1175,6 +1176,8 @@
 		E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomHistoryTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHistoryDetailViewController.h; sourceTree = "<group>"; };
 		E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHistoryDetailViewController.m; sourceTree = "<group>"; };
+		E3A1095C19FFD9B00039C0AF /* GhistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhistoryViewController.h; sourceTree = "<group>"; };
+		E3A1095D19FFD9B00039C0AF /* GhistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhistoryViewController.m; sourceTree = "<group>"; };
 		E3AD66A119FD5455002E69CA /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCustomView.h; sourceTree = "<group>"; };
 		E3AD66A219FD5455002E69CA /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCustomView.m; sourceTree = "<group>"; };
 		E3AD66A319FD5455002E69CA /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAHeaderView.h; sourceTree = "<group>"; };
@@ -1920,6 +1923,8 @@
 			children = (
 				19DAE84219D30F4E00519D22 /* HistoryViewController.h */,
 				19DAE84319D30F4E00519D22 /* HistoryViewController.m */,
+				E3A1095C19FFD9B00039C0AF /* GhistoryViewController.h */,
+				E3A1095D19FFD9B00039C0AF /* GhistoryViewController.m */,
 				E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */,
 				E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */,
 			);
@@ -3518,6 +3523,7 @@
 				137D9F9419F25BB800B31100 /* FBBaseViewController.m in Sources */,
 				E3B8022B19FC0C2600AF9831 /* GeocodeAnnotation.m in Sources */,
 				E30B129219FBF3B5005D5DA9 /* SharePlatformView.m in Sources */,
+				E3A1095E19FFD9B00039C0AF /* GhistoryViewController.m in Sources */,
 				E3B8022A19FC0C2600AF9831 /* GStartViewController.m in Sources */,
 				19DAE84719D30F6000519D22 /* MainViewController.m in Sources */,
 				E3B8024219FC0C2600AF9831 /* Gmap.m in Sources */,

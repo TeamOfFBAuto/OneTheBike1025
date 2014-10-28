@@ -20,15 +20,34 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIView *upGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 44)];
-    upGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     
-    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(140, 5, 40, 40)];
+    
+    
+    
+    
+    if ([[[UIDevice currentDevice]systemVersion]doubleValue] >=7.0) {
+        self.navigationController.navigationBar.translucent = NO;
+    }
+    
+    
+    //自定义导航栏
+    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 35)];
+    shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
+    
+    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(140, 5, 35, 35)];
     titielLabel.textColor = [UIColor whiteColor];
     titielLabel.textAlignment = NSTextAlignmentCenter;
     titielLabel.text = @"历史";
-    [upGrayView addSubview:titielLabel];
-    [self.view addSubview:upGrayView];
+    [shangGrayView addSubview:titielLabel];
+    
+    //返回按钮
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setImage:[UIImage imageNamed:@"backButton.png"] forState:UIControlStateNormal];
+    [btn setFrame:CGRectMake(5, 0, 35, 35)];
+    [btn addTarget:self action:@selector(gGoBackVc) forControlEvents:UIControlEventTouchUpInside];
+    [shangGrayView addSubview:btn];
+    [self.view addSubview:shangGrayView];
+    
     
     
     [self initMap];
@@ -47,7 +66,7 @@
 ///初始化地图
 -(void)initMap{
     //地图相关初始化
-    self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0, 0, 320, iPhone5?568:480)];
+    self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5?568:480)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
     
@@ -66,6 +85,13 @@
     [self.mapView addOverlays:self.overlays];//把线条添加到地图上
     
 }
+
+
+
+-(void)gGoBackVc{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 @end

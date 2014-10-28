@@ -20,6 +20,8 @@
 
 #import "RootViewController.h"
 
+#import "GhistoryViewController.h"
+
 /*
  第三方登录
  Q Q 2765869240
@@ -89,7 +91,8 @@
     
     GStartViewController * mainVC = [[GStartViewController alloc] init];
     
-    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];
+//    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];
+    GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
     
     StartViewController * messageVC = [[StartViewController alloc] init];
     
