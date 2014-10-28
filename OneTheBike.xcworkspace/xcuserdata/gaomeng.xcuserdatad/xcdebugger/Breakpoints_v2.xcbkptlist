@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1764"
             endingLineNumber = "1764"
-            landmarkName = "-saveRoadlinesJsonString:startName:endName:cyclingKm:upMetre:downMetre:costCalories:avgSpeed:topSpeed:heartRate:beginTime:endTime:costTime:beginSite:endSite:beginCoordinates:endCoordinates:"
+            landmarkName = "-removeDestinationAnnotation"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -497,6 +497,7 @@
 		E30B129319FBF3B5005D5DA9 /* SharePlatformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */; };
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
+		E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */; };
 		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
 		E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A419FD5455002E69CA /* MAHeaderView.m */; };
 		E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801E819FC0C2600AF9831 /* GMapStarViewController.m */; };
@@ -1151,6 +1152,8 @@
 		E30B129119FBF3B5005D5DA9 /* ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareView.m; sourceTree = "<group>"; };
 		E31F584719F638450064959E /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		E37C9DD819FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GcustomHistoryTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomHistoryTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		E3AD66A119FD5455002E69CA /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCustomView.h; sourceTree = "<group>"; };
 		E3AD66A219FD5455002E69CA /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCustomView.m; sourceTree = "<group>"; };
 		E3AD66A319FD5455002E69CA /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAHeaderView.h; sourceTree = "<group>"; };
@@ -1900,6 +1903,8 @@
 		19DAE83219D30EEE00519D22 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E37C9DD819FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.h */,
+				E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3435,6 +3440,7 @@
 				1965031A19FB902800B19738 /* UMFeedbackViewController.m in Sources */,
 				13736EAC19FD563E009E50D2 /* ServerRoadClass.m in Sources */,
 				137D76E819F4BB5B00DD29D7 /* MJMember.m in Sources */,
+				E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */,
 				1965031619FB902800B19738 /* UMContactViewController.m in Sources */,
 				E3B8024A19FC0C2600AF9831 /* GMAPI.m in Sources */,
 				E3B8024619FC0C2600AF9831 /* ReGeocodeAnnotation.m in Sources */,

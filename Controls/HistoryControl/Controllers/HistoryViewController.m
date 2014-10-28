@@ -10,6 +10,8 @@
 #import "EGORefreshTableHeaderView.h"
 #import "LoadingIndicatorView.h"
 
+#import "GcustomHistoryTableViewCell.h"
+
 @interface HistoryViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate>
 {
     UITableView *_tableView;
@@ -164,18 +166,46 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    GcustomHistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[GcustomHistoryTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         
     }
+    
+    for (UIView *view in cell.contentView.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    [cell loadCustomCellWithMoedle:nil];
+    
     return cell;
 }
+
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSMutableArray *dayGuijiArray = _dataArray[indexPath.section];
+        [dayGuijiArray removeObjectAtIndex:indexPath.row];
+        [_tableView reloadData];
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     
     int num = self.dataArray.count;
+    num = 10;
     
     return num;
 }
