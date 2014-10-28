@@ -27,7 +27,7 @@
         self.rect_height = rect.size.height;
         self.classType = type;
         
-        LMaplineClass *cache = [[LMaplineClass alloc]initMAPolylineWithMapPointX:line.points->x pointY:line.points->y pointCount:line.pointCount type:TYPE_MAPolyline coordinatesString:coordinatesStr];
+        LMaplineClass *cache = [[LMaplineClass alloc]initMAPolylineWithMapPointX:line.points->x pointY:line.points->y pointCount:line.pointCount type:@"MAPolyline" coordinatesString:coordinatesStr];
         
         self.polyline = [cache keyValues];
     }
