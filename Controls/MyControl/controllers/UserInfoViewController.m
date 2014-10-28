@@ -94,7 +94,12 @@
     NSString *sex = [[self labelForTag:102].text isEqualToString:@"男"] ? @"1" : @"2";
     NSString *personSign = [self labelForTag:103].text;
     NSString *height = [self labelForTag:104].text;
+    
+    height = [height substringToIndex:height.length - 2];
+    
     NSString *weight = [self labelForTag:105].text;
+    
+    weight = [weight substringToIndex:weight.length - 2];
     
     NSString *url = [NSString stringWithFormat:BIKE_EDIT_USERINFO,custId,nickName,sex,@"11",personSign,height,weight,@"2014-01-01",@"11"];
     LTools *tool = [[LTools alloc]initWithUrl:url isPost:NO postData:nil];
@@ -102,7 +107,7 @@
         
         NSLog(@"result %@ erro %@",result,erro);
         
-        int success = [[result objectForKey:@"success"]integerValue];
+        int success = [[result objectForKey:@"status"]integerValue];
         
         if (success == 1) {
             
@@ -273,7 +278,7 @@
             {
                 //身高
                 if ([LTools isValidateFloat:tf.text] || [LTools isValidateInt:tf.text]) {
-                    [self labelForTag:104].text = tf.text;
+                    [self labelForTag:104].text = [NSString stringWithFormat:@"%@cm",tf.text];
                 }else
                 {
                    [self clickToEditTitle:@"请填写有效数字" placeHolder:@"例如:180" message:@"身高以cm为单位" tag:104];
@@ -284,7 +289,7 @@
             {
                 //体重
                 if ([LTools isValidateFloat:tf.text] || [LTools isValidateInt:tf.text]) {
-                    [self labelForTag:105].text = tf.text;
+                    [self labelForTag:105].text = [NSString stringWithFormat:@"%@kg",tf.text];
                 }else
                 {
                     [self clickToEditTitle:@"请填写有效数字" placeHolder:@"例如:70" message:@"体重以kg为单位" tag:105];
@@ -412,7 +417,7 @@
     }else if (indexPath.row == 5){
         //体重
         
-        NSString *weight = userInfo.height == nil ? @"" : [NSString stringWithFormat:@"%@cm",userInfo.weight];
+        NSString *weight = userInfo.height == nil ? @"" : [NSString stringWithFormat:@"%@kg",userInfo.weight];
         cell.aDetailLabel.text = weight;
     }
     
