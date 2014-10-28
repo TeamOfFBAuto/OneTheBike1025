@@ -14,7 +14,10 @@
 
 #import "GHistoryDetailViewController.h"
 
-@interface HistoryViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate>
+
+#import "ShareView.h"
+
+@interface HistoryViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate,ShareViewDelegate>
 {
     UITableView *_tableView;
     
@@ -52,6 +55,12 @@
     UIView *upGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 44)];
     upGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.backgroundColor = [UIColor orangeColor];
+    [btn setFrame:CGRectMake(270, 5, 40, 40)];
+    [btn addTarget:self action:@selector(fenxiangBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
     UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(140, 5, 40, 40)];
     titielLabel.textColor = [UIColor whiteColor];
     titielLabel.textAlignment = NSTextAlignmentCenter;
@@ -74,11 +83,11 @@
     self.localDataArray = [NSMutableArray arrayWithCapacity:1];
     
     //准备数据
-//    [self prepareLocalDataAndNetData];
+    [self prepareLocalDataAndNetData];
     
-    //网路不可用先取本地
-    [self prepareLocalData];
-    [self paixuWithDateWithArray:self.netDataArray];
+//    //网路不可用先取本地
+//    [self prepareLocalData];
+//    [self paixuWithDateWithArray:self.netDataArray];
     
     
     
@@ -102,6 +111,10 @@
     
     
     
+    UIView *topInfoView = [self customTableHeaderView];
+    _tableView.tableHeaderView = topInfoView;
+    
+    
     //上提加载更多
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
     _upMoreView = [[LoadingIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
@@ -115,11 +128,81 @@
 }
 
 
+
+//分享
+-(void)fenxiangBtnClicked{
+    
+    ShareView * share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
+    share_view.userInteractionEnabled = YES;
+    share_view.delegate = self;
+    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
+    
+}
+
+
+//tableheaderview
+-(UIView *)customTableHeaderView{
+    
+    UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 115)];
+    upHeaderView.backgroundColor = [UIColor orangeColor];
+    
+    self.totalYongshiLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, 100, 25)];
+    //        self.totalYongshiLabel.backgroundColor = [UIColor orangeColor];
+    self.totalYongshiLabel.font = [UIFont systemFontOfSize:25];
+    self.totalYongshiLabel.text = @"0";
+    self.totalYongshiLabel.textAlignment = NSTextAlignmentRight;
+    [upHeaderView addSubview:self.totalYongshiLabel];
+    
+    //用时单位 公里
+    UILabel *danweiLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.totalYongshiLabel.frame)+5, self.totalYongshiLabel.frame.origin.y, 80, 25)];
+    danweiLabel.font = [UIFont systemFontOfSize:25];
+    danweiLabel.textAlignment = NSTextAlignmentLeft;
+    //        danweiLabel.backgroundColor = [UIColor purpleColor];
+    danweiLabel.text = @"公里";
+    [upHeaderView addSubview:danweiLabel];
+    
+    //运动次数
+    self.totalCishuLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(danweiLabel.frame)+ 30, 100, 12)];
+    self.totalCishuLabel.font = [UIFont systemFontOfSize:12];
+    self.totalCishuLabel.textAlignment = NSTextAlignmentCenter;
+    self.totalCishuLabel.textColor = RGBCOLOR(105, 105, 105);
+    //        self.totalCishuLabel.backgroundColor = [UIColor orangeColor];
+    self.totalCishuLabel.text = @"0";
+    [upHeaderView addSubview:self.totalCishuLabel];
+    
+    UILabel *cclabel1 = [[UILabel alloc]initWithFrame:CGRectMake(self.totalCishuLabel.frame.origin.x, CGRectGetMaxY(self.totalCishuLabel.frame), 100, 12)];
+    cclabel1.font = [UIFont systemFontOfSize:12];
+    cclabel1.textColor = RGBCOLOR(105, 105, 105);
+    cclabel1.textAlignment = NSTextAlignmentCenter;
+    cclabel1.text = @"运动次数";
+    [upHeaderView addSubview:cclabel1];
+    
+    
+    //总时长
+    self.totalYongshiLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.totalCishuLabel.frame)+60, self.totalCishuLabel.frame.origin.y, 100, 12)];
+    self.totalYongshiLabel.font = [UIFont systemFontOfSize:12];
+    self.totalYongshiLabel.textAlignment = NSTextAlignmentCenter;
+    //        self.totalYongshiLabel.backgroundColor = [UIColor orangeColor];
+    self.totalYongshiLabel.textColor = RGBCOLOR(105, 105, 105);
+    self.totalYongshiLabel.text = @"00:00:00";
+    [upHeaderView addSubview:self.totalYongshiLabel];
+    
+    UILabel *cccLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.totalYongshiLabel.frame.origin.x, CGRectGetMaxY(self.totalYongshiLabel.frame), 100, 12)];
+    cccLabel.textColor = RGBCOLOR(105, 105, 105);
+    cccLabel.textAlignment = NSTextAlignmentCenter;
+    cccLabel.font = [UIFont systemFontOfSize:12];
+    cccLabel.text = @"时长";
+    [upHeaderView addSubview:cccLabel];
+    
+    return upHeaderView;
+}
+
+
 //准备本地数据和网络数据
 -(void)prepareLocalDataAndNetData{
     
     [self prepareNetDataWithPage:1];
-    
     
     
 }
@@ -252,7 +335,7 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     
-    int num = self.dataArray.count+1;
+    int num = self.dataArray.count;
     
     return num;
 }
@@ -262,26 +345,15 @@
     
     int num = 0;
     
-    
-    if (section == 0) {
-        for (NSString *str in _fangkaiArray) {
-            
-            if ([str isEqualToString: @"section0"]) {
-                if (self.dataArray) {
-                    
-                }
-                NSArray *arr = self.dataArray[section];
-                num = arr.count;
-            }
-        }
-    }else{
-        for (NSString *str in _fangkaiArray) {
-            if ([str intValue] == section) {
+    for (NSString *str in _fangkaiArray) {
+        if ([str intValue] == section) {
+            if (self.dataArray.count>0) {
                 NSArray *arr = self.dataArray[section];
                 num = arr.count;
             }
         }
     }
+    
     
     return num;
 }
@@ -292,6 +364,8 @@
 
 
 
+
+
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectZero];
     upHeaderView.tag = section +10;
@@ -299,84 +373,33 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gShouFangZiRu:)];
     [upHeaderView addGestureRecognizer:tap];
     
-    if (section == 0) {
-        upHeaderView.frame = CGRectMake(0, 0, 320, 140);
-        upHeaderView.backgroundColor = [UIColor whiteColor];
-        
-        self.totalYongshiLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, 100, 25)];
-//        self.totalYongshiLabel.backgroundColor = [UIColor orangeColor];
-        self.totalYongshiLabel.font = [UIFont systemFontOfSize:25];
-        self.totalYongshiLabel.text = @"0";
-        self.totalYongshiLabel.textAlignment = NSTextAlignmentRight;
-        [upHeaderView addSubview:self.totalYongshiLabel];
-        
-        //用时单位 公里
-        UILabel *danweiLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.totalYongshiLabel.frame)+5, self.totalYongshiLabel.frame.origin.y, 80, 25)];
-        danweiLabel.font = [UIFont systemFontOfSize:25];
-        danweiLabel.textAlignment = NSTextAlignmentLeft;
-//        danweiLabel.backgroundColor = [UIColor purpleColor];
-        danweiLabel.text = @"公里";
-        [upHeaderView addSubview:danweiLabel];
-        
-        //运动次数
-        self.totalCishuLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(danweiLabel.frame)+ 30, 100, 12)];
-        self.totalCishuLabel.font = [UIFont systemFontOfSize:12];
-        self.totalCishuLabel.textAlignment = NSTextAlignmentCenter;
-        self.totalCishuLabel.textColor = RGBCOLOR(105, 105, 105);
-//        self.totalCishuLabel.backgroundColor = [UIColor orangeColor];
-        self.totalCishuLabel.text = @"0";
-        [upHeaderView addSubview:self.totalCishuLabel];
-        
-        UILabel *cclabel1 = [[UILabel alloc]initWithFrame:CGRectMake(self.totalCishuLabel.frame.origin.x, CGRectGetMaxY(self.totalCishuLabel.frame), 100, 12)];
-        cclabel1.font = [UIFont systemFontOfSize:12];
-        cclabel1.textColor = RGBCOLOR(105, 105, 105);
-        cclabel1.textAlignment = NSTextAlignmentCenter;
-        cclabel1.text = @"运动次数";
-        [upHeaderView addSubview:cclabel1];
-        
-        
-        //总时长
-        self.totalYongshiLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.totalCishuLabel.frame)+60, self.totalCishuLabel.frame.origin.y, 100, 12)];
-        self.totalYongshiLabel.font = [UIFont systemFontOfSize:12];
-        self.totalYongshiLabel.textAlignment = NSTextAlignmentCenter;
-//        self.totalYongshiLabel.backgroundColor = [UIColor orangeColor];
-        self.totalYongshiLabel.textColor = RGBCOLOR(105, 105, 105);
-        self.totalYongshiLabel.text = @"00:00:00";
-        [upHeaderView addSubview:self.totalYongshiLabel];
-        
-        UILabel *cccLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.totalYongshiLabel.frame.origin.x, CGRectGetMaxY(self.totalYongshiLabel.frame), 100, 12)];
-        cccLabel.textColor = RGBCOLOR(105, 105, 105);
-        cccLabel.textAlignment = NSTextAlignmentCenter;
-        cccLabel.font = [UIFont systemFontOfSize:12];
-        cccLabel.text = @"时长";
-        [upHeaderView addSubview:cccLabel];
-        
-        
-        UIView *grayView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(cccLabel.frame)+10, 320, 30)];
-        grayView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showSection0WithSection:)];
-        [grayView addGestureRecognizer:tap];
-        grayView.backgroundColor = RGBCOLOR(190, 190, 190);
-        [upHeaderView addSubview:grayView];
-        
-        
-        
-        
-        
-    }else{
-        upHeaderView.frame = CGRectMake(0, 0, 320, 30);
-        upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
-    }
+    upHeaderView.frame = CGRectMake(0, 0, 320, 30);
+    upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
+    
     
     return upHeaderView;
 }
 
 
 
--(void)showSection0WithSection:(UITapGestureRecognizer*)sender{
-    
-    NSString *sectionStr = @"section0";
-    
+
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    CGFloat height = 0;
+    height = 30;
+    return height;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 5;
+}
+
+
+
+-(void)gShouFangZiRu:(UIGestureRecognizer*)ges{
+        
+    NSString *sectionStr = [NSString stringWithFormat:@"%d",(ges.view.tag-10)];
     
     int arrCount = _fangkaiArray.count;
     BOOL ishave = NO;
@@ -394,58 +417,19 @@
     }
     
     [_tableView reloadData];
+        
     
-    
-}
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat height = 0;
-    if (section == 0) {
-        height = 140;
-    }else{
-        height = 30;
-    }
-    return height;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 5;
-}
-
-
-
--(void)gShouFangZiRu:(UIGestureRecognizer*)ges{
-    
-    
-    if (ges.view.tag !=10) {//不是最上面的view
-        
-        NSString *sectionStr = [NSString stringWithFormat:@"%d",(ges.view.tag-10)];
-        
-        int arrCount = _fangkaiArray.count;
-        BOOL ishave = NO;
-        
-        for (int i = 0; i<arrCount; i++) {
-            NSString *str = _fangkaiArray[i];
-            if ([str isEqualToString:sectionStr]) {
-                ishave = YES;
-                [_fangkaiArray removeObject:str];
-            }
-        }
-        
-        if (!ishave || arrCount==0) {
-            [_fangkaiArray addObject:sectionStr];
-        }
-        
-        [_tableView reloadData];
-        
-    }
 }
 
 
 
 #pragma mark - 请求网络数据
 -(void)prepareNetDataWithPage:(int)page{
+    
+    
+    
+    
+    
     
     
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];//网络获取到得数组

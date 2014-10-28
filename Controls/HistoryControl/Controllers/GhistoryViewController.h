@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 szk. All rights reserved.
 //
 
+
+//本地
 #import <UIKit/UIKit.h>
 
 @interface GhistoryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>

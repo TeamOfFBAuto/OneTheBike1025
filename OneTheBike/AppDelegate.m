@@ -91,8 +91,8 @@
     
     GStartViewController * mainVC = [[GStartViewController alloc] init];
     
-//    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];
-    GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
+    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];//带网络数据的
+//    GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
     
     StartViewController * messageVC = [[StartViewController alloc] init];
     
