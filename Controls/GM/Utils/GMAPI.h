@@ -79,24 +79,39 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
              endName:(NSString *)endName
                 Open:(BOOL)isOpen;// yes 1 地图显示  NO 0 不显示
 
-+ (void)updateRoadOpenForId:(int)roadId;//打开某个路书,其他路书关闭
 
-+ (void)updateRoadCloseForId:(int)roadId;//关闭某个路书
+
+
 
 + (void)updateRoadId:(int)roadId isUpload:(BOOL)finish;//是否上传成功
 
 + (void)updateRoadId:(int)roadId serverRoadId:(NSString *)serverRoadID isUpload:(BOOL)finish;//更改上传状态以及serverRoadID
 
-+ (NSArray *)getRoadLinesForType:(HistoryType)type
-                          isOpen:(BOOL)open;//获取所有是否打开的路书或者轨迹
+
+
++ (void)updateRoadOpenForId:(int)roadId;//打开某个路书,其他路书关闭
+
+
+
+
 
 + (BOOL)deleteRoadId:(int)roadId type:(HistoryType)type;//删除路书或者轨迹
 
 + (BOOL)deleteAllData;//切换用户清空数据(路书和轨迹)
 
 
+
+
+
 ///根据type获取轨迹
 + (NSArray *)GgetGuiji;
+
+
+//路书在地图显示相关method
++ (void)updateRoadCloseForId:(int)roadId;//关闭某个路书
+
++ (NSArray *)getRoadLinesForType:(HistoryType)type
+                          isOpen:(BOOL)open;//获取所有是否打开的路书或者轨迹
 
 
 
