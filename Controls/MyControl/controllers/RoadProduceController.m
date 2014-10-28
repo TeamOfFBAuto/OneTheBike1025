@@ -311,13 +311,14 @@ enum{
     
     //===============选点按钮
    
-    UIView *tools = [[UIView alloc]initWithFrame:CGRectMake(0, screenSize.height - 50 - 20 - 64, screenSize.width, 50)];
+    UIView *tools = [[UIView alloc]initWithFrame:CGRectMake(0, screenSize.height - 50 - 20 - 64 - 10, screenSize.width, 50)];
     tools.backgroundColor = [UIColor clearColor];
     [self.view addSubview:tools];
 //    NSArray *titls_arr = @[@"取消",@"起",@"途",@"终",@"生成"];
     
+//    NSArray *images_arr = @[@"road_cancel",@"road_start",@"road_middle",@"road_end",@"road_produce"];
+
     NSArray *images_arr = @[@"road_cancel",@"road_start",@"road_middle",@"road_end",@"road_produce"];
-    
     for (int i = 0; i < 5; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake((screenSize.width - 50 * 5)/2.f + 50 * i, 0, 50, 50);

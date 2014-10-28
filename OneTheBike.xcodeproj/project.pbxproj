@@ -18,16 +18,25 @@
 		134BA6AA19D9581200282D7D /* mine_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 134BA6A619D9581200282D7D /* mine_more@2x.png */; };
 		134BA6AB19D9581200282D7D /* mine_road.png in Resources */ = {isa = PBXBuildFile; fileRef = 134BA6A719D9581200282D7D /* mine_road.png */; };
 		134BA6AC19D9581200282D7D /* mine_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 134BA6A819D9581200282D7D /* mine_share@2x.png */; };
+		13601D3419FFC61500FCC770 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3119FFC61500FCC770 /* default.png */; };
+		13601D3519FFC61500FCC770 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3219FFC61500FCC770 /* default@2x.png */; };
+		13601D3619FFC61500FCC770 /* default568.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3319FFC61500FCC770 /* default568.png */; };
+		13601D3A19FFC95D00FCC770 /* login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3719FFC95D00FCC770 /* login@2x.png */; };
+		13601D3B19FFC95D00FCC770 /* login480x320.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3819FFC95D00FCC770 /* login480x320.png */; };
+		13601D3C19FFC95D00FCC770 /* login568.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3919FFC95D00FCC770 /* login568.png */; };
+		13601D3F19FFCC9D00FCC770 /* login_qq@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3D19FFCC9D00FCC770 /* login_qq@2x.png */; };
+		13601D4019FFCC9D00FCC770 /* login_sina@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D3E19FFCC9D00FCC770 /* login_sina@2x.png */; };
+		13601D4719FFD04000FCC770 /* road_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4219FFD04000FCC770 /* road_cancel@2x.png */; };
+		13601D4819FFD04000FCC770 /* road_end@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4319FFD04000FCC770 /* road_end@2x.png */; };
+		13601D4919FFD04000FCC770 /* road_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4419FFD04000FCC770 /* road_middle@2x.png */; };
+		13601D4A19FFD04000FCC770 /* road_produce@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4519FFD04000FCC770 /* road_produce@2x.png */; };
+		13601D4B19FFD04000FCC770 /* road_start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4619FFD04000FCC770 /* road_start@2x.png */; };
+		13601D4D19FFD2CA00FCC770 /* share_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4C19FFD2CA00FCC770 /* share_Image.png */; };
 		13736EA519FD0FD8009E50D2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA319FD0FD8009E50D2 /* LoginViewController.m */; };
 		13736EA619FD0FD8009E50D2 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13736EA419FD0FD8009E50D2 /* LoginViewController.xib */; };
 		13736EA919FD13D6009E50D2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA819FD13D6009E50D2 /* RootViewController.m */; };
 		13736EAC19FD563E009E50D2 /* ServerRoadClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EAB19FD563E009E50D2 /* ServerRoadClass.m */; };
-		137B0C4719F556C2001F3507 /* road_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4119F556C2001F3507 /* road_cancel@2x.png */; };
-		137B0C4819F556C2001F3507 /* road_end@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4219F556C2001F3507 /* road_end@2x.png */; };
-		137B0C4919F556C2001F3507 /* road_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4319F556C2001F3507 /* road_middle@2x.png */; };
-		137B0C4A19F556C2001F3507 /* road_produce@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4419F556C2001F3507 /* road_produce@2x.png */; };
 		137B0C4B19F556C2001F3507 /* road_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4519F556C2001F3507 /* road_select@2x.png */; };
-		137B0C4C19F556C2001F3507 /* road_start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4619F556C2001F3507 /* road_start@2x.png */; };
 		137B0C5019F567E5001F3507 /* UMSocialLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137B0C4E19F567E5001F3507 /* UMSocialLoginViewController.m */; };
 		137B0C5119F567E5001F3507 /* UMSocialLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 137B0C4F19F567E5001F3507 /* UMSocialLoginViewController.xib */; };
 		137D76CB19F4B74E00DD29D7 /* SSObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 137D76CA19F4B74E00DD29D7 /* SSObjectBase.m */; };
@@ -586,6 +595,20 @@
 		134BA6A619D9581200282D7D /* mine_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_more@2x.png"; sourceTree = "<group>"; };
 		134BA6A719D9581200282D7D /* mine_road.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mine_road.png; sourceTree = "<group>"; };
 		134BA6A819D9581200282D7D /* mine_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mine_share@2x.png"; sourceTree = "<group>"; };
+		13601D3119FFC61500FCC770 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		13601D3219FFC61500FCC770 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
+		13601D3319FFC61500FCC770 /* default568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default568.png; sourceTree = "<group>"; };
+		13601D3719FFC95D00FCC770 /* login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login@2x.png"; sourceTree = "<group>"; };
+		13601D3819FFC95D00FCC770 /* login480x320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login480x320.png; sourceTree = "<group>"; };
+		13601D3919FFC95D00FCC770 /* login568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login568.png; sourceTree = "<group>"; };
+		13601D3D19FFCC9D00FCC770 /* login_qq@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_qq@2x.png"; sourceTree = "<group>"; };
+		13601D3E19FFCC9D00FCC770 /* login_sina@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_sina@2x.png"; sourceTree = "<group>"; };
+		13601D4219FFD04000FCC770 /* road_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_cancel@2x.png"; sourceTree = "<group>"; };
+		13601D4319FFD04000FCC770 /* road_end@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_end@2x.png"; sourceTree = "<group>"; };
+		13601D4419FFD04000FCC770 /* road_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_middle@2x.png"; sourceTree = "<group>"; };
+		13601D4519FFD04000FCC770 /* road_produce@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_produce@2x.png"; sourceTree = "<group>"; };
+		13601D4619FFD04000FCC770 /* road_start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_start@2x.png"; sourceTree = "<group>"; };
+		13601D4C19FFD2CA00FCC770 /* share_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_Image.png; sourceTree = "<group>"; };
 		13736EA219FD0FD8009E50D2 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		13736EA319FD0FD8009E50D2 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		13736EA419FD0FD8009E50D2 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -593,12 +616,7 @@
 		13736EA819FD13D6009E50D2 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		13736EAA19FD563E009E50D2 /* ServerRoadClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerRoadClass.h; sourceTree = "<group>"; };
 		13736EAB19FD563E009E50D2 /* ServerRoadClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerRoadClass.m; sourceTree = "<group>"; };
-		137B0C4119F556C2001F3507 /* road_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_cancel@2x.png"; sourceTree = "<group>"; };
-		137B0C4219F556C2001F3507 /* road_end@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_end@2x.png"; sourceTree = "<group>"; };
-		137B0C4319F556C2001F3507 /* road_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_middle@2x.png"; sourceTree = "<group>"; };
-		137B0C4419F556C2001F3507 /* road_produce@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_produce@2x.png"; sourceTree = "<group>"; };
 		137B0C4519F556C2001F3507 /* road_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_select@2x.png"; sourceTree = "<group>"; };
-		137B0C4619F556C2001F3507 /* road_start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_start@2x.png"; sourceTree = "<group>"; };
 		137B0C4D19F567E5001F3507 /* UMSocialLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialLoginViewController.h; sourceTree = "<group>"; };
 		137B0C4E19F567E5001F3507 /* UMSocialLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMSocialLoginViewController.m; sourceTree = "<group>"; };
 		137B0C4F19F567E5001F3507 /* UMSocialLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSocialLoginViewController.xib; sourceTree = "<group>"; };
@@ -1331,17 +1349,24 @@
 			path = UIColor_ConvertColor;
 			sourceTree = "<group>";
 		};
+		13601D4119FFD03F00FCC770 /* roadManager_new */ = {
+			isa = PBXGroup;
+			children = (
+				13601D4219FFD04000FCC770 /* road_cancel@2x.png */,
+				13601D4319FFD04000FCC770 /* road_end@2x.png */,
+				13601D4419FFD04000FCC770 /* road_middle@2x.png */,
+				13601D4519FFD04000FCC770 /* road_produce@2x.png */,
+				13601D4619FFD04000FCC770 /* road_start@2x.png */,
+			);
+			path = roadManager_new;
+			sourceTree = "<group>";
+		};
 		137B0C4019F556B9001F3507 /* 路书制作 */ = {
 			isa = PBXGroup;
 			children = (
 				13E8EE1D19F660C8006FA5CE /* map_search@2x.png */,
 				13E8EE1919F6538B006FA5CE /* road_save@2x.png */,
-				137B0C4119F556C2001F3507 /* road_cancel@2x.png */,
-				137B0C4219F556C2001F3507 /* road_end@2x.png */,
-				137B0C4319F556C2001F3507 /* road_middle@2x.png */,
-				137B0C4419F556C2001F3507 /* road_produce@2x.png */,
 				137B0C4519F556C2001F3507 /* road_select@2x.png */,
-				137B0C4619F556C2001F3507 /* road_start@2x.png */,
 			);
 			path = "路书制作";
 			sourceTree = "<group>";
@@ -1792,6 +1817,9 @@
 		19DAE80119D30C2D00519D22 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				13601D3119FFC61500FCC770 /* default.png */,
+				13601D3219FFC61500FCC770 /* default@2x.png */,
+				13601D3319FFC61500FCC770 /* default568.png */,
 				13BE658719FB8390006242A8 /* icon57.png */,
 				13BE658819FB8390006242A8 /* icon114.png */,
 				13BE658919FB8390006242A8 /* icon120.png */,
@@ -1983,6 +2011,13 @@
 		19DAE84E19D311D300519D22 /* PublicImages */ = {
 			isa = PBXGroup;
 			children = (
+				13601D4C19FFD2CA00FCC770 /* share_Image.png */,
+				13601D4119FFD03F00FCC770 /* roadManager_new */,
+				13601D3D19FFCC9D00FCC770 /* login_qq@2x.png */,
+				13601D3E19FFCC9D00FCC770 /* login_sina@2x.png */,
+				13601D3719FFC95D00FCC770 /* login@2x.png */,
+				13601D3819FFC95D00FCC770 /* login480x320.png */,
+				13601D3919FFC95D00FCC770 /* login568.png */,
 				565DF21919FBE31D00DE99EA /* BikeShareImages */,
 				56442DFA19F5528700BAE678 /* BikeFindImages */,
 				134BA68C19D940AA00282D7D /* MineImages */,
@@ -2912,14 +2947,12 @@
 			files = (
 				13A2AA8719D7BAB3008D1B9F /* UMSCommentInputControlleriPad.xib in Resources */,
 				19DAE98919D311D300519D22 /* add_zan-1@2x.png in Resources */,
-				137B0C4819F556C2001F3507 /* road_end@2x.png in Resources */,
 				19DAE9E019D311D300519D22 /* Expression_6@2x.png in Resources */,
 				19DAE9A919D311D300519D22 /* fengmian-640_512@2x.png in Resources */,
 				E3B8023A19FC0C2600AF9831 /* gspeed.png in Resources */,
 				1965030319FB902800B19738 /* icon_rightArrow_selected@2x.png in Resources */,
 				1965030F19FB902800B19738 /* nav_bg.png in Resources */,
 				19DAEA0C19D311D300519D22 /* xiayibu-bukedian-up-568_88@2x.png in Resources */,
-				137B0C4A19F556C2001F3507 /* road_produce@2x.png in Resources */,
 				19DAEA4E19D311D300519D22 /* take_photo_close_image@2x.png in Resources */,
 				19DAE99E19D311D300519D22 /* bg-540_420@2x.png in Resources */,
 				19DAE9AC19D311D300519D22 /* jianpansousuo-500_60@2x.png in Resources */,
@@ -2935,6 +2968,7 @@
 				19DAE9DE19D311D300519D22 /* Expression_4@2x.png in Resources */,
 				1965030219FB902800B19738 /* icon_rightArrow@2x.png in Resources */,
 				19DAEA4D19D311D300519D22 /* sendPosts_photo_album@2x.png in Resources */,
+				13601D4D19FFD2CA00FCC770 /* share_Image.png in Resources */,
 				19DAE98719D311D300519D22 /* add_tuichu@2x.png in Resources */,
 				19DAE9D119D311D300519D22 /* Expression_15@2x.png in Resources */,
 				E3B8023519FC0C2600AF9831 /* gongli.png in Resources */,
@@ -2966,9 +3000,11 @@
 				19DAEA3E19D311D300519D22 /* traval@2x.png in Resources */,
 				19DAEA0719D311D300519D22 /* 06注册@.png in Resources */,
 				19DAE9D619D311D300519D22 /* Expression_1@2x.png in Resources */,
+				13601D3C19FFC95D00FCC770 /* login568.png in Resources */,
 				E3B8023D19FC0C2600AF9831 /* gtakephoto.png in Resources */,
 				19DAEA0819D311D300519D22 /* jieshoukuang-38_38@2x.png in Resources */,
 				13A2AA8D19D7BAB3008D1B9F /* UMSocialSDKResourcesNew.bundle in Resources */,
+				13601D3419FFC61500FCC770 /* default.png in Resources */,
 				19DAE9C619D311D300519D22 /* xiaoxiyixing-bg-270_60@2x.png in Resources */,
 				19DAE9AA19D311D300519D22 /* fengmian_loading_640_512@2x.png in Resources */,
 				19DAE9B119D311D300519D22 /* pinglun-bg2-down-216_76@2x.png in Resources */,
@@ -2985,6 +3021,7 @@
 				19DAEA8219D311D300519D22 /* unselected_found_image@2x.png in Resources */,
 				19DAE9C919D311D300519D22 /* loading640_1136@2x.png in Resources */,
 				19DAEA4119D311D300519D22 /* jiaruluntan@2x.png in Resources */,
+				13601D4B19FFD04000FCC770 /* road_start@2x.png in Resources */,
 				19DAE98F19D311D300519D22 /* fbMetongxunlu@2x.png in Resources */,
 				19DAE9B719D311D300519D22 /* pinglun-xin-down-24_24@2x.png in Resources */,
 				1965030719FB902800B19738 /* item_ok_selected@2x.png in Resources */,
@@ -3030,7 +3067,6 @@
 				13A2AA8619D7BAB3008D1B9F /* UMSCommentInputController.xib in Resources */,
 				19DAE9F119D311D300519D22 /* geren-jiantou16_28@2x.png in Resources */,
 				19DAEA5519D311D300519D22 /* tablecell_acessory_image@2x.png in Resources */,
-				137B0C4C19F556C2001F3507 /* road_start@2x.png in Resources */,
 				19DAEA6619D311D300519D22 /* mirco_icon_18@2x.png in Resources */,
 				1965030B19FB902800B19738 /* messages_tableview_background@2x.png in Resources */,
 				19DAEA5919D311D300519D22 /* line@2x.png in Resources */,
@@ -3078,6 +3114,8 @@
 				196502FF19FB902800B19738 /* background@2x.png in Resources */,
 				19DAE9E519D311D300519D22 /* xiaoxi_80_80@2x.png in Resources */,
 				137B0C4B19F556C2001F3507 /* road_select@2x.png in Resources */,
+				13601D3A19FFC95D00FCC770 /* login@2x.png in Resources */,
+				13601D4A19FFD04000FCC770 /* road_produce@2x.png in Resources */,
 				137D9F9E19F25E0600B31100 /* UserInfoViewController.xib in Resources */,
 				19DAE98819D311D300519D22 /* add_yijiaru@2x.png in Resources */,
 				19DAEA8319D311D300519D22 /* unselected_message_icon@2x.png in Resources */,
@@ -3118,12 +3156,15 @@
 				19DAEA2519D311D300519D22 /* touming-bg-150_150@2x.png in Resources */,
 				134BA6AB19D9581200282D7D /* mine_road.png in Resources */,
 				1965031D19FB95CF00B19738 /* navigation_backGroud@2x.png in Resources */,
+				13601D4919FFD04000FCC770 /* road_middle@2x.png in Resources */,
+				13601D3519FFC61500FCC770 /* default@2x.png in Resources */,
 				19DAEA7819D311D300519D22 /* classification_big6@2x.png in Resources */,
 				13A1470919F77E0C00F8D442 /* SwitchCell.xib in Resources */,
 				19DAEA0319D311D300519D22 /* dibuxian-444_8@2x.png in Resources */,
 				1965030819FB902800B19738 /* messages_left_bubble@2x.png in Resources */,
 				19DAE9A719D311D300519D22 /* FBCircleNavBackGroundImage@2x.png in Resources */,
 				19DAEA5B19D311D300519D22 /* di@2x.png in Resources */,
+				13601D4719FFD04000FCC770 /* road_cancel@2x.png in Resources */,
 				1965030419FB902800B19738 /* item_cancel@2x.png in Resources */,
 				19DAE99119D311D300519D22 /* bigImagesPlaceHolder@2x.png in Resources */,
 				19DAE9D319D311D300519D22 /* Expression_17@2x.png in Resources */,
@@ -3163,6 +3204,7 @@
 				137D9FBE19F25EC700B31100 /* more_help@2x.png in Resources */,
 				137D9FB819F25EC700B31100 /* 朋友圈点击.png in Resources */,
 				19DAEA2A19D311D300519D22 /* +@2x.png in Resources */,
+				13601D4019FFCC9D00FCC770 /* login_sina@2x.png in Resources */,
 				19DAE9CA19D311D300519D22 /* loading640_960@2x.png in Resources */,
 				13D21C9919F4095C0015AAF2 /* 地图路书导入.png in Resources */,
 				19DAE9FF19D311D300519D22 /* shortSearch486_60@2x.png in Resources */,
@@ -3258,9 +3300,9 @@
 				19DAEA2319D311D300519D22 /* bg-10_88@2x.png in Resources */,
 				137D9FCF19F261B500B31100 /* UserInfoHeaderCell.xib in Resources */,
 				19DAE9D819D311D300519D22 /* Expression_21@2x.png in Resources */,
-				137B0C4919F556C2001F3507 /* road_middle@2x.png in Resources */,
 				134BA69B19D9462900282D7D /* MineCellOne.xib in Resources */,
 				19DAEA4619D311D300519D22 /* dele@2x.png in Resources */,
+				13601D3619FFC61500FCC770 /* default568.png in Resources */,
 				E3B8024B19FC0C2600AF9831 /* GMLOCATION.sqlite in Resources */,
 				19DAE9C019D311D300519D22 /* tixiang-touxiang-44_44@2x.png in Resources */,
 				1965030519FB902800B19738 /* item_cancel_selected@2x.png in Resources */,
@@ -3288,7 +3330,6 @@
 				19DAE9A419D311D300519D22 /* fb_zan_28_28@2x.png in Resources */,
 				19DAEA7119D311D300519D22 /* mirco_icon_8@2x.png in Resources */,
 				19DAE9C419D311D300519D22 /* write_blog_smil@2x.png in Resources */,
-				137B0C4719F556C2001F3507 /* road_cancel@2x.png in Resources */,
 				19DAE9DA19D311D300519D22 /* Expression_23@2x.png in Resources */,
 				19DAE9BF19D311D300519D22 /* shuliang-bg-30_30@2x.png in Resources */,
 				19DAEA0D19D311D300519D22 /* xiayibu-kedian-up-568_88@2x.png in Resources */,
@@ -3303,6 +3344,7 @@
 				565DF21519FBE27F00DE99EA /* bluedown1@2x.png in Resources */,
 				19DAE9CC19D311D300519D22 /* Expression_10@2x.png in Resources */,
 				E3B8024119FC0C2600AF9831 /* userPosition@2x.png in Resources */,
+				13601D4819FFD04000FCC770 /* road_end@2x.png in Resources */,
 				19DAE9DF19D311D300519D22 /* Expression_5@2x.png in Resources */,
 				19DAE9B419D311D300519D22 /* pinglun-icon-66_24@2x.png in Resources */,
 				19DAE99D19D311D300519D22 /* baocun40_48@2x.png in Resources */,
@@ -3347,6 +3389,8 @@
 				19DAEA3419D311D300519D22 /* photo@2x.png in Resources */,
 				19DAEA7319D311D300519D22 /* classification_big1@2x.png in Resources */,
 				19DAE98419D311D300519D22 /* add_quxiao@2x.png in Resources */,
+				13601D3F19FFCC9D00FCC770 /* login_qq@2x.png in Resources */,
+				13601D3B19FFC95D00FCC770 /* login480x320.png in Resources */,
 				19DAEA3A19D311D300519D22 /* huwai@2x.png in Resources */,
 				13D21CA319F4095C0015AAF2 /* 海拔上升.png in Resources */,
 			);
