@@ -95,7 +95,7 @@
     
     NSString *custid = [LTools cacheForKey:USER_CUSTID];
     
-    [self getRoadlistWithUserId:custid page:1];
+//    [self getRoadlistWithUserId:custid page:1];
     
 }
 
