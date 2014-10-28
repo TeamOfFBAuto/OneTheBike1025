@@ -45,7 +45,7 @@
 #define QQAPPKEY @"zc8ykXXrvWjKpyuh"
 
 //fbauto
-#define WXAPPID @"wx0ad0d507a8933b9d"
+#define WXAPPID @"wx10280ad0d507a8933b9d"
 #define WXAPPSECRET @"SADSDAS"
 
 #define RedirectUrl @"http://sns.whalecloud.com/sina2/callback"
@@ -384,6 +384,7 @@
  */
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    
     return  [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
 }
 

@@ -12,14 +12,21 @@
 #import "FindRankingViewController.h"
 #import "CycleScrollModel.h"
 #import "ShareView.h"
+#import "AFHTTPRequestOperation.h"
+#import "ActivityDetailViewController.h"
+#import "UMSocial.h"
 
-@interface FindViewController ()<ShareViewDelegate>
+
+
+@interface FindViewController ()<ShareViewDelegate,UIAlertViewDelegate,UMSocialUIDelegate>
 {
     UIScrollView * myScrollView;
+    AFHTTPRequestOperation * request;
+    
 }
 
 @property(nonatomic,strong)CycleScrollView * mainScorllView;
-
+@property(nonatomic,strong)NSMutableArray * data_array;
 
 @end
 
@@ -27,7 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _data_array = [NSMutableArray array];
+//    
     //适配ios7navigationbar高度
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -44,19 +52,6 @@
     
     self.view.backgroundColor=RGBCOLOR(227,227,227);
     
-    
-    NSMutableArray * colorArray = [NSMutableArray arrayWithObjects:@"1111.jpg",@"2222.jpg",@"1111.jpg",@"2222.jpg",@"1111.jpg", nil];
-    NSMutableArray * titleArray = [NSMutableArray arrayWithObjects:@"低碳出行爱相随",@"一片蓝天在轮下", @"低碳出行爱相随",@"一片蓝天在轮下",@"低碳出行爱相随",nil];
-    NSMutableArray * array = [NSMutableArray array];
-    for (int i = 0;i < colorArray.count;i++) {
-        CycleScrollModel * model = [[CycleScrollModel alloc] init];
-        model.c_title = [titleArray objectAtIndex:i];
-        model.c_image_url = [colorArray objectAtIndex:i];
-        [array addObject:model];
-    }
-    
-    
-    
     myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT-64)];
     myScrollView.showsHorizontalScrollIndicator = NO;
     myScrollView.showsVerticalScrollIndicator = NO;
@@ -64,25 +59,74 @@
     [self.view addSubview:myScrollView];
     
     
-    
-    self.mainScorllView = [[CycleScrollView alloc] initWithFrame:CGRectMake(0,0,320,175) animationDuration:5.0f WithDataArray:array];
-    self.mainScorllView.backgroundColor = [[UIColor purpleColor] colorWithAlphaComponent:0.1];
-    
-    self.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%d个",pageIndex);
-    };
-    [myScrollView addSubview:self.mainScorllView];
-    
-    
     NSArray * image_array = [NSArray arrayWithObjects:@"find_huodong_image.png",@"find_paihang_image",@"find_bike_qiandao_image",nil];
     NSArray * tArray = [NSArray arrayWithObjects:@"活动",@"排行",@"签到",nil];
  
-    
     for (int i = 0;i < 3;i++)
     {
         CGRect frame = CGRectMake(0,180+68*i,320,60);
         [self setupViewWithFrame:frame With:[image_array objectAtIndex:i] Title:[tArray objectAtIndex:i] WithTag:100+i];
     }
+    
+    
+    [self getData];
+}
+
+#pragma mark - 获取幻灯数据
+-(void)getData
+{
+    request = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://182.254.242.58:8080/QiBa/QiBa/activityAction_imagesPlay.action"]]];
+    __weak typeof(self) bself = self;
+    
+    [request setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        @try {
+            NSDictionary * allDic = [operation.responseString objectFromJSONString];
+            NSArray * array = [allDic objectForKey:@"Rows"];
+            
+            if ([array isKindOfClass:[NSArray class]] && array.count > 0)
+            {
+                NSArray * temp = [array objectAtIndex:0];
+                for (NSDictionary * dic in temp)
+                {
+                    CycleScrollModel * model = [[CycleScrollModel alloc] init];
+                    model.c_id = [dic objectForKey:@"activityId"];
+                    model.c_image_url = [dic objectForKey:@"thumbnailUrl"];
+                    model.c_title = [dic objectForKey:@"subtitle"];
+                    [bself.data_array addObject:model];
+                }
+                [bself setup];
+            }
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+    
+    
+    [request start];
+}
+
+#pragma mark - 加载幻灯数据
+-(void)setup
+{
+    self.mainScorllView = [[CycleScrollView alloc] initWithFrame:CGRectMake(0,0,320,175) animationDuration:5.0f WithDataArray:_data_array];
+    self.mainScorllView.backgroundColor = [[UIColor purpleColor] colorWithAlphaComponent:0.1];
+    __weak typeof(self)bself = self;
+    self.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
+        NSLog(@"点击了第%d个",pageIndex);
+        
+        CycleScrollModel * model = [bself.data_array objectAtIndex:pageIndex];
+        ActivityDetailViewController * detail = [[ActivityDetailViewController alloc] init];
+        detail.aId  =model.c_id;
+        [bself.navigationController pushViewController:detail animated:YES];
+    };
+    [myScrollView addSubview:self.mainScorllView];
 }
 
 #pragma mark - 活动、排行视图布局
@@ -141,12 +185,53 @@
 #pragma mark - 签到
 -(void)CheckIn
 {
+    NSString * fullUrl = [NSString stringWithFormat:@"http://182.254.242.58:8080/QiBa/QiBa/custAction_mark.action?custId=%@",[LTools cacheForKey:USER_CUSTID]];
+    AFHTTPRequestOperation * aRequest = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:fullUrl]]];
+    [aRequest setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSDictionary * allDic = [operation.responseString objectFromJSONString];
+        
+        if ([[allDic objectForKey:@"status"] intValue] == 0) {
+            [LTools showMBProgressWithText:@"您今天已经签到过了" addToView:self.view];
+        }else if ([[allDic objectForKey:@"status"] intValue] == 1)
+        {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"签到成功,分享给朋友吧" message:@"" delegate:self cancelButtonTitle:@"去分享" otherButtonTitles:@"下次再说",nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [LTools showMBProgressWithText:@"签到失败，请重试" addToView:self.view];
+    }];
+    
+    [aRequest start];
+}
+
+#pragma mark - UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"buttonIndex ----  %d",buttonIndex);
+    
+    if (buttonIndex == 0)
+    {
+        [self performSelector:@selector(ShowShareView) withObject:nil afterDelay:0.8];
+    }
+}
+
+-(void)ShowShareView
+{
     ShareView * share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
     share_view.userInteractionEnabled = YES;
     share_view.delegate = self;
     share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
     [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
 }
+
+-(void)shareTapWithType:(NSString *)type
+{
+    [[UMSocialControllerService defaultControllerService] setShareText:@"小手一抖，积分到手，每日一签，欢乐多多，兑换装备，分享抽奖。#骑行叭宝盒# @骑叭" shareImage:[UIImage imageNamed:@"icon120.png"] socialUIDelegate:self];        //设置分享内容和回调对象
+    [UMSocialSnsPlatformManager getSocialPlatformWithName:type].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

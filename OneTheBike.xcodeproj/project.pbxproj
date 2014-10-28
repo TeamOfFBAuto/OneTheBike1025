@@ -489,6 +489,8 @@
 		565DF22419FBE31D00DE99EA /* share_weixinhaoyou_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 565DF21E19FBE31D00DE99EA /* share_weixinhaoyou_image@2x.png */; };
 		565DF22519FBE31D00DE99EA /* share_weixinpengyouquan_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 565DF21F19FBE31D00DE99EA /* share_weixinpengyouquan_image@2x.png */; };
 		565DF22719FBE33500DE99EA /* find_bike_qiandao_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 565DF22619FBE33500DE99EA /* find_bike_qiandao_image@2x.png */; };
+		56B7E58B19FE8DE700E735D7 /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B7E58A19FE8DE700E735D7 /* ActivityDetailViewController.m */; };
+		56B7E58E19FE911800E735D7 /* ActivityImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B7E58D19FE911800E735D7 /* ActivityImageModel.m */; };
 		E30B129219FBF3B5005D5DA9 /* SharePlatformView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B128E19FBF3B5005D5DA9 /* SharePlatformView.m */; };
 		E30B129319FBF3B5005D5DA9 /* SharePlatformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */; };
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
@@ -1133,6 +1135,10 @@
 		565DF21E19FBE31D00DE99EA /* share_weixinhaoyou_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_weixinhaoyou_image@2x.png"; sourceTree = "<group>"; };
 		565DF21F19FBE31D00DE99EA /* share_weixinpengyouquan_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_weixinpengyouquan_image@2x.png"; sourceTree = "<group>"; };
 		565DF22619FBE33500DE99EA /* find_bike_qiandao_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "find_bike_qiandao_image@2x.png"; sourceTree = "<group>"; };
+		56B7E58919FE8DE700E735D7 /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
+		56B7E58A19FE8DE700E735D7 /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
+		56B7E58C19FE911800E735D7 /* ActivityImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityImageModel.h; sourceTree = "<group>"; };
+		56B7E58D19FE911800E735D7 /* ActivityImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityImageModel.m; sourceTree = "<group>"; };
 		E30B128D19FBF3B5005D5DA9 /* SharePlatformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharePlatformView.h; sourceTree = "<group>"; };
 		E30B128E19FBF3B5005D5DA9 /* SharePlatformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharePlatformView.m; sourceTree = "<group>"; };
 		E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SharePlatformView.xib; sourceTree = "<group>"; };
@@ -1828,6 +1834,8 @@
 				19DAE84019D30F3100519D22 /* FindViewController.m */,
 				56442E0119F5557100BAE678 /* FindActivityViewController.h */,
 				56442E0219F5557100BAE678 /* FindActivityViewController.m */,
+				56B7E58919FE8DE700E735D7 /* ActivityDetailViewController.h */,
+				56B7E58A19FE8DE700E735D7 /* ActivityDetailViewController.m */,
 				56442E0919F55A7200BAE678 /* FindRankingViewController.h */,
 				56442E0A19F55A7200BAE678 /* FindRankingViewController.m */,
 			);
@@ -2609,6 +2617,8 @@
 				565DF1FE19FBDF1C00DE99EA /* ActivityModel.m */,
 				565DF1FF19FBDF1C00DE99EA /* RankingModel.h */,
 				565DF20019FBDF1C00DE99EA /* RankingModel.m */,
+				56B7E58C19FE911800E735D7 /* ActivityImageModel.h */,
+				56B7E58D19FE911800E735D7 /* ActivityImageModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3373,6 +3383,7 @@
 				13CFBAD219F6B887006B9684 /* JSONKit.m in Sources */,
 				134BA69F19D948E800282D7D /* MineCellTwo.m in Sources */,
 				E3B8027D19FC4E4900AF9831 /* LoadingIndicatorView.m in Sources */,
+				56B7E58E19FE911800E735D7 /* ActivityImageModel.m in Sources */,
 				196502FE19FB902800B19738 /* UMEGORefreshTableHeaderView.m in Sources */,
 				56442E0E19F55AD300BAE678 /* RankingFunctionView.m in Sources */,
 				19DAE80A19D30C2D00519D22 /* OneTheBike.xcdatamodeld in Sources */,
@@ -3386,6 +3397,7 @@
 				137D9FCE19F261B500B31100 /* UserInfoHeaderCell.m in Sources */,
 				13A146F919F75B3000F8D442 /* RoadCell.m in Sources */,
 				56442DF419F5468B00BAE678 /* CycleScrollView.m in Sources */,
+				56B7E58B19FE8DE700E735D7 /* ActivityDetailViewController.m in Sources */,
 				565DF20D19FBE1C800DE99EA /* CycleScrollModel.m in Sources */,
 				137D76CB19F4B74E00DD29D7 /* SSObjectBase.m in Sources */,
 				137D9F9119F250A900B31100 /* UIView+Frame.m in Sources */,
@@ -3613,7 +3625,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "663bce84-31f1-462e-a50d-ebbe7bacfbf5";
+				PROVISIONING_PROFILE = "4d09d2dd-2940-4eb4-aec5-372a03029734";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -3647,7 +3659,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "663bce84-31f1-462e-a50d-ebbe7bacfbf5";
+				PROVISIONING_PROFILE = "4d09d2dd-2940-4eb4-aec5-372a03029734";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};

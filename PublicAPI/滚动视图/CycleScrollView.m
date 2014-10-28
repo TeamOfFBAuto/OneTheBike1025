@@ -137,7 +137,7 @@
         CycleScrollModel * model = [_data_array objectAtIndex:i];
         
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width,self.frame.size.height)];
-        imageView.image = [UIImage imageNamed:model.c_image_url];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BASE_URL,model.c_image_url]] placeholderImage:nil];
         [_views_array addObject:imageView];
     }
     

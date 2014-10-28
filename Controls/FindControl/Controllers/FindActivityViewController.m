@@ -11,6 +11,7 @@
 #import "AFHTTPRequestOperation.h"
 #import "RefreshTableView.h"
 #import "ActivityModel.h"
+#import "ActivityDetailViewController.h"
 
 @interface FindActivityViewController ()<UITableViewDataSource,RefreshDelegate>
 {
@@ -164,6 +165,16 @@
 - (void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_myTableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    
+    ActivityModel * model = [_data_array objectAtIndex:indexPath.row];
+    
+    ActivityDetailViewController * detail = [[ActivityDetailViewController alloc] init];
+    detail.aId = model.activityId;
+    [self.navigationController pushViewController:detail animated:YES];
+    
+    
+    
 }
 - (CGFloat)heightForRowIndexPath:(NSIndexPath *)indexPath
 {

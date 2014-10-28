@@ -106,10 +106,13 @@
 {
     NSLog(@"tag ------  %d",tag);
     
-    NSArray * array = [NSArray arrayWithObjects:@"UMShareToSina",@"UMShareToWechatTimeline",@"UMShareToQzone",@"UMShareToTencent",@"UMShareToWechatSession",@"UMShareToQQ",nil];
+    NSArray * array = [NSArray arrayWithObjects:UMShareToSina,UMShareToWechatTimeline,UMShareToQzone,UMShareToTencent,UMShareToWechatSession,UMShareToQQ,nil];
     
-    [[UMSocialControllerService defaultControllerService] setShareText:@"分享内嵌文字" shareImage:[UIImage imageNamed:@"icon"] socialUIDelegate:self];        //设置分享内容和回调对象
-    [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler((UIViewController *)self.delegate,[UMSocialControllerService defaultControllerService],YES);
+    if (_delegate && [_delegate respondsToSelector:@selector(shareTapWithType:)]) {
+        [_delegate shareTapWithType:[array objectAtIndex:tag]];
+    }
+    
+    [self cancelTap:nil];
 }
 
 @end

@@ -11,7 +11,7 @@
 
 @protocol ShareViewDelegate <NSObject>
 
-
+-(void)shareTapWithType:(NSString *)type;
 
 @end
 
