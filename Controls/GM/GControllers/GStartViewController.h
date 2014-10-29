@@ -165,7 +165,7 @@
 //运动参数model
 @property(nonatomic,strong)GyundongCanshuModel *gYunDongCanShuModel;
 
-//四个自定义view
+//五个自定义view
 @property(nonatomic,strong)NSArray *fiveCustomView;
 
 

@@ -20,7 +20,6 @@
 
 #import "RootViewController.h"
 
-#import "GhistoryViewController.h"
 
 /*
  第三方登录

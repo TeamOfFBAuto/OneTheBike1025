@@ -57,7 +57,7 @@
     
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = [UIColor orangeColor];
+//    btn.backgroundColor = [UIColor orangeColor];
     [btn setFrame:CGRectMake(270, 5, 40, 40)];
     [btn addTarget:self action:@selector(fenxiangBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -94,7 +94,7 @@
     
     
     self.view.backgroundColor=[UIColor whiteColor];
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, 568) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-64 : 480-64) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -145,7 +145,7 @@
 -(UIView *)customTableHeaderView{
     
     UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 115)];
-    upHeaderView.backgroundColor = [UIColor orangeColor];
+    upHeaderView.backgroundColor = [UIColor whiteColor];
     
     self.totalYongshiLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, 100, 25)];
     //        self.totalYongshiLabel.backgroundColor = [UIColor orangeColor];
@@ -202,12 +202,12 @@
 //准备本地数据和网络数据
 -(void)prepareLocalDataAndNetData{
     
-    [self prepareNetDataWithPage:1];
-    
-    
+//    [self prepareNetDataWithPage:1];//接口有问题
+    //只从本地拿数据
+    [self OnlyPrepareLocalData];
 }
 
-//取本地数据
+//取本地数据 加到网络请求的数组中
 -(void)prepareLocalData{
     self.localDataArray = [NSMutableArray arrayWithArray:[GMAPI GgetGuiji]];
     
@@ -224,43 +224,46 @@
 }
 
 
+//只从本地拿数据
+-(void)OnlyPrepareLocalData{
+    self.localDataArray = [NSMutableArray arrayWithArray:[GMAPI GgetGuiji]];
+    
+    [self paixuWithDateWithArray:self.localDataArray];
+}
+
+
 
 //按日期排序
 -(void)paixuWithDateWithArray:(NSMutableArray *)array{//array为融合数组
     
     
-    NSArray *dataBaseArray = [GMAPI GgetGuiji];
+    NSLog(@"%s %d",__FUNCTION__,array.count);
     
-    NSLog(@"%s %d",__FUNCTION__,dataBaseArray.count);
-    
-    for (LRoadClass *model in dataBaseArray) {
+    for (LRoadClass *model in array) {
         NSLog(@"lroadClass---startName:%@  endName:%@ distance:%@ roadId:%d",model.startName,model.endName,model.distance,model.roadId);
     }
-    
-    NSArray *dayArray = [GMAPI GgetGuiji];
-    
-    int count = dataBaseArray.count;
+    int count = array.count;
     
     //找出同一天的文章 放到一个数组里
     for (int i = 0; i < count; i++) {
         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:1];
         
         for (int j = i+1; j<count; j++) {
-            LRoadClass *road1 = dayArray[i];
-            LRoadClass *road2 = dayArray[j];
+            LRoadClass *road1 = array[i];
+            LRoadClass *road2 = array[j];
             //判断时间
             if ([[road1.startName substringToIndex:10] isEqualToString:[road2.startName substringToIndex:10]]) {
                 //如果相同并且日期 = NO 就加入数组里
                 
                 NSLog(@"%@",[road1.startName substringToIndex:10]);
                 
-                if (![road1.startName substringToIndex:10]) {
+                if (!road1.time) {
                     
                     [arr addObject:road1];
                     road1.time = YES;
                 }
                 
-                if (![road2.startName substringToIndex:10]) {
+                if (!road2.time) {
                     
                     [arr addObject:road2];
                     road2.time = YES;
@@ -268,7 +271,7 @@
             }
         }
         
-        LRoadClass *road1 = dayArray[i];
+        LRoadClass *road1 = array[i];
         if (arr.count == 0 && !road1.time) {//判断一天只有一个文章的情况
             [arr addObject:road1];
         }
@@ -307,7 +310,14 @@
         [view removeFromSuperview];
     }
     
-    [cell loadCustomCellWithMoedle:nil];
+    NSArray *arr = self.dataArray[indexPath.section];
+    
+    NSLog(@"arr.count %d",arr.count);
+    
+    
+    LRoadClass *model = arr[indexPath.row];
+    
+    [cell loadCustomCellWithMoedle:model];
     
     return cell;
 }
@@ -377,6 +387,22 @@
     upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
     
     
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 200, 20)];
+    dateLabel.font = [UIFont systemFontOfSize:15];
+    
+//    LRoadClass *model = self.localDataArray[section][0];
+    [upHeaderView addSubview:dateLabel];
+    
+    
+    
+    NSMutableArray *arr = self.dataArray[section];
+    LRoadClass *model = arr[0];
+    dateLabel.text = [model.startName substringToIndex:10];
+    NSLog(@"%@",model.startName);
+    
+    NSLog(@"%d",arr.count);
+    
+    
     return upHeaderView;
 }
 
@@ -426,56 +452,99 @@
 #pragma mark - 请求网络数据
 -(void)prepareNetDataWithPage:(int)page{
     
+    NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],page];
     
     
+    NSLog(@"请求轨迹历史接口的url:%@",urlStr);
     
     
-    
-    
-    NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];//网络获取到得数组
-    
-    _guijiCount = array.count;
-    
-    
-    //判断有没有更多
-    if (array.count <_numOnePage) {
-        [_upMoreView stopLoading:3];
-    }else{
-        [_upMoreView stopLoading:1];
-    }
-    
-    
-    //判断是否为上提加载更多
-    if (_isupMore) {//是加载更多的话把请求到的文章加到原来的数组中
-        [self.netDataArray addObjectsFromArray:(NSArray*)array];
+    LTools *tool = [[LTools alloc]initWithUrl:urlStr isPost:NO postData:nil];
+    [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
+        NSLog(@"请求轨迹历史接口返回的dic ： %@",result);
         
         
-    }else{//不是上提加载更多
-        self.netDataArray = array;
-    }
-    
-    
-    _isUpMoreSuccess = YES;//上提加载更多的标志位
-    
-    
-    //有文章再显示上提加载更多
-    if (self.netDataArray.count>0) {
-        _upMoreView.hidden = NO;
-    }else{
+        
+        
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];//网络获取到得数组
+        
+        _guijiCount = array.count;
+        
+        
+        //判断有没有更多
+        if (array.count <_numOnePage) {
+            [_upMoreView stopLoading:3];
+        }else{
+            [_upMoreView stopLoading:1];
+        }
+        
+        
+        //判断是否为上提加载更多
+        if (_isupMore) {//是加载更多的话把请求到的文章加到原来的数组中
+            [self.netDataArray addObjectsFromArray:(NSArray*)array];
+            
+            
+        }else{//不是上提加载更多
+            self.netDataArray = array;
+        }
+        
+        
+        _isUpMoreSuccess = YES;//上提加载更多的标志位
+        
+        
+        //有文章再显示上提加载更多
+        if (self.netDataArray.count>0) {
+            _upMoreView.hidden = NO;
+        }else{
+            _upMoreView.hidden = YES;
+        }
+        
+        
+        
+        //取本地数据
+        [self prepareLocalData];
+        
+        //按照天数排出二维数组
+        [self paixuWithDateWithArray:self.netDataArray];
+        
+        
+        //刷新tableview
+        [self doneLoadingTableViewData];
+        
+        
+        
+        
+        
+        
+    } failBlock:^(NSDictionary *failDic, NSError *erro) {
+        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"网络连接失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [al show];
+        
+        self.dataArray = [NSMutableArray arrayWithArray:[GMAPI GgetGuiji]];
+        
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];//网络获取到得数组
+        
+        _guijiCount = array.count;
+        
+        _isUpMoreSuccess = YES;//上提加载更多的标志位
         _upMoreView.hidden = YES;
-    }
-
+        
+        //取本地数据
+        [self prepareLocalData];
+        
+        //按照天数排出二维数组
+        [self paixuWithDateWithArray:self.netDataArray];
+        
+        
+        //刷新tableview
+        [self doneLoadingTableViewData];
+        
+    }];
     
     
-    //取本地数据
-    [self prepareLocalData];
-    
-    //按照天数排出二维数组
-    [self paixuWithDateWithArray:self.netDataArray];
     
     
-    //刷新tableview
-    [self doneLoadingTableViewData];
+    
+    
     
     
 }
@@ -556,6 +625,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     GHistoryDetailViewController *cc = [[GHistoryDetailViewController alloc]init];
+    NSArray *arr = self.dataArray[indexPath.section];
+    LRoadClass *model = arr[indexPath.row];
+    cc.passModel = model;
     cc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:cc animated:YES];
 }

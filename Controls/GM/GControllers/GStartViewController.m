@@ -188,7 +188,7 @@
 //    _zuoxiaView.backgroundColor = [UIColor greenColor];
 //    _youxiaView.backgroundColor = [UIColor purpleColor];
     
-    self.fiveCustomView = @[_dingView,_zuoshangView,_youshangView,_zuoxiaView,_youshangView];
+    
     
     
     
@@ -315,7 +315,7 @@
             _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+5, _youxiaView.titleImv.frame.origin.y, 40, 30);
             _youxiaView.danweiLabel.text = @"bpm";
             
-            _youshangView.viewTypeStr = @"热量";
+            _youxiaView.viewTypeStr = @"热量";
             
             
         }
@@ -333,6 +333,7 @@
         _saveViewTag54View.contentLable.text = @"0";
         _saveViewTag54View.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.contentLable.frame)+5, _saveViewTag54View.titleImv.frame.origin.y, 40, 30);
         _saveViewTag54View.danweiLabel.text = @"km/时";
+        _saveViewTag54View.viewTypeStr = @"km/时";
         _saveViewTag54View.hidden = YES;
         
         
@@ -346,6 +347,8 @@
         _saveViewTag55View.hidden = YES;
         
         
+        
+        self.fiveCustomView = @[_dingView,_zuoshangView,_youshangView,_zuoxiaView,_youxiaView,_saveViewTag54View];
         
         
         //添加到upview上
@@ -428,6 +431,13 @@
             
             if (self.lines.count>0) {
                 [self.mapView removeOverlays:self.lines];
+                
+//                MAPointAnnotation *startAnnotation;//起点
+//                MAPointAnnotation *detinationAnnotation;//终点
+//                NSMutableArray *middleAnntations;
+                
+                [self.mapView removeAnnotation:startAnnotation];
+                [self.mapView removeAnnotation:detinationAnnotation];
             }
             
         }else{//路书为关闭状态
@@ -805,11 +815,10 @@
             
             NSString *jsonStr = [self.routeLineArray JSONString];
             
-            //历史展示界面需要的参数
-            //时间  平均速度 用时 距离
+#pragma mark - 为轨迹的时候 startNameStr 为开始时间 结束时间和用时
             NSString *startNameStr = [NSString stringWithFormat:@"%@,%@,%@",self.gYunDongCanShuModel.startTime,self.gYunDongCanShuModel.endTime,self.gYunDongCanShuModel.yongshi];
             
-            NSString *endNameStr = @"0";
+            NSString *endNameStr = @"";
             
             if (self.gYunDongCanShuModel.pingjunsudu.length >0) {
                 endNameStr = [NSString stringWithFormat:@"%@",self.gYunDongCanShuModel.pingjunsudu];
@@ -817,12 +826,15 @@
             
             
             
+//            jsonStr = @"[{classType:MAPolyline,rect_x:220973840,rect_y:101745872,rect_width:352,pointX:220973840,pointY:101749648,latitude:39.872806549072266,longitude:116.34925079345703,coordinatesString:116.349013,39.870864,116.349356,39.873589,116.349399,39.873984,116.349485,39.874750,pointCount:4,rect_height:3776},{classType:MAPolyline,rect_x:220974192,rect_y:101743896,rect_width:144,pointX:220974192,pointY:101745872,latitude:39.875766754150391,longitude:116.34957885742188,coordinatesString:116.349485,39.874750,116.349614,39.875260,116.349678,39.876002,116.349657,39.876784,pointCount:4,rect_height:1976},{classType:MAPolyline,rect_x:220973808,rect_y:101743920,rect_width:80,pointX:220973856,pointY:101743920,latitude:39.875846862792969,longitude:116.34902191162109,coordinatesString:116.349034,39.876759,116.349056,39.876281,116.349077,39.875705,116.349056,39.875458,116.348970,39.874931,pointCount:5,rect_height:1776},{classType:LineDashPolyline,rect_x:220973856,rect_y:101743896,rect_width:464,pointX:0,pointY:0,latitude:39.87677001953125,longitude:116.34934234619141,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220974320,pointY:101743896,latitude:0,longitude:0,coordinatesString:116.349657,39.876784,116.349034,39.876759,pointCount:2,rect_height:0},pointCount:0,rect_height:24},{classType:MAPolyline,rect_x:220973568,rect_y:101745696,rect_width:336,pointX:220973808,pointY:101745696,latitude:39.872745513916016,longitude:116.348876953125,coordinatesString:116.348970,39.874931,116.349099,39.874585,116.348970,39.873605,116.348906,39.873136,116.348777,39.871967,116.348648,39.870559,pointCount:6,rect_height:4248},{classType:MAPolyline,rect_x:220972080,rect_y:101749944,rect_width:1488,pointX:220973568,pointY:101749944,latitude:39.861549377441406,longitude:116.34764862060547,coordinatesString:116.348648,39.870559,116.348584,39.869357,116.348519,39.868632,116.348348,39.867084,116.348069,39.864490,116.347919,39.863411,116.347575,39.860191,116.347339,39.858371,116.346653,39.852540,pointCount:9,rect_height:17504},{classType:MAPolyline,rect_x:220970240,rect_y:101767456,rect_width:1824,pointX:220972064,pointY:101767456,latitude:39.851242065429688,longitude:116.34540557861328,coordinatesString:116.346631,39.852532,116.346180,39.852004,116.346052,39.851798,116.345773,39.851411,116.345451,39.851115,116.344764,39.850514,116.344399,39.850143,116.344185,39.849953,pointCount:8,rect_height:2504},{classType:LineDashPolyline,rect_x:220972064,rect_y:101767456,rect_width:16,pointX:0,pointY:0,latitude:39.852527618408203,longitude:116.34664154052734,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220972080,pointY:101767456,latitude:0,longitude:0,coordinatesString:116.346653,39.852532,116.346631,39.852523,pointCount:2,rect_height:0},pointCount:0,rect_height:8},{classType:MAPolyline,rect_x:220970240,rect_y:101769960,rect_width:1104,pointX:220970240,pointY:101769960,latitude:39.847480773925781,longitude:116.34492492675781,coordinatesString:116.344185,39.849953,116.344292,39.848949,116.344399,39.848496,116.344850,39.848043,116.344979,39.847902,116.345258,39.847532,116.345408,39.847244,116.345451,39.847112,116.345494,39.847013,116.345580,39.846815,116.345601,39.846650,116.345665,39.846206,116.345665,39.845991,116.345601,39.845448,116.345580,39.845011,pointCount:15,rect_height:4800}]";
+            
+            
+            
+            
 #pragma mark - 保存轨迹到本地数据库
             
             if (jsonStr) {//有轨迹再往本地存
                 if (jsonStr && startNameStr && endNameStr && self.gYunDongCanShuModel.juli && self.gYunDongCanShuModel.startCoorStr && self.gYunDongCanShuModel.coorStr) {
-                    
-                    
                     
                     [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
                     
@@ -834,8 +846,14 @@
                     NSString *upMetreStr = [NSString stringWithFormat:@"%d",upMetre];//上升海拔
                     NSString *downMetreStr = [NSString stringWithFormat:@"%d",downMetre];//下降海拔
                     
+                    
+                    NSLog(@"%@",self.gYunDongCanShuModel.yongshi);
+                    NSLog(@"%@",[self.gYunDongCanShuModel.startTime substringToIndex:19]);
+                    NSLog(@"%@",[self.gYunDongCanShuModel.endTime substringToIndex:19]);
+                    
+                    
                     [self saveRoadlinesJsonString:jsonStr//轨迹大字符串
-                                        startName:@" "
+                                        startName:startNameStr
                                           endName:@" "
                                         cyclingKm:self.gYunDongCanShuModel.juli//总距离
                                           upMetre:upMetreStr//上升海拔
@@ -843,9 +861,9 @@
                                      costCalories:self.gYunDongCanShuModel.bpm//卡路里
                                          avgSpeed:self.gYunDongCanShuModel.pingjunsudu//平均速度
                                          topSpeed:self.gYunDongCanShuModel.maxSudu//最高速度
-                                        heartRate:@" "//心率
-                                        beginTime:self.gYunDongCanShuModel.startTime//开始时间
-                                          endTime:self.gYunDongCanShuModel.endTime//结束时间
+                                        heartRate:@"70 "//心率
+                                        beginTime:[self.gYunDongCanShuModel.startTime substringToIndex:19]//开始时间
+                                          endTime:[self.gYunDongCanShuModel.endTime substringToIndex:19]//结束时间
                                          costTime:self.gYunDongCanShuModel.yongshi//用时
                                         beginSite:@" "
                                           endSite:@" "
@@ -887,15 +905,29 @@
             
             
             
-#pragma mark - 上传轨迹===============================
             
             
             
             
+            for (GyundongCustomView *view in self.fiveCustomView) {
+                
+                [self.gYunDongCanShuModel cleanAllData];
+                
+                if ([view.viewTypeStr isEqualToString:@"计时"]) {
+                    view.contentLable.text = @"00:00:00";
+                }else{
+                    view.contentLable.text = @"0.0";
+                }
+            }
             
-//            jsonStr = @"[{classType:MAPolyline,rect_x:220973840,rect_y:101745872,rect_width:352,pointX:220973840,pointY:101749648,latitude:39.872806549072266,longitude:116.34925079345703,coordinatesString:116.349013,39.870864,116.349356,39.873589,116.349399,39.873984,116.349485,39.874750,pointCount:4,rect_height:3776},{classType:MAPolyline,rect_x:220974192,rect_y:101743896,rect_width:144,pointX:220974192,pointY:101745872,latitude:39.875766754150391,longitude:116.34957885742188,coordinatesString:116.349485,39.874750,116.349614,39.875260,116.349678,39.876002,116.349657,39.876784,pointCount:4,rect_height:1976},{classType:MAPolyline,rect_x:220973808,rect_y:101743920,rect_width:80,pointX:220973856,pointY:101743920,latitude:39.875846862792969,longitude:116.34902191162109,coordinatesString:116.349034,39.876759,116.349056,39.876281,116.349077,39.875705,116.349056,39.875458,116.348970,39.874931,pointCount:5,rect_height:1776},{classType:LineDashPolyline,rect_x:220973856,rect_y:101743896,rect_width:464,pointX:0,pointY:0,latitude:39.87677001953125,longitude:116.34934234619141,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220974320,pointY:101743896,latitude:0,longitude:0,coordinatesString:116.349657,39.876784,116.349034,39.876759,pointCount:2,rect_height:0},pointCount:0,rect_height:24},{classType:MAPolyline,rect_x:220973568,rect_y:101745696,rect_width:336,pointX:220973808,pointY:101745696,latitude:39.872745513916016,longitude:116.348876953125,coordinatesString:116.348970,39.874931,116.349099,39.874585,116.348970,39.873605,116.348906,39.873136,116.348777,39.871967,116.348648,39.870559,pointCount:6,rect_height:4248},{classType:MAPolyline,rect_x:220972080,rect_y:101749944,rect_width:1488,pointX:220973568,pointY:101749944,latitude:39.861549377441406,longitude:116.34764862060547,coordinatesString:116.348648,39.870559,116.348584,39.869357,116.348519,39.868632,116.348348,39.867084,116.348069,39.864490,116.347919,39.863411,116.347575,39.860191,116.347339,39.858371,116.346653,39.852540,pointCount:9,rect_height:17504},{classType:MAPolyline,rect_x:220970240,rect_y:101767456,rect_width:1824,pointX:220972064,pointY:101767456,latitude:39.851242065429688,longitude:116.34540557861328,coordinatesString:116.346631,39.852532,116.346180,39.852004,116.346052,39.851798,116.345773,39.851411,116.345451,39.851115,116.344764,39.850514,116.344399,39.850143,116.344185,39.849953,pointCount:8,rect_height:2504},{classType:LineDashPolyline,rect_x:220972064,rect_y:101767456,rect_width:16,pointX:0,pointY:0,latitude:39.852527618408203,longitude:116.34664154052734,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220972080,pointY:101767456,latitude:0,longitude:0,coordinatesString:116.346653,39.852532,116.346631,39.852523,pointCount:2,rect_height:0},pointCount:0,rect_height:8},{classType:MAPolyline,rect_x:220970240,rect_y:101769960,rect_width:1104,pointX:220970240,pointY:101769960,latitude:39.847480773925781,longitude:116.34492492675781,coordinatesString:116.344185,39.849953,116.344292,39.848949,116.344399,39.848496,116.344850,39.848043,116.344979,39.847902,116.345258,39.847532,116.345408,39.847244,116.345451,39.847112,116.345494,39.847013,116.345580,39.846815,116.345601,39.846650,116.345665,39.846206,116.345665,39.845991,116.345601,39.845448,116.345580,39.845011,pointCount:15,rect_height:4800}]";
+            _distance = 0.0f;
             
-            
+            self.mapView.showsUserLocation = NO;
+            reset = YES;//停止计时器
+            _downView.hidden = YES;
+            [self.gYunDongCanShuModel cleanAllData];
+            [self hideTabBar:NO];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
             
             
             
@@ -1393,15 +1425,18 @@
     // check the move distance
     if (_points.count > 0) {
         CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
-        if (distance < 5 ){
+        if (distance < 5 || distance>15){
             return;
         }
         _distance += distance;
         NSLog(@"距离---- %.2f 米",_distance);
 #pragma mark - 数据model赋值--------------- 距离
-        self.gYunDongCanShuModel.juli = [NSString stringWithFormat:@"%.2f",_distance/1000];
+        self.gYunDongCanShuModel.juli = [NSString stringWithFormat:@"%.2f",_distance/1000.0];
         
         for (GyundongCustomView *view in self.fiveCustomView) {
+            
+            NSLog(@" wo cao !!!!!! %@",self.gYunDongCanShuModel.juli);
+            NSLog(@"%@",view.viewTypeStr);
             if ([view.viewTypeStr isEqualToString:@"距离"]) {
                 view.contentLable.text = self.gYunDongCanShuModel.juli;//给距离label赋值 单位是公里
             }
@@ -1447,9 +1482,14 @@
     }
     
     for (GyundongCustomView *view in self.fiveCustomView) {
-        if ([view.viewTypeStr isEqualToString:@"速度"]) {
+        
+        if ([view.viewTypeStr isEqualToString:@"速度"] || [view.viewTypeStr isEqualToString:@"km/时"]) {
+            
+            
             view.contentLable.text = self.gYunDongCanShuModel.pingjunsudu;
+            
         }
+        
     }
     
     
