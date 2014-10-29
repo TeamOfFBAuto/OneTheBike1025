@@ -7,7 +7,7 @@
 //
 
 #import "GStartViewController.h"
-
+#import "LoginViewController.h"
 
 
 @interface GStartViewController ()<UIActionSheetDelegate>
@@ -26,10 +26,27 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
     self.navigationController.navigationBarHidden = YES;
     
+    [super viewWillAppear:animated];
     
+    BOOL state = [[NSUserDefaults standardUserDefaults]boolForKey:LOGIN_STATE];
+    
+    if (state == YES) {
+        return;
+    }
+    
+    [self loginView];
+}
+
+- (void)loginView
+{
+    LoginViewController *login = [[LoginViewController alloc]init];
+    [self presentViewController:login animated:NO completion:^{
+        
+    }];
 }
 
 - (void)viewDidLoad {

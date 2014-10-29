@@ -11,6 +11,8 @@
 
 #import "UMFeedbackViewController.h"
 
+#import "AppDelegate.h"
+
 @interface MoreViewController ()
 {
     NSArray *titles_arr;
@@ -168,6 +170,10 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:NOTIFICATION_CHANGE_USER object:nil];
         
         [self.navigationController popViewControllerAnimated:YES];
+        
+        UITabBarController *root = (UITabBarController *)((AppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController;
+        
+        root.selectedIndex = 0;
         
         [GMAPI deleteAllData];
     }
