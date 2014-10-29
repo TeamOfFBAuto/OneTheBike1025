@@ -56,4 +56,6 @@
 
 -(id)initWithFrame:(CGRect)frame showLoadMore:(BOOL)show;
 
+- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
+
 @end
