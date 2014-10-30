@@ -52,6 +52,7 @@
     // Do any additional setup after loading the view.
     
     
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.gYunDongCanShuModel = [[GyundongCanshuModel alloc]init];
 #pragma mark - 接受通知隐藏tabbar
@@ -1459,7 +1460,7 @@
     if (self.gYunDongCanShuModel.maxSudu  < self.gYunDongCanShuModel.dangqiansudu) {
         self.gYunDongCanShuModel.maxSudu = self.gYunDongCanShuModel.dangqiansudu;
     }
-#pragma mark - 数据model赋值 -- 平均速度
+#pragma mark - 数据model赋值 -- 平均速度/ 实时速度
     double zjuli = _distance/1000;//单位：公里
     
     if (self.gYunDongCanShuModel.yongshi.length>1) {
@@ -1504,12 +1505,18 @@
         self.gYunDongCanShuModel.pingjunsudu = pjsd;
         
     }
+    
+    
+    self.gYunDongCanShuModel.dangqiansudu = userLocation.location.speed * 3.6;
+    if (self.gYunDongCanShuModel.dangqiansudu<0 || self.gYunDongCanShuModel.dangqiansudu >50) {
+        self.gYunDongCanShuModel.dangqiansudu = 0.0;
+    }
     for (GyundongCustomView *view in self.fiveCustomView) {
         
         if ([view.viewTypeStr isEqualToString:@"速度"] || [view.viewTypeStr isEqualToString:@"km/时"]) {
             
             
-            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.pingjunsudu];
+            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.dangqiansudu];
             
         }
         

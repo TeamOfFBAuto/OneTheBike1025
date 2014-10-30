@@ -68,10 +68,10 @@
     
     
     //自定义导航栏
-    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 35)];
+    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 44)];
     shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     
-    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, 3, 60, 30)];
+    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, 7, 60, 30)];
     titielLabel.font = [UIFont systemFontOfSize:16];
     titielLabel.textColor = [UIColor whiteColor];
     titielLabel.textAlignment = NSTextAlignmentCenter;
@@ -85,14 +85,14 @@
     
     [shareBtn addTarget:self action:@selector(gshare) forControlEvents:UIControlEventTouchUpInside];
     
-    shareBtn.frame = CGRectMake(270, 3, 30, 30);
+    shareBtn.frame = CGRectMake(270, 7, 30, 30);
     [shangGrayView addSubview:shareBtn];
     
     
     //返回按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:[UIImage imageNamed:@"backButton.png"] forState:UIControlStateNormal];
-    [btn setFrame:CGRectMake(5, 0, 35, 35)];
+    [btn setFrame:CGRectMake(5, 5, 35, 35)];
     [btn addTarget:self action:@selector(gGoBackVc) forControlEvents:UIControlEventTouchUpInside];
     [shangGrayView addSubview:btn];
     [self.view addSubview:shangGrayView];
@@ -147,7 +147,7 @@
     [self.view addSubview:tableHeaderView];
     
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(tableHeaderView.frame), 320, iPhone5?568-35-64-30:480-35-64-30) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(tableHeaderView.frame), 320, iPhone5?568-64-250-30:480-64-200-30) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -220,7 +220,7 @@
 ///初始化地图
 -(void)initMap{
     //地图相关初始化
-    self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5?250:200)];
+    self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5?250:200)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
     

@@ -331,6 +331,7 @@
         case 6://平均速度
         {
             contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.pingjunsudu];
+            contentStr = [NSString stringWithFormat:@"%.1f",self.delegate.gYunDongCanShuModel.dangqiansudu];
             if (self.passTag == 51) {//顶部较宽 单位用 公里/时间
                 
                 BOOL isChange = YES;
