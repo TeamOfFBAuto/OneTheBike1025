@@ -27,6 +27,8 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
 
 @interface GMAPI : NSObject
 
+///根据时间获取星期
++ (NSUInteger)getWeekdayFromDate:(NSDate*)date;
 
 
 ///根据定位返回的地磁场doule值 返回方位 东 西 南 北 东北 东南 西南 西北
@@ -112,6 +114,8 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
 
 + (NSArray *)getRoadLinesForType:(HistoryType)type
                           isOpen:(BOOL)open;//获取所有是否打开的路书或者轨迹
+
+
 
 
 

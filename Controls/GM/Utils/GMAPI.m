@@ -584,6 +584,34 @@
 
 
 
++ (NSUInteger)getWeekdayFromDate:(NSDate*)date
+{
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents* components = [[NSDateComponents alloc] init];
+    NSInteger unitFlags = NSYearCalendarUnit |
+    
+    NSMonthCalendarUnit |
+    
+    NSDayCalendarUnit |
+    
+    NSWeekdayCalendarUnit |
+    
+    NSHourCalendarUnit |
+    
+    NSMinuteCalendarUnit |
+    
+    NSSecondCalendarUnit;
+
+    components = [calendar components:unitFlags fromDate:date];
+    
+    NSUInteger weekday = [components weekday];
+    
+    return weekday;
+}
+
+
+
+
 
 
 

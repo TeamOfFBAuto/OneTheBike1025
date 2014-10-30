@@ -55,16 +55,16 @@ alpha:(a)]
 
 #define BIKE_ROAD_LIST @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_queryRdbkListByPage.action?custId=%@&page=%d"//路书列表
 
-#define BIKE_ROAD_DELETE @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_deleteRdbk.action?rdbkId=%@"
+#define BIKE_ROAD_DELETE @"http://182.254.242.58:8080/QiBa/QiBa/roadBookAction_deleteRdbk.action?rdbkId=%@"//删除路书
 
 #define BIKE_USER_INFO @"http://182.254.242.58:8080/QiBa/QiBa/custAction_loadCust.action?custId=%@"//个人信息
 
-#define BIKE_EDIT_USERINFO @"http://182.254.242.58:8080/QiBa/QiBa/custAction_updateCust.action?custId=%@&nickName=%@&sex=%d&cellphone=%@&personSign=%@&height=%@&weight=%@&birthday=%@&city=%@"//修改个人信息
+#define BIKE_EDIT_USERINFO @"http://182.254.242.58:8080/QiBa/QiBa/custAction_updateCust.action?custId=%@&nickName=%@&sex=%@&cellphone=%@&personSign=%@&height=%@&weight=%@&birthday=%@&city=%@"//修改个人信息
 
 //上传轨迹
-#define BIKE_ROAD_LINE_GUIJI  @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_saveCycling.action?custId=%@&cyclingKm=%@&upMetre=%@&downMetre=%@&costCalories=%@&avgSpeed=%@&topSpeed=%@&heartRate=%@&beginTime=%@&endTime=%@&costTime=%@&beginSite=%@&endSite=%@&beginCoordinates=%@&endCoordinates=%@"
+#define BIKE_ROAD_LINE_GUIJI  @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_saveCycling.action?custId=%@&cyclingKm=%.2f&upMetre=%d&downMetre=%d&costCalories=%d&avgSpeed=%.2f&topSpeed=%.2f&heartRate=%d&beginTime=%@&endTime=%@&costTime=%@&beginSite=%@&endSite=%@&beginCoordinates=%@&endCoordinates=%@"
 //获取轨迹
-#define BIKE_ROAD_LINE_GETGUIJILIST
+#define BIKE_ROAD_LINE_GETGUIJILIST @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_queryCycListByPage.action?custId=%@&page=%d"
 
 
 

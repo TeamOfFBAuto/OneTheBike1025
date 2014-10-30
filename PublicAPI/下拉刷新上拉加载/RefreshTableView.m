@@ -34,6 +34,23 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
+{
+    self = [super initWithFrame:frame style:style];
+    if (self) {
+        // Initialization code
+        
+        self.pageNum = 1;
+        self.dataArray = [NSMutableArray array];
+        
+        [self createHeaderView];
+        [self createFooterView];
+        self.delegate = self;
+        
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     self.dataArray = nil;

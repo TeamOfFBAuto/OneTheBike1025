@@ -15,18 +15,31 @@
 
 @implementation RootViewController
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    BOOL state = [[NSUserDefaults standardUserDefaults]boolForKey:LOGIN_STATE];
-    
-    if (state == YES) {
-        return;
-    }
-    
-    [self loginView];
-}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    
+//    BOOL state = [[NSUserDefaults standardUserDefaults]boolForKey:LOGIN_STATE];
+//    
+//    if (state == YES) {
+//        return;
+//    }
+//    
+//    [self loginView];
+//}
+
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    
+//    BOOL state = [[NSUserDefaults standardUserDefaults]boolForKey:LOGIN_STATE];
+//    
+//    if (state == YES) {
+//        return;
+//    }
+//    
+//    [self loginView];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -7,81 +7,10 @@
 //
 
 #import "GStartViewController.h"
-#import "ReGeocodeAnnotation.h"
-#import "GOffLineMapViewController.h"
-#import "Gmap.h"
-
-#import "GstarCanshuViewController.h"
-#import "GyundongCustomView.h"
-
-#import "LRoadClass.h"
-
-@class GyundongCustomView;
-
-#define FRAME_IPHONE5_MAP_UP CGRectMake(0, 30, 320, 568-60-20)
-#define FRAME_IPHONE5_MAP_DOWN CGRectMake(0, 230+20, 320, 568-230-20)
-#define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -115, 320, 230)
-#define FRAME_IPHONE5_UPVIEW_DOWN CGRectMake(0, 20, 320, 230)
-
-
+#import "LoginViewController.h"
 
 
 @interface GStartViewController ()<UIActionSheetDelegate>
-{
-    UIView *_upview;//上面的运动信息view
-    BOOL _isUpViewShow;//当前是否显示运动信息view
-    UIButton *_upOrDownBtn;//上下收放btn
-    UIView *_downView;//运动开始时下方的view
-    
-    UILabel *_fangxiangLabel;//方向
-    
-    GyundongCustomView *_fangxiangView;//方向
-    GyundongCustomView *_dingView;//速度
-    GyundongCustomView *_zuoshangView;//时间
-    GyundongCustomView *_youshangView;//公里
-    GyundongCustomView *_zuoxiaView;//海拔
-    GyundongCustomView *_youxiaView;//bpm
-    
-    
-    
-    BOOL _isTimeOutClicked;//暂停按钮点击
-    UIButton *_greenTimeOutBtn;//暂停按钮
-    
-    double _distance;//距离
-    
-    
-    BOOL _isFirstStartCanshu;//是否为刚开始时候的参数 用于记录开始时候的海拔 起点
-    
-    
-//    NSString *_saveViewTag54ViewType;//upview上移之前的type
-//    NSString *_saveViewTag55ViewType;
-    
-    GyundongCustomView *_saveViewTag54View;//upview上移之前的view样式
-    GyundongCustomView *_saveViewTag55View;
-    
-    NSTimer *_localTimer;//本地时钟
-    
-    UIImageView *_gpsQiangRuo;//gps强弱
-    
-    UIButton *_dingweiCenterBtn;//定位中心点按钮
-    
-    
-    //保存路书时起点和终点的输入框
-    UITextField *first;
-    UITextField *second;
-    
-    NSString *startName;//起点名字
-    NSString *endName;//终点名字
-    
-    
-    //路书
-    MAPointAnnotation *startAnnotation;//起点
-    MAPointAnnotation *detinationAnnotation;//终点
-    NSMutableArray *middleAnntations;//途经点
-    NSArray *_lines;//路书数组
-}
-@property (nonatomic,strong)NSMutableArray *cllocation2dsArray;
-@property (nonatomic, strong) NSMutableArray *overlays;
 
 
 @end
@@ -95,10 +24,27 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
     self.navigationController.navigationBarHidden = YES;
     
+    [super viewWillAppear:animated];
     
+    BOOL state = [[NSUserDefaults standardUserDefaults]boolForKey:LOGIN_STATE];
+    
+    if (state == YES) {
+        return;
+    }
+    
+    [self loginView];
+}
+
+- (void)loginView
+{
+    LoginViewController *login = [[LoginViewController alloc]init];
+    [self presentViewController:login animated:NO completion:^{
+        
+    }];
 }
 
 - (void)viewDidLoad {
@@ -119,6 +65,9 @@
     _distance = 0.0f;
     _isFirstStartCanshu = NO;
     
+    self.lines = [NSArray array];
+    
+    self.routeLineArray = [NSMutableArray arrayWithCapacity:1];
     
     
     [self initMap];//初始化地图
@@ -130,6 +79,7 @@
     
     [self initStartDownView];//初始化地图下面的view
     
+    _points = [NSMutableArray arrayWithCapacity:10];
     
     
     
@@ -240,7 +190,7 @@
 //    _zuoxiaView.backgroundColor = [UIColor greenColor];
 //    _youxiaView.backgroundColor = [UIColor purpleColor];
     
-    self.fiveCustomView = @[_dingView,_zuoshangView,_youshangView,_zuoxiaView,_youshangView];
+    
     
     
     
@@ -367,7 +317,7 @@
             _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+5, _youxiaView.titleImv.frame.origin.y, 40, 30);
             _youxiaView.danweiLabel.text = @"bpm";
             
-            _youshangView.viewTypeStr = @"热量";
+            _youxiaView.viewTypeStr = @"热量";
             
             
         }
@@ -385,6 +335,7 @@
         _saveViewTag54View.contentLable.text = @"0";
         _saveViewTag54View.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.contentLable.frame)+5, _saveViewTag54View.titleImv.frame.origin.y, 40, 30);
         _saveViewTag54View.danweiLabel.text = @"km/时";
+        _saveViewTag54View.viewTypeStr = @"km/时";
         _saveViewTag54View.hidden = YES;
         
         
@@ -398,6 +349,8 @@
         _saveViewTag55View.hidden = YES;
         
         
+        
+        self.fiveCustomView = @[_dingView,_zuoshangView,_youshangView,_zuoxiaView,_youxiaView,_saveViewTag54View];
         
         
         //添加到upview上
@@ -474,28 +427,45 @@
     
     if (sender.tag == 40) {//路书开关
         
-        RoadManagerController *cc = [[RoadManagerController alloc]init];
-        cc.actionType = Action_SelectRoad;
+        sender.selected = !sender.selected;
         
-        [cc selectRoadlineBlock:^(NSString *serverRoadId, NSString *roadlineJson) {
-            [self.mapView removeOverlays:_lines];
-            [self.mapView removeAnnotation:startAnnotation];
-            [self.mapView removeAnnotation:detinationAnnotation];
+        if (!sender.selected) {//路书为打开状态
             
-            NSArray *roadLineArray = [GMAPI getRoadLinesForType:1 isOpen:YES];
-            if (roadLineArray && roadLineArray.count>0) {
-                LRoadClass *roadModelClass= roadLineArray[0];
+            if (self.lines.count>0) {
+                [self.mapView removeOverlays:self.lines];
                 
+//                MAPointAnnotation *startAnnotation;//起点
+//                MAPointAnnotation *detinationAnnotation;//终点
+//                NSMutableArray *middleAnntations;
                 
-                
+                [self.mapView removeAnnotation:startAnnotation];
+                [self.mapView removeAnnotation:detinationAnnotation];
             }
             
+        }else{//路书为关闭状态
+            RoadManagerController *cc = [[RoadManagerController alloc]init];
+            cc.actionType = Action_SelectRoad;
             
-            
-        }];
-        cc.hidesBottomBarWhenPushed = YES;
-        self.navigationController.navigationBarHidden = NO;
-        [self.navigationController pushViewController:cc animated:YES];
+            __weak typeof (self)bself = self;
+            [cc selectRoadlineBlock:^(NSString *serverRoadId, NSString *roadlineJson) {
+                
+                if (bself.lines.count>0) {
+                    [bself.mapView removeOverlays:self.lines];
+                    [bself.mapView removeAnnotation:startAnnotation];
+                    [bself.mapView removeAnnotation:detinationAnnotation];
+                }
+                
+                NSArray *roadLineArray = [GMAPI getRoadLinesForType:1 isOpen:YES];
+                if (roadLineArray && roadLineArray.count>0) {
+                    LRoadClass *roadModelClass= roadLineArray[0];
+                    [bself showRoadLineInMapViewWith:roadModelClass];
+                    
+                }
+            }];
+            cc.hidesBottomBarWhenPushed = YES;
+            bself.navigationController.navigationBarHidden = NO;
+            [bself.navigationController pushViewController:cc animated:YES];
+        }
         
     }
     
@@ -530,9 +500,6 @@
     
     //    [self initGestureRecognizer];//长按手势
     
-    [self.mapView addOverlays:self.overlays];//把线条添加到地图上
-    
-    [self configureRoutes];//划线
 }
 
 ///初始化地图下方view
@@ -845,28 +812,68 @@
             [self hideTabBar:NO];
             
             
-            NSString *jsonStr = [self.routeLineArray JSONString];
+//            [GMAPI zhengliPointArrayWithArray:self.routeLineArray];
             
-            //历史展示界面需要的参数
-            //时间  平均速度 用时 距离
-            NSString *startNameStr = [NSString stringWithFormat:@"%@,%@,%@",self.gYunDongCanShuModel.startTime,self.gYunDongCanShuModel.endTime,self.gYunDongCanShuModel.yongshi];
+            NSArray *dic_arr = [LMapTools saveMaplines:self.routeLineArray];
             
-            NSString *endNameStr = @"0";
+            int dic_arr_count = dic_arr.count;
+            NSLog(@"dic_arr.count %d",dic_arr.count);
             
-            if (self.gYunDongCanShuModel.pingjunsudu.length >0) {
-                endNameStr = [NSString stringWithFormat:@"%@",self.gYunDongCanShuModel.pingjunsudu];
+            if (dic_arr_count<1) {
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"轨迹太短无法保存" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [al show];
+            }else{
+                 NSString *jsonStr = [dic_arr JSONString];
+                
+                NSLog(@" jsonStr = %@",jsonStr);
+                
+                
+#pragma mark - 上传轨迹到服务器
+                
+                NSString *custIdStr = [LTools cacheForKey:USER_CUSTID];
+                CGFloat juli = self.gYunDongCanShuModel.juli;
+                int upMetre = (self.gYunDongCanShuModel.maxHaiba - self.gYunDongCanShuModel.minHaiba);
+                int downMetre = (self.gYunDongCanShuModel.haiba  - self.gYunDongCanShuModel.minHaiba);
+                int costCalories = 30;
+                
+                CGFloat avgSpeed = self.gYunDongCanShuModel.pingjunsudu;
+                CGFloat topSpeed = self.gYunDongCanShuModel.maxSudu;
+                int heartRate = 70;
+                NSString *beginTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];
+                NSString *endTimeStr = [self.gYunDongCanShuModel.endTime substringToIndex:19];
+                NSString *costTimeStr = self.gYunDongCanShuModel.yongshi;
+                NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;
+                NSString *endCoordinatesStr = self.gYunDongCanShuModel.coorStr;
+                
+                NSLog(@"终点经纬度 %@",endCoordinatesStr);
+                
+                
+                if (jsonStr) {
+                    [self saveRoadlinesJsonString:jsonStr custId:custIdStr cyclingKm:juli upMetre:upMetre downMetre:downMetre costCalories:costCalories avgSpeed:avgSpeed topSpeed:topSpeed heartRate:heartRate beginTime:beginTimeStr endTime:endTimeStr costTime:costTimeStr beginSite:@" " endSite:@" " beginCoordinates:beginCoordinatesStr endCoordinates:endCoordinatesStr];
+                }else{
+                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [al show];
+                }
+                
+                
+                
             }
             
+           
             
             
 #pragma mark - 保存轨迹到本地数据库
             
-            if (jsonStr) {//有轨迹再往本地存
-                [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
-            }else{
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"保存失败" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [al show];
-            }
+//            if (jsonStr) {//有轨迹再往本地存
+//                if (jsonStr && startNameStr && endNameStr && self.gYunDongCanShuModel.juli && self.gYunDongCanShuModel.startCoorStr && self.gYunDongCanShuModel.coorStr) {
+//                    
+//                    [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
+            
+                    
+
+            
+            
+            
             
             
             
@@ -889,45 +896,30 @@
             
             
             
-#pragma mark - 上传轨迹===============================
-            
-            int upMetre = [self.gYunDongCanShuModel.maxHaiba intValue] - [self.gYunDongCanShuModel.startHaiba intValue];
-            int downMetre = [self.gYunDongCanShuModel.startHaiba intValue] - [self.gYunDongCanShuModel.minHaiba intValue];
-            
-            NSString *upMetreStr = [NSString stringWithFormat:@"%d",upMetre];//上升海拔
-            NSString *downMetreStr = [NSString stringWithFormat:@"%d",downMetre];//下降海拔
-            NSString *startTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];//开始时间
-            NSString *endTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];//结束时间
-            self.gYunDongCanShuModel.startTime = startTimeStr;
-            self.gYunDongCanShuModel.endTime = endTimeStr;
-            
-            
-            
-            
-//            jsonStr = @"[{classType:MAPolyline,rect_x:220973840,rect_y:101745872,rect_width:352,pointX:220973840,pointY:101749648,latitude:39.872806549072266,longitude:116.34925079345703,coordinatesString:116.349013,39.870864,116.349356,39.873589,116.349399,39.873984,116.349485,39.874750,pointCount:4,rect_height:3776},{classType:MAPolyline,rect_x:220974192,rect_y:101743896,rect_width:144,pointX:220974192,pointY:101745872,latitude:39.875766754150391,longitude:116.34957885742188,coordinatesString:116.349485,39.874750,116.349614,39.875260,116.349678,39.876002,116.349657,39.876784,pointCount:4,rect_height:1976},{classType:MAPolyline,rect_x:220973808,rect_y:101743920,rect_width:80,pointX:220973856,pointY:101743920,latitude:39.875846862792969,longitude:116.34902191162109,coordinatesString:116.349034,39.876759,116.349056,39.876281,116.349077,39.875705,116.349056,39.875458,116.348970,39.874931,pointCount:5,rect_height:1776},{classType:LineDashPolyline,rect_x:220973856,rect_y:101743896,rect_width:464,pointX:0,pointY:0,latitude:39.87677001953125,longitude:116.34934234619141,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220974320,pointY:101743896,latitude:0,longitude:0,coordinatesString:116.349657,39.876784,116.349034,39.876759,pointCount:2,rect_height:0},pointCount:0,rect_height:24},{classType:MAPolyline,rect_x:220973568,rect_y:101745696,rect_width:336,pointX:220973808,pointY:101745696,latitude:39.872745513916016,longitude:116.348876953125,coordinatesString:116.348970,39.874931,116.349099,39.874585,116.348970,39.873605,116.348906,39.873136,116.348777,39.871967,116.348648,39.870559,pointCount:6,rect_height:4248},{classType:MAPolyline,rect_x:220972080,rect_y:101749944,rect_width:1488,pointX:220973568,pointY:101749944,latitude:39.861549377441406,longitude:116.34764862060547,coordinatesString:116.348648,39.870559,116.348584,39.869357,116.348519,39.868632,116.348348,39.867084,116.348069,39.864490,116.347919,39.863411,116.347575,39.860191,116.347339,39.858371,116.346653,39.852540,pointCount:9,rect_height:17504},{classType:MAPolyline,rect_x:220970240,rect_y:101767456,rect_width:1824,pointX:220972064,pointY:101767456,latitude:39.851242065429688,longitude:116.34540557861328,coordinatesString:116.346631,39.852532,116.346180,39.852004,116.346052,39.851798,116.345773,39.851411,116.345451,39.851115,116.344764,39.850514,116.344399,39.850143,116.344185,39.849953,pointCount:8,rect_height:2504},{classType:LineDashPolyline,rect_x:220972064,rect_y:101767456,rect_width:16,pointX:0,pointY:0,latitude:39.852527618408203,longitude:116.34664154052734,polyline:{classType:MAPolyline,rect_x:0,rect_y:0,rect_width:0,pointX:220972080,pointY:101767456,latitude:0,longitude:0,coordinatesString:116.346653,39.852532,116.346631,39.852523,pointCount:2,rect_height:0},pointCount:0,rect_height:8},{classType:MAPolyline,rect_x:220970240,rect_y:101769960,rect_width:1104,pointX:220970240,pointY:101769960,latitude:39.847480773925781,longitude:116.34492492675781,coordinatesString:116.344185,39.849953,116.344292,39.848949,116.344399,39.848496,116.344850,39.848043,116.344979,39.847902,116.345258,39.847532,116.345408,39.847244,116.345451,39.847112,116.345494,39.847013,116.345580,39.846815,116.345601,39.846650,116.345665,39.846206,116.345665,39.845991,116.345601,39.845448,116.345580,39.845011,pointCount:15,rect_height:4800}]";
-            
-            
-            if (jsonStr ) {//有轨迹再上传
-                [self saveRoadlinesJsonString:jsonStr//轨迹大字符串
-                                    startName:@" "
-                                      endName:@" "
-                                    cyclingKm:self.gYunDongCanShuModel.juli//总距离
-                                      upMetre:upMetreStr//上升海拔
-                                    downMetre:downMetreStr//下降海拔
-                                 costCalories:self.gYunDongCanShuModel.bpm//卡路里
-                                     avgSpeed:self.gYunDongCanShuModel.pingjunsudu//平均速度
-                                     topSpeed:self.gYunDongCanShuModel.maxSudu//最高速度
-                                    heartRate:@" "//心率
-                                    beginTime:startTimeStr//开始时间
-                                      endTime:endTimeStr//结束时间
-                                     costTime:self.gYunDongCanShuModel.yongshi//用时
-                                    beginSite:@" "
-                                      endSite:@" "
-                             beginCoordinates:self.gYunDongCanShuModel.startCoorStr//起点的经纬度
-                               endCoordinates:self.gYunDongCanShuModel.coorStr];//终点的经纬度
+            for (GyundongCustomView *view in self.fiveCustomView) {
+                
+                [self.gYunDongCanShuModel cleanAllData];
+                
+                if ([view.viewTypeStr isEqualToString:@"计时"]) {
+                    view.contentLable.text = @"00:00:00";
+                }else{
+                    view.contentLable.text = @"0.0";
+                }
             }
             
+            _distance = 0.0f;
             
+            self.mapView.showsUserLocation = NO;
+            [self.mapView removeOverlays:self.routeLineArray];
+            
+            [_points removeAllObjects];
+            [self.routeLineArray removeAllObjects];
+            
+            reset = YES;//停止计时器
+            _downView.hidden = YES;
+            [self.gYunDongCanShuModel cleanAllData];
+            [self hideTabBar:NO];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
             
             
             
@@ -947,8 +939,12 @@
             }
             
             _distance = 0.0f;
-//            _kaishiyundong = NO;
+
             self.mapView.showsUserLocation = NO;
+            [self.mapView removeOverlays:self.routeLineArray];
+            [_points removeAllObjects];
+            [self.routeLineArray removeAllObjects];
+            
             reset = YES;//停止计时器
             _downView.hidden = YES;
             [self.gYunDongCanShuModel cleanAllData];
@@ -957,10 +953,10 @@
         }else if (buttonIndex == 2){//取消按钮
             if (_isTimeOutClicked) {
                 started = NO;
-//                _kaishiyundong = NO;
+
             }else{
                 started = YES;
-//                _kaishiyundong = YES;
+
             }
             
         }
@@ -1153,8 +1149,8 @@
 
 -(void)mapView:(MAMapView*)mapView didFailToLocateUserWithError:(NSError*)error{
     
-    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"定位失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [al show];
+//    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"定位失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//    [al show];
     NSLog(@"定位失败");
 }
 
@@ -1328,6 +1324,9 @@
 {
     
     
+    NSLog(@"点的数组 ------------------ %d",_points.count);
+    
+    
     //方向
     NSString *headingStr = @"";
     if (userLocation) {
@@ -1351,9 +1350,9 @@
         
         if (_isFirstStartCanshu) {
             if (alti != 0) {
-                self.gYunDongCanShuModel.startHaiba = [NSString stringWithFormat:@"%d",alti];//开始海拔
-                self.gYunDongCanShuModel.maxHaiba = [NSString stringWithFormat:@"%d",alti];
-                self.gYunDongCanShuModel.minHaiba = [NSString stringWithFormat:@"%d",alti];
+                self.gYunDongCanShuModel.startHaiba = alti;//开始海拔
+                self.gYunDongCanShuModel.maxHaiba = alti;
+                self.gYunDongCanShuModel.minHaiba = alti;
             }
             //开始时的经纬度
             self.gYunDongCanShuModel.startCoorStr = [NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude];
@@ -1361,16 +1360,16 @@
             _isFirstStartCanshu = NO;
         }
         
-        if (alti > [self.gYunDongCanShuModel.maxHaiba intValue]) {
-            self.gYunDongCanShuModel.maxHaiba = [NSString stringWithFormat:@"%d",alti];//最高海拔
+        if (alti > self.gYunDongCanShuModel.maxHaiba) {
+            self.gYunDongCanShuModel.maxHaiba = alti;//最高海拔
         }
         
-        if (alti <[self.gYunDongCanShuModel.minHaiba integerValue] && alti !=0 ) {
-            self.gYunDongCanShuModel.minHaiba = [NSString stringWithFormat:@"%d",alti];//最低海拔
+        if ( (alti <self.gYunDongCanShuModel.minHaiba) && alti !=0 ) {
+            self.gYunDongCanShuModel.minHaiba = alti;//最低海拔
         }
         
         
-        self.gYunDongCanShuModel.haiba = [NSString stringWithFormat:@"%d",alti];//实时海拔
+        self.gYunDongCanShuModel.haiba = alti;//实时海拔
         self.gYunDongCanShuModel.coorStr = [NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude];//实时经纬度 定位结束后为终点经纬度
         
         
@@ -1379,7 +1378,7 @@
         for (GyundongCustomView *view in self.fiveCustomView) {
             if ([view.viewTypeStr isEqualToString:@"海拔"]) {
                 
-                view.contentLable.text = self.gYunDongCanShuModel.haiba;
+                view.contentLable.text = [NSString stringWithFormat:@"%d",self.gYunDongCanShuModel.haiba];
                 
             }
         }
@@ -1405,14 +1404,9 @@
     
     
     
-#pragma mark -  划线=======================
-    
-    
-//    self.gYunDongCanShuModel.userLocation = userLocation;
-    
+#pragma mark -  划线- start
     NSLog(@"lat ====== %f",userLocation.location.coordinate.latitude);
     NSLog(@"lon ====== %f",userLocation.location.coordinate.longitude);
-    
     NSLog(@"%@ ----- %@", self, NSStringFromSelector(_cmd));
     
     CLLocation *location = [[CLLocation alloc] initWithLatitude:userLocation.coordinate.latitude
@@ -1423,90 +1417,213 @@
         return;
     
     // check the move distance
-    if (_points.count > 0) {
-        CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
-        if (distance < 5 ){
-            return;
-        }
-        _distance += distance;
-        NSLog(@"距离---- %.2f 米",_distance);
-#pragma mark - 数据model赋值--------------- 距离
-        self.gYunDongCanShuModel.juli = [NSString stringWithFormat:@"%.2f",_distance/1000];
+    
+        CLLocationDistance distance = [self addNewLocationToPath:userLocation.location];
+    
+//     CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
+    
+        NSLog(@"?????? distance = %f",distance);
         
+//        if (distance < 5 ){
+//            return;
+//        }
+//    
+//        [_points addObject:location];
+    
+    
+        CLLocationDistance julishangyigedian = [location distanceFromLocation:_currentLocation];
+        _currentLocation = location;
+    
+        [self configureRoutes];
+#pragma mark --  划线- end
+        
+        
+        
+ #pragma mark - 数据model赋值 -- 距离
+        _distance += julishangyigedian;
+        NSLog(@"距离---- %f 米",_distance);
+        self.gYunDongCanShuModel.juli = _distance/1000.0;
         for (GyundongCustomView *view in self.fiveCustomView) {
+            
             if ([view.viewTypeStr isEqualToString:@"距离"]) {
-                view.contentLable.text = self.gYunDongCanShuModel.juli;//给距离label赋值 单位是公里
+                view.contentLable.text = [NSString stringWithFormat:@"%.2f",self.gYunDongCanShuModel.juli];//给距离label赋值 单位是公里
             }
         }
         
-    }
-    
-    
-#pragma mark - 数据model赋值 ------------- 当前 实时速度
-    
-//    double sudu = userLocation.location.speed;//单位米每秒
-//    if (sudu<0) {
-//        sudu = 0;
 //    }
-//    double suduOfGongli = sudu *3.6;
-//    self.gYunDongCanShuModel.dangqiansudu = [NSString stringWithFormat:@"%.1f",suduOfGongli];//单位 公里每小时
     
+   
     
-    
-    
-    
-#pragma mark - 数据model赋值 ------------ 最高速度 
-    
-    if ([self.gYunDongCanShuModel.maxSudu intValue] < [self.gYunDongCanShuModel.dangqiansudu intValue]) {
+#pragma mark - 数据model赋值 -- 最高速度
+    if (self.gYunDongCanShuModel.maxSudu  < self.gYunDongCanShuModel.dangqiansudu) {
         self.gYunDongCanShuModel.maxSudu = self.gYunDongCanShuModel.dangqiansudu;
     }
-    
-    
-#pragma mark - 数据model赋值 ------------ 平均速度
-    
-    
+#pragma mark - 数据model赋值 -- 平均速度
     double zjuli = _distance/1000;//单位：公里
+    
     if (self.gYunDongCanShuModel.yongshi.length>1) {
-        int hh = [[self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(0, 2)]intValue];
-        int mm = [[self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(3, 2)]intValue];
-        int ss = [[self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(6, 2)]intValue];
+        
+        NSString *hhStr = [self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(0, 2)];
+        NSString *mmStr = [self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(3, 2)];
+        NSString *ssStr = [self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(6, 2)];
+        
+        
+        int hh;
+        int mm;
+        int ss;
+        
+        if ([hhStr intValue]) {
+            hh = [hhStr intValue];
+        }else{
+            hh = 0;
+        }
+        
+        if ([mmStr intValue]) {
+            mm = [mmStr intValue];
+        }else{
+            mm = 0;
+        }
+        
+        if ([ssStr intValue]) {
+            ss = [ssStr intValue];
+        }else{
+            ss = 0;
+        }
+        
+        
+        
         double yongshi = hh+mm/60.0+ss/3600.0;//单位小时
+        
+        
         double pjsd = zjuli/yongshi;
         if (pjsd<0) {
-            pjsd = 0;
+            pjsd = 0.0;
         }
-        self.gYunDongCanShuModel.pingjunsudu = [NSString stringWithFormat:@"%.1f",pjsd];
+        
+        self.gYunDongCanShuModel.pingjunsudu = pjsd;
+        
     }
-    
     for (GyundongCustomView *view in self.fiveCustomView) {
-        if ([view.viewTypeStr isEqualToString:@"速度"]) {
-            view.contentLable.text = self.gYunDongCanShuModel.pingjunsudu;
+        
+        if ([view.viewTypeStr isEqualToString:@"速度"] || [view.viewTypeStr isEqualToString:@"km/时"]) {
+            
+            
+            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.pingjunsudu];
+            
         }
+        
     }
-    
-    
-    if (_points == nil) {
-        _points = [[NSMutableArray alloc] init];
-    }
-    
-    [_points addObject:location];
-    _currentLocation = location;
-    
-    NSLog(@"points: %@", _points);
-    
-    [self configureRoutes];
-    
-//    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude);
-//    [self.mapView setCenterCoordinate:coordinate animated:YES];
-    
-    
-    
     
     
     
 }
 
-#pragma mark - 画线
+
+
+
+// 添加原始位置点到数据，去除一些异常点后，返回走过的距离
+-(CLLocationDistance)addNewLocationToPath:(CLLocation *)cLocation
+{
+    
+    CLLocationDistance dist = 0.0f;
+
+    [_points addObject:cLocation];
+    
+    // 优化数据集合
+    for (int i = [_points count] - 3; i >= 0; i--) {
+        CLLocationDistance distItem1 = [[_points objectAtIndex:i ] distanceFromLocation:[_points objectAtIndex:(i + 1)]];
+        CLLocationDistance distItem2 = [[_points objectAtIndex:i + 1 ] distanceFromLocation:[_points objectAtIndex:(i + 2)]];
+        CLLocationDistance distItem13 = [[_points objectAtIndex:i ] distanceFromLocation:[_points objectAtIndex:(i + 2)]];
+        // 减少描点个数，5米一个间距
+        if (distItem1 + distItem2 < 15.0f) {
+            [_points removeObjectAtIndex:i + 1];
+        }
+        NSLog(@"%lf,%lf", distItem1, distItem2);
+        if (distItem1 > 20.0f ) {
+            if (i < 10) {
+                // 前几个点的特殊处理
+                [_points removeObjectAtIndex:i];
+            }
+            else
+            {
+                // 急速变动情况特殊处理，取中心点坐标
+                CLLocationDegrees newLatitude = (((CLLocation *)[_points objectAtIndex:i ]).coordinate.latitude + ((CLLocation *)[_points objectAtIndex:i + 1]).coordinate.latitude + ((CLLocation *)[_points objectAtIndex:i + 2]).coordinate.latitude) / 3.0f;
+                CLLocationDegrees newLongitude = (((CLLocation *)[_points objectAtIndex:i ]).coordinate.longitude + ((CLLocation *)[_points objectAtIndex:i + 1]).coordinate.longitude + ((CLLocation *)[_points objectAtIndex:i + 2]).coordinate.longitude) / 3.0f;
+                CLLocation *clocationNew = [[CLLocation alloc] initWithLatitude:newLatitude longitude:newLongitude] ;
+                // 替换三角形中间的坐标
+                if (distItem2 > distItem13) {
+                    [_points replaceObjectAtIndex:i withObject:clocationNew];
+                }
+                else {
+                    [_points replaceObjectAtIndex:i+1 withObject:clocationNew];
+                }
+            }
+            NSLog(@"修正坐标");
+        }
+    }
+    
+    
+    
+    
+    // 增加上传前过滤操作
+    // 判断连续三个点之间的夹角，当大于某个给定临界值(此处选170度)时，可以认为三点一线，去掉中间点
+    if (_points.count >5) {
+        float fArcThreshold = 170.0f;       //临界值
+        BOOL bFind = YES;
+        while (bFind) {
+            
+            bFind = NO;
+            
+            for (int i = 0; i < [_points count] - 2; i++) {
+                
+                CLLocationDistance distItem1 = [[_points objectAtIndex:i ] distanceFromLocation:[_points objectAtIndex:(i + 1)]];
+                
+                CLLocationDistance distItem2 = [[_points objectAtIndex:i + 1 ] distanceFromLocation:[_points objectAtIndex:(i + 2)]];
+                
+                CLLocationDistance distItem13 = [[_points objectAtIndex:i ] distanceFromLocation:[_points objectAtIndex:(i + 2)]];
+                
+                // 余弦定理求出ABC夹角
+                double fRate = (distItem1 * distItem1 + distItem2 * distItem2 - distItem13 * distItem13) / (2.0f * distItem1 * distItem2);
+                
+                float fArc = (180.0f / M_PI) *  acosf((float)fRate);        // 转化成度数
+                
+                if (isnan(fArc)) {
+                    
+                    [_points removeObjectAtIndex:i + 1];
+                    bFind = YES;
+                }
+                else if (fArc > fArcThreshold){
+                    
+                    bFind = YES;
+                    [_points removeObjectAtIndex:i + 1];
+                }
+                else if (distItem1 + distItem2 > 50.0f && (distItem1 + distItem2 - distItem13 < distItem13 * 0.005)) {
+                    
+                    bFind = YES;
+                    [_points removeObjectAtIndex:i + 1];
+                }
+            }
+        }
+        
+    }
+
+    
+    for (int j = 1; j < [_points count]; j++) {
+        CLLocationDistance distItems = [[_points objectAtIndex:j ] distanceFromLocation:[_points objectAtIndex:(j - 1)]];
+        dist = distItems;
+    }
+
+    
+    return dist;
+}
+
+
+
+
+
+
+
+#pragma mark - 画线方法
 - (void)configureRoutes
 {
     
@@ -1524,7 +1641,6 @@
 
         // create our coordinate and add it to the correct spot in the array
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-//        MAMapPoint point = MAMapPointMake(coordinate.latitude, coordinate.longitude);
         MAMapPoint point = MAMapPointForCoordinate(coordinate);
 
         // if it is the first point, just use them, since we have nothing to compare to yet.
@@ -1551,32 +1667,32 @@
         [self.mapView removeOverlay:self.routeLine];
     }
     
+    
     self.routeLine = [MAPolyline polylineWithPoints:pointArray count:_points.count];
     
     // add the overlay to the map
-    if (nil != self.routeLine) {
+    if (self.routeLine != nil) {
         [self.mapView addOverlay:self.routeLine];
-#pragma mark - 划线保存的line数组？？？？？？？？？？？？？？？？？？？
-        //这个数组保存的时候转为json串存入数据库中
+//#pragma mark - 划线时把MAPolyline折线对象保存到self.routeLineArray数组中
+//        //这个数组保存的时候转为json串存入数据库中
+        [self.routeLineArray removeAllObjects];
         [self.routeLineArray addObject:self.routeLine];
     }
-    
     // clear the memory allocated earlier for the points
     free(pointArray);
     
     
+    
+    
 }
 
-#pragma 点击tabbar上开始按钮开始的操作   开始骑行============
+#pragma 点击tabbar上开始按钮开始的操作   开始骑行
 -(void)iWantToStart{
-//    _kaishiyundong = YES;
+
     [self hideTabBar:YES];
     _isFirstStartCanshu = YES;
     _downView.hidden = NO;
-    
-    
     self.mapView.showsUserLocation = YES;//开启定位
-    
     
     //接收到appdelegate通知 开始骑行 下面这个是判断 是否为暂停后点击返回然后再点击开始骑行进入的
     if (_isTimeOutClicked) {
@@ -1628,24 +1744,20 @@
 
 
 
+
+#pragma mark - 把路书添加到地图上
+
 -(void)showRoadLineInMapViewWith:(LRoadClass*)model{
-    NSDictionary *dic1 = [GMAPI getRoadLinesForRoadId:model.roadId];
-    NSString *jsonString = [dic1 objectForKey:LINE_JSONSTRING];
-    NSArray *arr = [jsonString objectFromJSONString];
-    
+
+    NSArray *arr = [model.lineString objectFromJSONString];
     CLLocationCoordinate2D start;
     start = CLLocationCoordinate2DMake(model.startCoor.latitude, model.startCoor.longitude);
-    
     CLLocationCoordinate2D end;
     end = CLLocationCoordinate2DMake(model.endCoor.latitude, model.endCoor.longitude);
     
-    if (0) {
-        return;
-    }
-    
     NSDictionary *history_dic = [LMapTools parseMapHistoryMap:arr];
     
-    NSArray *lines = [history_dic objectForKey:L_POLINES];
+    self.lines = [history_dic objectForKey:L_POLINES];
     
     self.startCoordinate = start;
     [self addStartAnnotation];
@@ -1653,7 +1765,7 @@
     self.destinationCoordinate = end;
     [self addDestinationAnnotation];
     
-    [self.mapView addOverlays:lines];
+    [self.mapView addOverlays:self.lines];
     
     [self.mapView setCenterCoordinate:self.startCoordinate animated:YES];
     
@@ -1789,34 +1901,33 @@
 
 #pragma mark - 上传轨迹
 - (void)saveRoadlinesJsonString:(NSString *)jsonStr
-                      startName:(NSString *)startNameL
-                        endName:(NSString *)endNameL
-                      cyclingKm:(NSString *)cyclingKmStr
-                        upMetre:(NSString *)upMetreStr
-                      downMetre:(NSString *)downMetreStr
-                   costCalories:(NSString *)costCaloriesStr
-                       avgSpeed:(NSString *)avgSpeedStr
-                       topSpeed:(NSString *)topSpeedStr
-                      heartRate:(NSString *)heartRateStr
-                      beginTime:(NSString *)beginTimeStr
-                        endTime:(NSString *)endTimeStr
-                       costTime:(NSString *)costTimeStr
-                      beginSite:(NSString *)beginSiteStr
-                        endSite:(NSString *)endSiteStr
-               beginCoordinates:(NSString *)beginCoordinatesStr
-                 endCoordinates:(NSString *)endCoordinatesStr
+                         custId:(NSString *)userId
+                      cyclingKm:(CGFloat)juli
+                        upMetre:(int)haibashangsheng
+                      downMetre:(int)haibaxiajiang
+                   costCalories:(int)kaluli
+                       avgSpeed:(CGFloat)pingjunsudu
+                       topSpeed:(CGFloat)zuigaosudu
+                      heartRate:(int)xinlv
+                      beginTime:(NSString *)kaishishijian
+                        endTime:(NSString *)jiesushijian
+                       costTime:(NSString *)yongshi
+                      beginSite:(NSString *)kaishididian
+                        endSite:(NSString *)jiesudidian
+               beginCoordinates:(NSString *)kaishijingweidu
+                 endCoordinates:(NSString *)jiesujingweidu
 
 {
-    NSString *custId = [LTools timechangeToDateline];
+    NSString *custId =  [LTools cacheForKey:USER_CUSTID];
+    
     
     NSString *post = [NSString stringWithFormat:@"&roadlines=%@",jsonStr];
     
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     
-    NSString *url = [NSString stringWithFormat:BIKE_ROAD_LINE_GUIJI,custId,cyclingKmStr,upMetreStr,downMetreStr,costCaloriesStr,avgSpeedStr,topSpeedStr,heartRateStr,beginTimeStr,endTimeStr,costTimeStr,beginSiteStr,endSiteStr,beginCoordinatesStr,endCoordinatesStr];
+    NSString *url = [NSString stringWithFormat:BIKE_ROAD_LINE_GUIJI,custId,juli,haibashangsheng,haibaxiajiang,kaluli,pingjunsudu,zuigaosudu,xinlv,kaishishijian,jiesushijian,yongshi,kaishididian,jiesudidian,kaishijingweidu,jiesujingweidu];
     
-    
-    NSLog(@"请求的url : %@",url);
+    NSLog(@"上传轨迹请求的url : %@",url);
     
     LTools *tool = [[LTools alloc]initWithUrl:url isPost:YES postData:postData];
     [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
@@ -1827,18 +1938,14 @@
         
         if (status == 1) {
             
-//            [loading hide:YES];
-            
             NSLog(@"上传返回的dic ： %@",result);
             
             [LTools showMBProgressWithText:@"路书上传成功" addToView:self.view];
         }else
         {
             NSLog(@"上传返回的dic ： %@",result);
-            
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [al show];
-            
             
         }
         
@@ -1847,7 +1954,6 @@
         
         NSLog(@"failDic %@ erro %@",failDic,[failDic objectForKey:@"ERRO_INFO"]);
         
-//        [loading hide:YES];
         
     }];
 }

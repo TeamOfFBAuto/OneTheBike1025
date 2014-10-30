@@ -20,5 +20,14 @@
 @property(nonatomic,strong)NSMutableArray *dataArray;//二维数组
 
 
+@property(nonatomic,strong)NSMutableArray *localDataArray;//本地数据
+
+
+
+@property(nonatomic,strong)UILabel *topTotalDistanceLabel;//最上面总距离label
+@property(nonatomic,strong)UILabel *totalCishuLabel;//运动次数label
+@property(nonatomic,strong)UILabel *totalYongshiLabel;//总用时label
+
+
 
 @end

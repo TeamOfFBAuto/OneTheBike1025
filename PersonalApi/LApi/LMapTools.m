@@ -43,7 +43,7 @@
             
             NSString *coordinatesString = [self coordinateStringPolyline:temp];
             
-            LMaplineClass *polyLine = [[LMaplineClass alloc]initMAPolylineWithMapPointX:temp.points->x pointY:temp.points->y pointCount:temp.pointCount type:TYPE_MAPolyline coordinatesString:coordinatesString];
+            LMaplineClass *polyLine = [[LMaplineClass alloc]initMAPolylineWithMapPointX:temp.points->x pointY:temp.points->y pointCount:temp.pointCount type:@"MAPolyline" coordinatesString:coordinatesString];
             
             polyLine.rect_x = temp.boundingMapRect.origin.x;
             polyLine.rect_y = temp.boundingMapRect.origin.y;
@@ -61,7 +61,7 @@
             
             NSString *coordinatesString = [self coordinateStringPolyline:temp.polyline];
             
-            LMaplineClass *dashLine = [[LMaplineClass alloc]initLineDashPolylineWithCoordinate:temp.coordinate rect:temp.boundingMapRect polyline:temp.polyline type:TYPE_LineDashPolyline coordinatesString:coordinatesString];
+            LMaplineClass *dashLine = [[LMaplineClass alloc]initLineDashPolylineWithCoordinate:temp.coordinate rect:temp.boundingMapRect polyline:temp.polyline type:@"LineDashPolyline" coordinatesString:coordinatesString];
             
             [polyline_arr addObject:dashLine];
         }

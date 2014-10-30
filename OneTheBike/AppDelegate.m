@@ -20,6 +20,9 @@
 
 #import "RootViewController.h"
 
+#import "GhistoryViewController.h"
+
+
 /*
  第三方登录
  Q Q 2765869240
@@ -35,10 +38,6 @@
 
 #define SinaAppKey @"2470821654"
 #define SinaAppSecret @"bea7d21c9647406a25960a617a8e40a8"
-
-//fbauto
-//#define QQAPPID @"1101950003" //十六进制:41AE6C33; 生成方法:echo 'ibase=10;obase=16;1101950003'|bc
-//#define QQAPPKEY @"JAtVGEGeQWk9icsK"
 
 //bike
 #define QQAPPID @"1103196390" //十六进制:41C170E6; 生成方法:echo 'ibase=10;obase=16;1103196390'|bc
@@ -93,7 +92,8 @@
     
     GStartViewController * mainVC = [[GStartViewController alloc] init];
     
-    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];
+//    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];//带网络数据的
+    GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
     
     StartViewController * messageVC = [[StartViewController alloc] init];
     
