@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view from its nib.
     //适配ios7navigationbar高度
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
     }
     
     [self.navigationController.navigationBar setBackgroundImage:NAVIGATION_IMAGE forBarMetrics: UIBarMetricsDefault];

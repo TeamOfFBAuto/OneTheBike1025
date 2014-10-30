@@ -225,13 +225,11 @@
         
         [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:nil];
         cell.nameLabel.text = name;
-        cell.infoLabel.text = [NSString stringWithFormat:@"轨币:%@",gold];
+        cell.infoLabel.text = [NSString stringWithFormat:@"金币:%@",gold];
         
         return cell;
 
     }
-    
-    
     
     static NSString * identifier1= @"MineCellTwo";
     

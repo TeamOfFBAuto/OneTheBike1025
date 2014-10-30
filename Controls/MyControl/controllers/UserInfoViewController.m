@@ -111,6 +111,10 @@
         
         if (success == 1) {
             
+            NSString *userName = [result objectForKey:@"nickName"];
+            
+            [LTools cache:userName ForKey:USER_NAME];
+            
             [LTools showMBProgressWithText:@"个人资料修改成功" addToView:self.view];
             
             haveChange = NO;
@@ -144,6 +148,7 @@
         
         userInfo = [[UserInfoClass alloc]initWithDictionary:result];
         
+        [LTools cache:userInfo.nickName ForKey:USER_NAME];
         
         [self.tableView reloadData];
         
