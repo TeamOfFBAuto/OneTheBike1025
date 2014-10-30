@@ -1421,10 +1421,10 @@
 //        CLLocationDistance distance = [self addNewLocationToPath:userLocation.location];
     
      CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
-    
+    _currentLocation = location;
         NSLog(@"?????? distance = %f",distance);
         
-        if (distance < 5 ||distance>15){
+        if (distance < 5 ||distance>10){
             return;
         }
     
@@ -1432,7 +1432,7 @@
     
     
         CLLocationDistance julishangyigedian = [location distanceFromLocation:_currentLocation];
-        _currentLocation = location;
+    
     
         [self configureRoutes];
 #pragma mark --  划线- end
@@ -1440,7 +1440,7 @@
         
         
  #pragma mark - 数据model赋值 -- 距离
-        _distance += julishangyigedian;
+        _distance += distance;
         NSLog(@"距离---- %f 米",_distance);
         self.gYunDongCanShuModel.juli = _distance/1000.0;
         for (GyundongCustomView *view in self.fiveCustomView) {
