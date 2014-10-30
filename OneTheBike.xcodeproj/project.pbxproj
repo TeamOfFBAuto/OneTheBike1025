@@ -123,6 +123,7 @@
 		13B4AFA31A0283D900E16EFA /* default568.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B4AFA01A0283D900E16EFA /* default568.png */; };
 		13B4AFA41A0283D900E16EFA /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B4AFA11A0283D900E16EFA /* default@2x.png */; };
 		13B4AFA61A02842100E16EFA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B4AFA51A02842100E16EFA /* Images.xcassets */; };
+		13B4AFAA1A02962100E16EFA /* libSocialTencentWeibo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13B4AFA81A02962100E16EFA /* libSocialTencentWeibo.a */; };
 		13BE658A19FB8390006242A8 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 13BE658719FB8390006242A8 /* icon57.png */; };
 		13BE658B19FB8390006242A8 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 13BE658819FB8390006242A8 /* icon114.png */; };
 		13BE658C19FB8390006242A8 /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 13BE658919FB8390006242A8 /* icon120.png */; };
@@ -755,6 +756,8 @@
 		13B4AFA01A0283D900E16EFA /* default568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default568.png; sourceTree = "<group>"; };
 		13B4AFA11A0283D900E16EFA /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
 		13B4AFA51A02842100E16EFA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		13B4AFA81A02962100E16EFA /* libSocialTencentWeibo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialTencentWeibo.a; sourceTree = "<group>"; };
+		13B4AFA91A02962100E16EFA /* UMSocialTencentWeiboHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialTencentWeiboHandler.h; sourceTree = "<group>"; };
 		13BE658719FB8390006242A8 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57.png; sourceTree = "<group>"; };
 		13BE658819FB8390006242A8 /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
 		13BE658919FB8390006242A8 /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
@@ -1279,6 +1282,7 @@
 				13A2AA5819D7B99F008D1B9F /* libsqlite3.dylib in Frameworks */,
 				E3B8024C19FC0C2600AF9831 /* MAMapKit.framework in Frameworks */,
 				13A2AA5419D7B989008D1B9F /* libiconv.dylib in Frameworks */,
+				13B4AFAA1A02962100E16EFA /* libSocialTencentWeibo.a in Frameworks */,
 				13A2AA8419D7BAB3008D1B9F /* libUMSocial_Sdk_4.1.a in Frameworks */,
 				13A2AA9219D7BAB3008D1B9F /* libSocialWechat.a in Frameworks */,
 				13A2AA5019D7B968008D1B9F /* CoreGraphics.framework in Frameworks */,
@@ -1571,6 +1575,7 @@
 		13A2AA7419D7BAB3008D1B9F /* UMSocial_Sdk_Extra_Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				13B4AFA71A02962100E16EFA /* TencentWeibo */,
 				13AC6BA619D805D800E7FF7B /* TencentOpenAPI */,
 				13A2AA7519D7BAB3008D1B9F /* Sina */,
 				13A2AA7D19D7BAB3008D1B9F /* Wechat */,
@@ -1649,6 +1654,15 @@
 				13AC6BAA19D805D800E7FF7B /* UMSocialQQHandler.h */,
 			);
 			path = TencentOpenAPI;
+			sourceTree = "<group>";
+		};
+		13B4AFA71A02962100E16EFA /* TencentWeibo */ = {
+			isa = PBXGroup;
+			children = (
+				13B4AFA81A02962100E16EFA /* libSocialTencentWeibo.a */,
+				13B4AFA91A02962100E16EFA /* UMSocialTencentWeiboHandler.h */,
+			);
+			path = TencentWeibo;
 			sourceTree = "<group>";
 		};
 		13CFBACE19F6B887006B9684 /* JSONKit */ = {
@@ -3704,11 +3718,11 @@
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/TencentWeibo",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c6daf619-7aea-4f47-8f68-e1499bb185ee";
-				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -3739,11 +3753,11 @@
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/TencentWeibo",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c6daf619-7aea-4f47-8f68-e1499bb185ee";
-				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};

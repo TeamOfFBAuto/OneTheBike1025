@@ -90,8 +90,14 @@
 
 - (void)gotoTelephone
 {
-    NSString *num = [[NSString alloc] initWithFormat:@"tel://%@",@"18612389982"];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:num]];
+//    NSString *num = [[NSString alloc] initWithFormat:@"tel://%@",@"18612389982"];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:num]];
+    NSString *title = @"骑叭是一款专门为骑行爱好者量身打造的骑行软件,加入我们吧。";
+    NSString *message = @"活动发布微博:新浪微博搜素\"骑叭\"\n叭友吐槽QQ群:284570442";
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    
+    [alert show];
+    
 }
 
 - (void)gotoCheckVersion

@@ -26,7 +26,10 @@
 #import "UserInfoClass.h"
 #import "AppDelegate.h"
 
-@interface MineViewController ()<UIActionSheetDelegate>
+
+#import "ShareView.h"
+
+@interface MineViewController ()<UIActionSheetDelegate,ShareViewDelegate,UMSocialUIDelegate>
 {
     NSArray *titleArray;
     NSArray *imagesArray;
@@ -130,6 +133,124 @@
     [self updateUserInfoIcon:nil name:nil custID:nil gold:nil];
 }
 
+-(void)ShowShareView
+{
+    ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
+    share_view.userInteractionEnabled = YES;
+    share_view.delegate = self;
+    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
+}
+
+-(void)shareTapWithType:(NSString *)type
+{
+//    [[UMSocialControllerService defaultControllerService] setShareText:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" shareImage:[UIImage imageNamed:@"bike_share_check.png"] socialUIDelegate:self];        //设置分享内容和回调对象
+//    [UMSocialSnsPlatformManager getSocialPlatformWithName:type].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+    
+    [self autoShareTo:type];
+}
+
+//
+//NSString *url = @"http://www.baidu.com";
+//
+//NSString *content = [NSString stringWithFormat:@"%@",]
+//
+//UMSocialUrlResource *rr = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeDefault url:url];
+//
+//UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
+//[[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" image:shareImage location:nil urlResource:rr presentedController:self completion:^(UMSocialResponseEntity *response){
+//    if (response.responseCode == UMSResponseCodeSuccess) {
+//        NSLog(@"分享成功！");
+//    }
+//}];
+
+- (void)autoShareTo:(NSString *)type
+{
+    NSString *content = @"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~";
+    
+    NSString *url = @"http://www.baidu.com";
+    
+    UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
+    
+    if ([type isEqualToString:UMShareToQQ]) {
+        
+       
+        [UMSocialData defaultData].extConfig.qqData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ分享成功" addToView:self.view];
+                
+            }else{
+                
+                NSLog(@"分享失败");
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToSina]){
+      
+        [[UMSocialControllerService defaultControllerService] setShareText:[NSString stringWithFormat:@"%@%@",content,url] shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToQzone]){
+        
+        //qqzone
+        [UMSocialData defaultData].extConfig.qzoneData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
+                
+            }else{
+               
+                
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToWechatSession]){
+        
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToWechatTimeline]){
+        
+        [UMSocialData defaultData].extConfig.wechatTimelineData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToTencent]){
+        
+        [UMSocialData defaultData].extConfig.tencentData.urlResource = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeImage url:url];
+        
+//        [UMSocialSnsService presentSnsIconSheetView:self
+//                                             appKey:@"5423e48cfd98c58eed00664f"
+//                                          shareText:content
+//                                         shareImage:shareImage
+//                                    shareToSnsNames:@[UMShareToTencent]
+//                                           delegate:self];
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToTencent] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                NSLog(@"分享成功！");
+            }
+        }];
+        
+        
+    }
+    
+    
+    
+}
+
+
 
 #pragma mark - 视图创建
 
@@ -137,6 +258,17 @@
 
 #pragma mark - delegate
 
+
+//实现回调方法（可选）：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
+}
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,10 +310,12 @@
         
     }else if (indexPath.row == 3)
     {
-        NSLog(@"分享好友");
-        UMSocialLoginViewController *userInfo = [[UMSocialLoginViewController alloc]init];
-        userInfo.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:userInfo animated:YES];
+//        NSLog(@"分享好友");
+//        UMSocialLoginViewController *userInfo = [[UMSocialLoginViewController alloc]init];
+//        userInfo.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:userInfo animated:YES];
+        
+        [self performSelector:@selector(ShowShareView) withObject:nil afterDelay:0.5];
         
     }else if (indexPath.row == 4)
     {

@@ -31,7 +31,7 @@
 			<string>sina</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>sina.7379cf0aa245ba45a66cc7c9ae9b1dba</string>
+				<string>sina.bea7d21c9647406a25960a617a8e40a8</string>
 			</array>
 		</dict>
 		<dict>
@@ -62,6 +62,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>QQ41C170E6</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wb</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb801549982</string>
 			</array>
 		</dict>
 	</array>
