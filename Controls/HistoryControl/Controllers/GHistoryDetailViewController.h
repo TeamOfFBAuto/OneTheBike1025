@@ -14,6 +14,7 @@
 #import <UIKit/UIKit.h>
 #import "LRoadClass.h"
 #import "LineDashPolyline.h"
+#import "GyundongCanshuModel.h"
 
 @interface GHistoryDetailViewController : UIViewController<MAMapViewDelegate>
 {
@@ -34,7 +35,7 @@
 @property (nonatomic, strong) MAMapView *mapView;
 
 
-@property(nonatomic,strong)LRoadClass *passModel;//上个界面传过来的数据
+@property(nonatomic,strong)GyundongCanshuModel *passModel;//上个界面传过来的数据
 
 @property(nonatomic,strong)NSArray *lines;//显示的路书线数组
 

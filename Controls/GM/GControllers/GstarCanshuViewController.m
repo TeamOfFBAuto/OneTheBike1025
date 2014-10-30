@@ -146,37 +146,38 @@
             break;
         case 4://海拔上升
         {
-            int num = [self.yundongModel.maxHaiba intValue] - [self.yundongModel.startHaiba intValue];
+            int num = self.yundongModel.maxHaiba - self.yundongModel.startHaiba;
             contentLabel.text = [[NSString stringWithFormat:@"%d",num] stringByAppendingString:@"米"];
         }
             break;
         case 5://海拔下降
         {
             
-            int num = [self.yundongModel.startHaiba intValue]-[self.yundongModel.minHaiba intValue];
+            int num = self.yundongModel.startHaiba -self.yundongModel.minHaiba;
             contentLabel.text = [[NSString stringWithFormat:@"%d",num] stringByAppendingString:@"米"];
         }
             break;
         case 6://平均速度
         {
            
-            contentLabel.text = [self.yundongModel.dangqiansudu stringByAppendingString:@"km/时"];
+            contentLabel.text = [NSString stringWithFormat:@"%.1fkm/时",self.yundongModel.pingjunsudu];
+            
         }
             break;
         case 7://最高速度
         {
             
-            contentLabel.text = [self.yundongModel.maxSudu stringByAppendingString:@"km/时"];
+            contentLabel.text = [NSString stringWithFormat:@"%.1fkm/时",self.yundongModel.maxSudu];
         }
             break;
         case 8://距离
         {
-            contentLabel.text = [self.yundongModel.juli stringByAppendingString:@"公里"];
+            contentLabel.text = [NSString stringWithFormat:@"%.1f公里",self.yundongModel.juli];
         }
             break;
         case 9://当前海拔
         {
-            contentLabel.text = [self.yundongModel.haiba stringByAppendingString:@"米"];
+            contentLabel.text = [NSString stringWithFormat:@"%d",self.yundongModel.haiba];
         }
             break;
         case 10://卡路里
@@ -292,7 +293,7 @@
         case 4://海拔上升
         {
             
-            contentStr = [NSString stringWithFormat:@"%d",([self.yundongModel.maxHaiba intValue] - [self.yundongModel.haiba intValue])];
+            contentStr = [NSString stringWithFormat:@"%d",(self.yundongModel.maxHaiba  - self.yundongModel.haiba)];
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"海拔上升"]) {
@@ -311,7 +312,7 @@
         case 5://海拔下降
         {
             
-            contentStr = [NSString stringWithFormat:@"%d",([self.yundongModel.startHaiba intValue]-[self.yundongModel.minHaiba intValue])];
+            contentStr = [NSString stringWithFormat:@"%d",(self.yundongModel.startHaiba - self.yundongModel.minHaiba)];
             
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
@@ -329,7 +330,7 @@
             break;
         case 6://平均速度
         {
-            contentStr = self.yundongModel.dangqiansudu;
+            contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.pingjunsudu];
             if (self.passTag == 51) {//顶部较宽 单位用 公里/时间
                 
                 BOOL isChange = YES;
@@ -369,7 +370,7 @@
         case 7://最高速度
         {
             
-            contentStr = self.yundongModel.maxSudu;
+            contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.maxSudu];
             
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
@@ -388,7 +389,7 @@
             
         case 8://距离
         {
-            contentStr = self.yundongModel.juli;
+            contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.juli];
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"距离"]) {
@@ -403,7 +404,7 @@
             break;
         case 9://当前海拔
         {
-            contentStr = self.yundongModel.haiba;
+            contentStr = [NSString stringWithFormat:@"%d",self.yundongModel.haiba];
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"海拔"]) {

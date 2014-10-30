@@ -506,6 +506,8 @@
 		E30B129319FBF3B5005D5DA9 /* SharePlatformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */; };
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
+		E361DA631A01A21100CA4EFA /* GTimeSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA621A01A21100CA4EFA /* GTimeSwitch.m */; };
+		E361DA661A01BA7100CA4EFA /* GhistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */; };
 		E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */; };
 		E37C9DDD19FF86DE00B7F4BB /* GHistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */; };
 		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
@@ -1173,6 +1175,10 @@
 		E30B129119FBF3B5005D5DA9 /* ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareView.m; sourceTree = "<group>"; };
 		E31F584719F638450064959E /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		E361DA611A01A21100CA4EFA /* GTimeSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTimeSwitch.h; sourceTree = "<group>"; };
+		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTimeSwitch.m; sourceTree = "<group>"; };
+		E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhistoryViewController.h; sourceTree = "<group>"; };
+		E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhistoryViewController.m; sourceTree = "<group>"; };
 		E37C9DD819FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GcustomHistoryTableViewCell.h; sourceTree = SOURCE_ROOT; };
 		E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomHistoryTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHistoryDetailViewController.h; sourceTree = "<group>"; };
@@ -1926,6 +1932,8 @@
 				19DAE84319D30F4E00519D22 /* HistoryViewController.m */,
 				E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */,
 				E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */,
+				E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */,
+				E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2824,6 +2832,8 @@
 		E3B8021419FC0C2600AF9831 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E361DA611A01A21100CA4EFA /* GTimeSwitch.h */,
+				E361DA621A01A21100CA4EFA /* GTimeSwitch.m */,
 				E3B8027B19FC4E4900AF9831 /* LoadingIndicatorView.h */,
 				E3B8027C19FC4E4900AF9831 /* LoadingIndicatorView.m */,
 				E3B8027819FC4DAE00AF9831 /* EGORefreshTableHeaderView.h */,
@@ -3462,6 +3472,7 @@
 				13B40C7619FE80D000D4F97A /* UserDescriptionController.m in Sources */,
 				19DAE80719D30C2D00519D22 /* AppDelegate.m in Sources */,
 				565DF20119FBDF1C00DE99EA /* ActivityModel.m in Sources */,
+				E361DA661A01BA7100CA4EFA /* GhistoryViewController.m in Sources */,
 				E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */,
 				1965031819FB902800B19738 /* UMFeedbackTableViewCellLeft.m in Sources */,
 				137D76E519F4BB5B00DD29D7 /* MJConst.m in Sources */,
@@ -3472,6 +3483,7 @@
 				56B7E58B19FE8DE700E735D7 /* ActivityDetailViewController.m in Sources */,
 				565DF20D19FBE1C800DE99EA /* CycleScrollModel.m in Sources */,
 				137D76CB19F4B74E00DD29D7 /* SSObjectBase.m in Sources */,
+				E361DA631A01A21100CA4EFA /* GTimeSwitch.m in Sources */,
 				137D9F9119F250A900B31100 /* UIView+Frame.m in Sources */,
 				137D9F9019F250A900B31100 /* UIColor+ConvertColor.m in Sources */,
 				137D9FDD19F272E500B31100 /* RoadManagerController.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class LRoadClass;
+@class GyundongCanshuModel;
 
 @interface GcustomHistoryTableViewCell : UITableViewCell
 
@@ -18,7 +19,7 @@
 
 
 
--(void)loadCustomCellWithMoedle:(LRoadClass*)theModel;
+-(void)loadCustomCellWithMoedle:(GyundongCanshuModel*)theModel;
 
 
 @end

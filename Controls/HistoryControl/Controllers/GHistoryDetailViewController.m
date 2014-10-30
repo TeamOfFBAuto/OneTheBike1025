@@ -65,7 +65,7 @@
     
     [self initMap];
     
-    [self showRoadLineInMapViewWith:self.passModel];
+//    [self showRoadLineInMapViewWith:self.passModel];
     
     
     [self customTabelView];
@@ -199,7 +199,7 @@
     
 
     
-    NSLog(@"---------- model.lineString ----- %@",self.passModel.lineString);
+    
     
     
     //把轨迹加到地图上
@@ -305,15 +305,21 @@
 
 
 
--(void)showRoadLineInMapViewWith:(LRoadClass*)model{
+-(void)showRoadLineInMapViewWith:(GyundongCanshuModel*)model{
     
-    NSArray *arr = [model.lineString objectFromJSONString];
+    NSArray *arr = [model.jsonStr objectFromJSONString];
     
     CLLocationCoordinate2D start;
-    start = CLLocationCoordinate2DMake(model.startCoor.latitude, model.startCoor.longitude);
+    NSArray *a = [model.startCoorStr componentsSeparatedByString:@","];
+    NSString *lat = a[0];
+    NSString *lon = a[1];
+    start = CLLocationCoordinate2DMake([lat doubleValue], [lon doubleValue]);
     
     CLLocationCoordinate2D end;
-    end = CLLocationCoordinate2DMake(model.endCoor.latitude, model.endCoor.longitude);
+    NSArray *b = [model.coorStr componentsSeparatedByString:@","];
+    NSString *blat = b[0];
+    NSString *blon = b[1];
+    end = CLLocationCoordinate2DMake([blat doubleValue], [blon doubleValue]);
     
     if (0) {
         return;
