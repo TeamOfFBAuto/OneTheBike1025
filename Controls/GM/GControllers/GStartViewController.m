@@ -1683,7 +1683,7 @@
         [self.mapView addOverlay:self.routeLine];
 //#pragma mark - 划线时把MAPolyline折线对象保存到self.routeLineArray数组中
 //        //这个数组保存的时候转为json串存入数据库中
-        [self.routeLineArray removeAllObjects];
+//        [self.routeLineArray removeAllObjects];
         [self.routeLineArray addObject:self.routeLine];
     }
     // clear the memory allocated earlier for the points
