@@ -136,7 +136,7 @@
     
     
     //灰条
-    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 35)];
+    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 44)];
     shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     //方向
     _fangxiangLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 5, 50, 30)];
@@ -144,8 +144,8 @@
     _fangxiangLabel.textColor = [UIColor whiteColor];
     _fangxiangLabel.textAlignment = NSTextAlignmentCenter;
     //标题
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 50, 30)];
-    titleLabel.font = [UIFont systemFontOfSize:13];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 6, 50, 30)];
+    titleLabel.font = [UIFont systemFontOfSize:17];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"骑叭";
     
@@ -223,18 +223,18 @@
             [_dingView addGestureRecognizer:tap];
             _dingView.line.frame = CGRectMake(0, 64, 320, 1);
             [_dingView.titleImv setImage:titleImageArr[i-1]];
-            _dingView.titleImv.frame = CGRectMake(70, 20, 30, 30);
+            _dingView.titleImv.frame = CGRectMake(50, 20, 30, 30);
             
             //内容label
-            _dingView.contentLable.frame = CGRectMake(CGRectGetMaxX(_dingView.titleImv.frame)+5, _dingView.titleImv.frame.origin.y-5, 100, 35);
+            _dingView.contentLable.frame = CGRectMake(CGRectGetMaxX(_dingView.titleImv.frame)+5, _dingView.titleImv.frame.origin.y-5, 92, 35);
 //            _dingView.contentLable.backgroundColor = [UIColor redColor];
             
             _dingView.contentLable.text = @"0.0";
-            _dingView.contentLable.textAlignment = NSTextAlignmentCenter;//只有这里设置居中
+            _dingView.contentLable.textAlignment = NSTextAlignmentRight;//只有这里设置居中
             
             //计量单位
             _dingView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_dingView.contentLable.frame)+5, _dingView.contentLable.frame.origin.y+5, 70, 30);
-            _dingView.danweiLabel.text = @"公里/时";
+            _dingView.danweiLabel.text = @"km/h";
             _dingView.viewTypeStr = @"速度";
             
             
@@ -248,11 +248,11 @@
             [_zuoshangView addGestureRecognizer:tap];
             _zuoshangView.line.frame = CGRectMake(0, 64, 160, 1);
             _zuoshangView.line1.frame = CGRectMake(159, 0, 1, 65);
-            _zuoshangView.titleImv.frame = CGRectMake(10, 20, 30, 30);
+            _zuoshangView.titleImv.frame = CGRectMake(7, 20, 30, 30);
             [_zuoshangView.titleImv setImage:titleImageArr[i-1]];
             
             //内容label
-            _zuoshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.titleImv.frame)+5, _zuoshangView.titleImv.frame.origin.y-5, 100, 35);
+            _zuoshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.titleImv.frame), _zuoshangView.titleImv.frame.origin.y-5, 100, 35);
             _zuoshangView.contentLable.text = @"00:00:00";
             
             
@@ -267,16 +267,16 @@
             
             [_youshangView addGestureRecognizer:tap];
             _youshangView.line.frame = CGRectMake(0, 64, 160, 1);
-            _youshangView.titleImv.frame = CGRectMake(10, 20, 30, 30);
+            _youshangView.titleImv.frame = CGRectMake(7, 20, 30, 30);
             
             //内容label
-            _youshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youshangView.titleImv.frame)+5, _youshangView.titleImv.frame.origin.y-5, 70, 35);
+            _youshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youshangView.titleImv.frame), _youshangView.titleImv.frame.origin.y-5, 70, 35);
             
             _youshangView.contentLable.text = @"0.0";
             
             //计量单位
-            _youshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youshangView.contentLable.frame)+5, _youshangView.titleImv.frame.origin.y, 40, 30);
-            _youshangView.danweiLabel.text = @"公里";
+            _youshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youshangView.contentLable.frame)+4, _youshangView.titleImv.frame.origin.y, 50, 30);
+            _youshangView.danweiLabel.text = @"km";
             
             [_youshangView.titleImv setImage:titleImageArr[i-1]];
             
@@ -289,14 +289,14 @@
             [_zuoxiaView addGestureRecognizer:tap];
             _zuoxiaView.line.frame = CGRectMake(0, 64, 160, 1);
             _zuoxiaView.line1.frame = CGRectMake(159, 0, 1, 65);
-            _zuoxiaView.titleImv.frame = CGRectMake(10, 20, 30, 30);
+            _zuoxiaView.titleImv.frame = CGRectMake(7, 20, 30, 30);
             [_zuoxiaView.titleImv setImage:titleImageArr[i-1]];
             
-            _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame)+5, _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
+            _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame), _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
             _zuoxiaView.contentLable.text = @"0";
             
             
-            _zuoxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.contentLable.frame)+5, _zuoxiaView.titleImv.frame.origin.y, 40, 30);
+            _zuoxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.contentLable.frame)+4, _zuoxiaView.titleImv.frame.origin.y, 50, 30);
             _zuoxiaView.danweiLabel.text = @"米";
             [_zuoxiaView addSubview:_zuoxiaView.danweiLabel];
             
@@ -307,14 +307,14 @@
             _youxiaView.tag = 55;
             [_youxiaView addGestureRecognizer:tap];
             _youxiaView.line.frame = CGRectMake(0, 64, 160, 1);
-            _youxiaView.titleImv.frame = CGRectMake(10, 20, 30, 30);
+            _youxiaView.titleImv.frame = CGRectMake(7, 20, 30, 30);
             [_youxiaView.titleImv setImage:titleImageArr[i-1]];
             
-            _youxiaView.contentLable.frame =CGRectMake(CGRectGetMaxX(_youxiaView.titleImv.frame)+5, _youxiaView.titleImv.frame.origin.y-5, 70, 35);
+            _youxiaView.contentLable.frame =CGRectMake(CGRectGetMaxX(_youxiaView.titleImv.frame), _youxiaView.titleImv.frame.origin.y-5, 70, 35);
             _youxiaView.contentLable.text = @"0";
             
             
-            _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+5, _youxiaView.titleImv.frame.origin.y, 40, 30);
+            _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+4, _youxiaView.titleImv.frame.origin.y, 50, 30);
             _youxiaView.danweiLabel.text = @"bpm";
             
             _youxiaView.viewTypeStr = @"热量";
@@ -329,12 +329,12 @@
         _saveViewTag54View = [[GyundongCustomView alloc]initWithFrame:CGRectMake(0, 165, 160, 65)];
         _saveViewTag54View.line.frame = CGRectMake(0, 64, 160, 1);
         _saveViewTag54View.line1.frame = CGRectMake(159, 0, 1, 65);
-        _saveViewTag54View.titleImv.frame = CGRectMake(10, 20, 30, 30);
+        _saveViewTag54View.titleImv.frame = CGRectMake(7, 20, 30, 30);
         [_saveViewTag54View.titleImv setImage:[UIImage imageNamed:@"gspeed.png"]];
         _saveViewTag54View.contentLable.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.titleImv.frame)+5, _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
         _saveViewTag54View.contentLable.text = @"0";
-        _saveViewTag54View.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.contentLable.frame)+5, _saveViewTag54View.titleImv.frame.origin.y, 40, 30);
-        _saveViewTag54View.danweiLabel.text = @"km/时";
+        _saveViewTag54View.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_saveViewTag54View.contentLable.frame)+5, _saveViewTag54View.titleImv.frame.origin.y, 50, 30);
+        _saveViewTag54View.danweiLabel.text = @"km/h";
         _saveViewTag54View.viewTypeStr = @"km/时";
         _saveViewTag54View.hidden = YES;
         
@@ -342,7 +342,7 @@
         
         _saveViewTag55View = [[GyundongCustomView alloc]initWithFrame:CGRectMake(160, 165, 160, 65)];
         _saveViewTag55View.line.frame = CGRectMake(0, 64, 160, 1);
-        _saveViewTag55View.titleImv.frame = CGRectMake(10, 20, 30, 30);
+        _saveViewTag55View.titleImv.frame = CGRectMake(7, 20, 30, 30);
         [_saveViewTag55View.titleImv setImage:[UIImage imageNamed:@"gstartime.png"]];
         _saveViewTag55View.contentLable.frame =  CGRectMake(CGRectGetMaxX(_saveViewTag55View.titleImv.frame)+5, _saveViewTag55View.titleImv.frame.origin.y-5, 100, 35);
         _saveViewTag55View.contentLable.text = @"0";
@@ -373,13 +373,13 @@
 -(void)initFourBtn{
     for (int i = 0; i<3; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setFrame:CGRectMake(280, 380+i*45, 30, 30)];
+        [btn setFrame:CGRectMake(280, iPhone5 ? (380+i*45) : (300+i*45), 30, 30)];
         btn.tag = 40+i;
         [btn addTarget:self action:@selector(threeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         if (i == 0) {//路书开关 tag 40
-            [btn setImage:[UIImage imageNamed:@"gRoadLineOff"] forState:UIControlStateNormal];
-            [btn setImage:[UIImage imageNamed:@"gRoadLineOn"] forState:UIControlStateSelected];
+            [btn setImage:[UIImage imageNamed:@"gRoadLineOff"] forState:UIControlStateSelected];
+            [btn setImage:[UIImage imageNamed:@"gRoadLineOn"] forState:UIControlStateNormal];
         }else if (i == 1){//地图跟随 tag 41
             [btn setImage:[UIImage imageNamed:@"gMapFllow.png"] forState:UIControlStateNormal];
         }else if (i == 2){//定位中心点 tag 42
@@ -399,7 +399,7 @@
     
     //gps信号强弱
     
-    _gpsQiangRuo = [[UIImageView alloc]initWithFrame:CGRectMake(15, 470, 30, 30)];
+    _gpsQiangRuo = [[UIImageView alloc]initWithFrame:CGRectMake(15, iPhone5?470:390, 30, 30)];
     [_gpsQiangRuo setImage:[UIImage imageNamed:@"gps3.png"]];
     [self.view addSubview:_gpsQiangRuo];
     
@@ -538,7 +538,7 @@
     UIButton *takePhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [takePhotoBtn setFrame:CGRectMake(240, 0, 80, 50)];
     [takePhotoBtn setImage:[UIImage imageNamed:@"gtakephoto.png"] forState:UIControlStateNormal];
-    [takePhotoBtn addTarget:self action:@selector(goToOffLineMapTable) forControlEvents:UIControlEventTouchUpInside];
+    [takePhotoBtn addTarget:self action:@selector(gTakePhotos) forControlEvents:UIControlEventTouchUpInside];
     
     
     [_downView addSubview:takePhotoBtn];
@@ -569,11 +569,11 @@
             _zuoshangView.danweiLabel.text = theDanwei;
             _zuoshangView.viewTypeStr = theViewType;
             if (![theViewType isEqualToString:@"计时"]) {//不是计时的话 变窄contentlabel
-                _zuoshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.titleImv.frame)+5, _zuoshangView.titleImv.frame.origin.y-5, 70, 35);
-                _zuoshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.contentLable.frame)+5, _zuoshangView.titleImv.frame.origin.y, 40, 30);
+                _zuoshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.titleImv.frame), _zuoshangView.titleImv.frame.origin.y-5, 70, 35);
+                _zuoshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.contentLable.frame)+4, _zuoshangView.titleImv.frame.origin.y, 50, 30);
                 _zuoshangView.danweiLabel.hidden = NO;
             }else{
-                _zuoshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.contentLable.frame)+5, _zuoshangView.titleImv.frame.origin.y, 100, 35);
+                _zuoshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.contentLable.frame)+4, _zuoshangView.titleImv.frame.origin.y, 100, 35);
                 _zuoshangView.danweiLabel.hidden = YES;
             }
         }
@@ -585,10 +585,10 @@
             _youshangView.danweiLabel.text = theDanwei;
             _youshangView.viewTypeStr = theViewType;
             if ([theViewType isEqualToString:@"计时"]) {//是计时的话 加宽contentLabel
-                _youshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youshangView.titleImv.frame)+5, _youshangView.titleImv.frame.origin.y-5, 100, 35);
+                _youshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youshangView.titleImv.frame), _youshangView.titleImv.frame.origin.y-5, 100, 35);
                 _youshangView.danweiLabel.hidden = YES;
             }else{
-                _youshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youshangView.titleImv.frame)+5, _youshangView.titleImv.frame.origin.y-5, 70, 35);
+                _youshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youshangView.titleImv.frame), _youshangView.titleImv.frame.origin.y-5, 70, 35);
                 _youshangView.danweiLabel.hidden = NO;
             }
         }
@@ -602,11 +602,11 @@
             
             
             if ([theViewType isEqualToString:@"计时"]) {//是计时的话 加宽contentLabel
-                _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame)+5, _zuoxiaView.titleImv.frame.origin.y-5, 100, 35);
+                _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame), _zuoxiaView.titleImv.frame.origin.y-5, 100, 35);
                 _zuoxiaView.danweiLabel.hidden = YES;
             }else{
-                _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame)+5, _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
-                _zuoxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.contentLable.frame)+5, _zuoxiaView.titleImv.frame.origin.y, 40, 30);
+                _zuoxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.titleImv.frame), _zuoxiaView.titleImv.frame.origin.y-5, 70, 35);
+                _zuoxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoxiaView.contentLable.frame)+4, _zuoxiaView.titleImv.frame.origin.y, 50, 30);
                 _zuoxiaView.danweiLabel.hidden = NO;
             }
             
@@ -620,11 +620,11 @@
             _youxiaView.viewTypeStr = theViewType;
             
             if ([theViewType isEqualToString:@"计时"]) {//是计时的话 加宽contentLabel
-                _youxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youxiaView.titleImv.frame)+5, _youxiaView.titleImv.frame.origin.y-5, 100, 35);
+                _youxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youxiaView.titleImv.frame), _youxiaView.titleImv.frame.origin.y-5, 100, 35);
                 _youxiaView.danweiLabel.hidden = YES;
             }else{
-                _youxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youxiaView.titleImv.frame)+5, _youxiaView.titleImv.frame.origin.y-5, 70, 35);
-                _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+5, _youxiaView.titleImv.frame.origin.y, 40, 30);
+                _youxiaView.contentLable.frame = CGRectMake(CGRectGetMaxX(_youxiaView.titleImv.frame), _youxiaView.titleImv.frame.origin.y-5, 70, 35);
+                _youxiaView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_youxiaView.contentLable.frame)+4, _youxiaView.titleImv.frame.origin.y, 50, 30);
                 _youxiaView.danweiLabel.hidden = NO;
             }
             
@@ -645,7 +645,7 @@
     
     cc.delegate = self;
     cc.yundongModel = self.gYunDongCanShuModel;
-//    cc.hidesBottomBarWhenPushed = YES;
+    cc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:cc animated:YES];
 }
 
@@ -1418,21 +1418,21 @@
     
     // check the move distance
     
-        CLLocationDistance distance = [self addNewLocationToPath:userLocation.location];
+//        CLLocationDistance distance = [self addNewLocationToPath:userLocation.location];
     
-//     CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
-    
+     CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
+    _currentLocation = location;
         NSLog(@"?????? distance = %f",distance);
         
-//        if (distance < 5 ){
-//            return;
-//        }
-//    
-//        [_points addObject:location];
+        if (distance < 5 ||distance>10){
+            return;
+        }
+    
+        [_points addObject:location];
     
     
         CLLocationDistance julishangyigedian = [location distanceFromLocation:_currentLocation];
-        _currentLocation = location;
+    
     
         [self configureRoutes];
 #pragma mark --  划线- end
@@ -1440,7 +1440,7 @@
         
         
  #pragma mark - 数据model赋值 -- 距离
-        _distance += julishangyigedian;
+        _distance += distance;
         NSLog(@"距离---- %f 米",_distance);
         self.gYunDongCanShuModel.juli = _distance/1000.0;
         for (GyundongCustomView *view in self.fiveCustomView) {
@@ -1455,6 +1455,7 @@
    
     
 #pragma mark - 数据model赋值 -- 最高速度
+    self.gYunDongCanShuModel.dangqiansudu = userLocation.location.speed;
     if (self.gYunDongCanShuModel.maxSudu  < self.gYunDongCanShuModel.dangqiansudu) {
         self.gYunDongCanShuModel.maxSudu = self.gYunDongCanShuModel.dangqiansudu;
     }
@@ -1958,6 +1959,25 @@
     }];
 }
 
+
+
+
+-(void)gTakePhotos{
+    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        UIImagePickerController * pickerC = [[UIImagePickerController alloc] init];
+        pickerC.delegate = self;
+        pickerC.allowsEditing = NO;
+        pickerC.sourceType = sourceType;
+        [self presentViewController:pickerC animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"相机不可用" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [al show];
+    }
+}
 
 
 

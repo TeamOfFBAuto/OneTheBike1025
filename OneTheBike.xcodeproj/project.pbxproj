@@ -506,6 +506,7 @@
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
 		E361DA631A01A21100CA4EFA /* GTimeSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA621A01A21100CA4EFA /* GTimeSwitch.m */; };
 		E361DA661A01BA7100CA4EFA /* GhistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */; };
+		E36271F71A025A7800F35C2F /* gqixingzhong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */; };
 		E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */; };
 		E37C9DDD19FF86DE00B7F4BB /* GHistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */; };
 		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
@@ -1175,6 +1176,7 @@
 		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTimeSwitch.m; sourceTree = "<group>"; };
 		E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhistoryViewController.h; sourceTree = "<group>"; };
 		E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhistoryViewController.m; sourceTree = "<group>"; };
+		E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gqixingzhong@2x.png"; sourceTree = "<group>"; };
 		E37C9DD819FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GcustomHistoryTableViewCell.h; sourceTree = SOURCE_ROOT; };
 		E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomHistoryTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHistoryDetailViewController.h; sourceTree = "<group>"; };
@@ -2773,6 +2775,7 @@
 		E3B801F219FC0C2600AF9831 /* Gimages */ = {
 			isa = PBXGroup;
 			children = (
+				E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */,
 				E3E503211A008CF60093D8F3 /* ghistoryShare.png */,
 				E3E5031F1A008CE30093D8F3 /* ghistoryBike.png */,
 				E3B8025F19FC2F1C00AF9831 /* gps1.png */,
@@ -2962,6 +2965,7 @@
 				E3B8023A19FC0C2600AF9831 /* gspeed.png in Resources */,
 				1965030319FB902800B19738 /* icon_rightArrow_selected@2x.png in Resources */,
 				1965030F19FB902800B19738 /* nav_bg.png in Resources */,
+				E36271F71A025A7800F35C2F /* gqixingzhong@2x.png in Resources */,
 				19DAEA0C19D311D300519D22 /* xiayibu-bukedian-up-568_88@2x.png in Resources */,
 				19DAEA4E19D311D300519D22 /* take_photo_close_image@2x.png in Resources */,
 				19DAE99E19D311D300519D22 /* bg-540_420@2x.png in Resources */,
@@ -3704,6 +3708,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c6daf619-7aea-4f47-8f68-e1499bb185ee";
+				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -3738,6 +3743,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c6daf619-7aea-4f47-8f68-e1499bb185ee";
+				PROVISIONING_PROFILE = "f2794893-6f40-4d34-b2ae-54d0f5e6cf98";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};

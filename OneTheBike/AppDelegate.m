@@ -211,7 +211,7 @@
 #pragma mark - 开始后点击返回按钮
 -(void)gKeepStart{
     
-    [_navc3.tabBarItem setImage:nil];
+    [_navc3.tabBarItem setImage:[UIImage imageNamed:@"gqixingzhong.png"]];
     [_navc3.tabBarItem setTitle:@"骑行中"];
     _isStart = YES;
     

@@ -36,12 +36,12 @@
 
 #define FRAME_IPHONE5_MAP_UP CGRectMake(0, 30, 320, 568-60-20)
 #define FRAME_IPHONE5_MAP_DOWN CGRectMake(0, 230+20, 320, 568-230-20)
-#define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -115, 320, 230)
-#define FRAME_IPHONE5_UPVIEW_DOWN CGRectMake(0, 20, 320, 230)
+#define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -106, 320, 230)
+#define FRAME_IPHONE5_UPVIEW_DOWN CGRectMake(0, 29, 320, 230)
 
 
 
-@interface GStartViewController : UIViewController<MAMapViewDelegate, AMapSearchDelegate>
+@interface GStartViewController : UIViewController<MAMapViewDelegate, AMapSearchDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     // 点的数组
     NSMutableArray* _points;
@@ -140,6 +140,9 @@
     NSMutableArray *middleAnntations;//途经点
     
     
+    
+    
+    int _kaishihuaxian;//开始后延迟10s
     
 }
 @property (nonatomic, strong) MAMapView *mapView;
