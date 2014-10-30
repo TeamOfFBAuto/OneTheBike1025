@@ -108,13 +108,12 @@ enum{
     UIBarButtonItem *spaceButton1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spaceButton1.width = IOS7_OR_LATER ? - 7 : 7;
     
-    UIButton *settings=[[UIButton alloc]initWithFrame:CGRectMake(20,7.5,40,40)];
+    UIButton *settings=[[UIButton alloc]initWithFrame:CGRectMake(20,8,40,20)];
     [settings addTarget:self action:@selector(clickToSave:) forControlEvents:UIControlEventTouchUpInside];
     [settings setTitle:@"保存" forState:UIControlStateNormal];
-//    [settings setImage:[UIImage imageNamed:@"road_save"] forState:UIControlStateNormal];
     [settings.titleLabel setFont:[UIFont systemFontOfSize:12]];
     settings.layer.cornerRadius = 3.f;
-//    [settings setBackgroundColor:[UIColor colorWithHexString:@"bebebe"]];
+    [settings setBackgroundColor:[UIColor colorWithHexString:@"bebebe"]];
     UIBarButtonItem *right =[[UIBarButtonItem alloc]initWithCustomView:settings];
     self.navigationItem.rightBarButtonItems = @[spaceButton1,right];
     

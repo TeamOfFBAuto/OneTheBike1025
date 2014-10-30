@@ -36,8 +36,13 @@
 
 #define UmengAppkey @"5423e48cfd98c58eed00664f"
 
-#define SinaAppKey @"2470821654"
-#define SinaAppSecret @"bea7d21c9647406a25960a617a8e40a8"
+//骑叭
+//#define SinaAppKey @"2470821654"
+//#define SinaAppSecret @"bea7d21c9647406a25960a617a8e40a8"
+
+//fbauto
+#define SinaAppKey @"2437553400"
+#define SinaAppSecret @"7379cf0aa245ba45a66cc7c9ae9b1dba"
 
 //bike
 #define QQAPPID @"1103196390" //十六进制:41C170E6; 生成方法:echo 'ibase=10;obase=16;1103196390'|bc
