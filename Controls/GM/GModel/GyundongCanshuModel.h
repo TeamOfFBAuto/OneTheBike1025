@@ -33,7 +33,9 @@
 @property(nonatomic,assign)int startHaiba;//开始海拔
 @property(nonatomic,assign)int maxHaiba;//最高海拔
 @property(nonatomic,assign)int minHaiba;//最低海拔
-@property(nonatomic,assign)int haiba;//实时海拔 完成骑行之后这个参数为重点海拔
+@property(nonatomic,assign)int haiba;//实时海拔 完成骑行之后这个参数为终点海拔
+@property(nonatomic,assign)int haibaUp;//
+@property(nonatomic,assign)int haibaDown;
 
 
 @property(nonatomic,strong)NSString *startCoorStr;//开始时候的经纬度  用逗号隔开

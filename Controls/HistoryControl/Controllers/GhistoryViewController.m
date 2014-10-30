@@ -46,7 +46,7 @@
 //    [btn setFrame:CGRectMake(270, 5, 40, 40)];
 //    [btn addTarget:self action:@selector(fenxiangBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(140, 5, 40, 40)];
+    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(140, 0, 44, 44)];
     titielLabel.textColor = [UIColor whiteColor];
     titielLabel.textAlignment = NSTextAlignmentCenter;
     titielLabel.text = @"历史";
@@ -57,7 +57,7 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-64 : 480-64) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5? 568-35 : 480-35) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -73,7 +73,7 @@
     [self.view addSubview:upGrayView];
     
     //请求网络数据
-    [self netData];
+    [self netDataWithPage:1];
     
     //下拉刷新
     
@@ -107,9 +107,9 @@
 
 
 
--(void)netData{
+-(void)netDataWithPage:(int)thePage{
     
-    NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],1];
+    NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],thePage];
     
     NSLog(@"请求轨迹历史接口的url:%@",urlStr);
     
@@ -150,13 +150,18 @@
                     model.startTime = [GTimeSwitch testtime:[beginTime substringToIndex:beginTime.length - 3]];
                     
                     NSString *endTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"endTime"]];
-                    
                     model.endTime = [GTimeSwitch testtime:[endTime substringToIndex:beginTime.length - 3]];
                     
                     
                     model.yongshi = [NSString stringWithFormat:@"%@",[dic objectForKey:@"costTime"]];
                     model.juli = [[dic objectForKey:@"cyclingKm"]floatValue];
                     model.jsonStr = [dic objectForKey:@"roadlines"];
+                    model.haibaUp = (int)[dic objectForKey:@"upMetre"];
+                    model.haibaDown = (int)[dic objectForKey:@"downMetre"];
+                    model.maxSudu = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"topSpeed"]] floatValue];
+                    
+                    
+                    
                     
                     NSLog(@" ,,,,, %@",model.jsonStr);
                     
@@ -173,6 +178,40 @@
             
              NSLog(@"self.netDataArray.count = %d",self.netDataArray.count);
             
+            
+            
+          
+//            //判断有没有更多
+//            if (self.netDataArray.count <100) {
+//                [_upMoreView stopLoading:3];
+//            }else{
+//                [_upMoreView stopLoading:1];
+//            }
+//            
+//            
+//            //判断是否为上提加载更多
+//            if (_isupMore) {//是加载更多的话把请求到的文章加到原来的数组中
+//                [self.netDataArray addObjectsFromArray:(NSArray*)array];
+//                
+//                
+//            }else{//不是上提加载更多
+//                self.netDataArray = array;
+//            }
+//            
+//            
+//            _isUpMoreSuccess = YES;//上提加载更多的标志位
+//            
+//            
+//            //有文章再显示上提加载更多
+//            if (self.netDataArray.count>0) {
+//                _upMoreView.hidden = NO;
+//            }else{
+//                _upMoreView.hidden = YES;
+//            }
+            
+            
+            
+            //按照时间排序
             [self paixuWithDateWithArray:self.netDataArray];
             
             
@@ -184,7 +223,8 @@
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         
-        NSLog(@"错误");
+        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"获取用户轨迹失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [al show];
         
     }];
 }
@@ -379,6 +419,19 @@
 }
 
 
+
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSMutableArray *dayGuijiArray = self.dataArray[indexPath.section];
+        [dayGuijiArray removeObjectAtIndex:indexPath.row];
+        [_tableView reloadData];
+    }
+}
+
+
+
 //tableheaderview
 -(UIView *)customTableHeaderView{
     
@@ -451,6 +504,71 @@
     cc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:cc animated:YES];
 }
+
+
+
+
+
+
+//#pragma mark - 下拉上提 相关代理
+//
+//-(void)reloadTableViewDataSource{
+//    _reloading = YES;
+//}
+//
+//-(void)doneLoadingTableViewData{
+//    _reloading = NO;
+//    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:_tableView];
+//    
+//}
+//
+//
+//#pragma mark - EGORefreshTableHeaderDelegate
+//
+//-(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView *)view{
+//    _currentPage = 1;
+//    _isupMore = NO;
+//    [self reloadTableViewDataSource];
+//    [self netDataWithPage:_currentPage];
+//    
+//    
+//}
+//
+//-(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView *)view{
+//    return _reloading;
+//}
+//
+//- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+//    
+//    return [NSDate date];
+//}
+//
+//
+//#pragma mark - UIScrollViewDelegate
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    
+//    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+//}
+//
+//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+//    
+//    
+//    if(_tableView.contentOffset.y > (_tableView.contentSize.height - _tableView.frame.size.height+40)&&_isUpMoreSuccess==YES&&[self.dataArray count]>0)
+//    {
+//        [_upMoreView startLoading];
+//        _isupMore = YES;
+//        if (_guijiCount) {
+//            _currentPage++;
+//        }
+//        
+//        _isUpMoreSuccess = NO;
+//        [self netDataWithPage:_currentPage];
+//    }
+//}
+
+
+
 
 
 @end
