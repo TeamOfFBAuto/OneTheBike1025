@@ -30,6 +30,29 @@
     
     [super viewWillAppear:animated];
     
+    //读取打开的路书
+    
+    if (self.lines.count>0) {
+        [self.mapView removeOverlays:self.lines];
+        [self.mapView removeAnnotation:startAnnotation];
+        [self.mapView removeAnnotation:detinationAnnotation];
+    }
+    
+    UIButton *btn = (UIButton *)[self.view viewWithTag:40];
+    
+    NSArray *roadLineArray = [GMAPI getRoadLinesForType:1 isOpen:YES];
+    if (roadLineArray && roadLineArray.count>0) {
+        LRoadClass *roadModelClass= roadLineArray[0];
+        [self showRoadLineInMapViewWith:roadModelClass];
+        
+        btn.selected = YES;
+    }else
+    {
+        btn.selected = NO;
+    }
+    
+    //登录
+    
     BOOL state = [[NSUserDefaults standardUserDefaults]boolForKey:LOGIN_STATE];
     
     if (state == YES) {
