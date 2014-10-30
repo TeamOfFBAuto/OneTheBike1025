@@ -50,7 +50,7 @@
     //返回按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:[UIImage imageNamed:@"backButton.png"] forState:UIControlStateNormal];
-    [btn setFrame:CGRectMake(5, 0, 35, 35)];
+    [btn setFrame:CGRectMake(5, 5, 35, 35)];
     [btn addTarget:self action:@selector(gGoBackVc) forControlEvents:UIControlEventTouchUpInside];
     [shangGrayView addSubview:btn];
     [self.view addSubview:shangGrayView];
