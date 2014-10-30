@@ -13,8 +13,8 @@
 #import "GcustomHistoryTableViewCell.h"
 
 #import "GHistoryDetailViewController.h"
-
-
+#import "GyundongCanshuModel.h"
+#import "GTimeSwitch.h"
 #import "ShareView.h"
 
 @interface HistoryViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate,ShareViewDelegate>
@@ -83,15 +83,10 @@
     self.localDataArray = [NSMutableArray arrayWithCapacity:1];
     
     //准备数据
-    [self prepareLocalDataAndNetData];
+//    [self prepareLocalDataAndNetData];
+    [self netData];
     
-//    //网路不可用先取本地
-//    [self prepareLocalData];
-//    [self paixuWithDateWithArray:self.netDataArray];
-    
-    
-    
-    
+
     
     self.view.backgroundColor=[UIColor whiteColor];
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-64 : 480-64) style:UITableViewStyleGrouped];
@@ -202,10 +197,65 @@
 //准备本地数据和网络数据
 -(void)prepareLocalDataAndNetData{
     
-//    [self prepareNetDataWithPage:1];//接口有问题
+    [self prepareNetDataWithPage:1];//接口有问题
     //只从本地拿数据
-    [self OnlyPrepareLocalData];
+//    [self OnlyPrepareLocalData];
+    
+    
+    
 }
+
+
+-(void)netData{
+    
+    NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],1];
+    
+    NSLog(@"请求轨迹历史接口的url:%@",urlStr);
+    
+    
+    LTools *tool = [[LTools alloc]initWithUrl:urlStr isPost:NO postData:nil];
+    [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
+        
+        NSLog(@"result = %@",result);
+        
+        if ([result objectForKey:@"status"]) {
+            
+            NSArray *rows = [result objectForKey:@"Rows"];
+            NSLog(@"%d",rows.count);
+            
+            for (NSArray *arr in rows) {
+                NSLog(@"arr.count %d",arr.count);
+                for (NSDictionary *dic in arr) {
+                    NSLog(@"dic %@",dic);
+                    GyundongCanshuModel *model = [[GyundongCanshuModel alloc]init];
+                    model.pingjunsudu = [[dic objectForKey:@"avgSpeed"]floatValue];
+                    model.startCoorStr = [dic objectForKey:@"beginCoordinates"];
+                    model.startTime = [dic objectForKey:@"beginTime"];
+                    model.endTime = [dic objectForKey:@"endTime"];
+                    model.yongshi = [dic objectForKey:@"costTime"];
+                    model.juli = [[dic objectForKey:@"cyclingKm"]floatValue];
+                    model.jsonStr = [dic objectForKey:@"roadlines"];
+                    [self.dataArray addObject:model];
+                }
+            }
+            
+//            [self paixuWithDateWithArray:self.netDataArray];
+            
+            
+            [_tableView reloadData];
+            
+        }
+        
+        
+        
+        
+    } failBlock:^(NSDictionary *failDic, NSError *erro) {
+        
+        NSLog(@"错误");
+        
+    }];
+}
+
 
 //取本地数据 加到网络请求的数组中
 -(void)prepareLocalData{
@@ -239,8 +289,8 @@
     
     NSLog(@"%s %d",__FUNCTION__,array.count);
     
-    for (LRoadClass *model in array) {
-        NSLog(@"lroadClass---startName:%@  endName:%@ distance:%@ roadId:%d",model.startName,model.endName,model.distance,model.roadId);
+    for (GyundongCanshuModel *model in array) {
+        NSLog(@"model.startTime   %@",model.startTime);
     }
     int count = array.count;
     
@@ -249,13 +299,17 @@
         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:1];
         
         for (int j = i+1; j<count; j++) {
-            LRoadClass *road1 = array[i];
-            LRoadClass *road2 = array[j];
+            GyundongCanshuModel *road1 = array[i];
+            GyundongCanshuModel *road2 = array[j];
             //判断时间
-            if ([[road1.startName substringToIndex:10] isEqualToString:[road2.startName substringToIndex:10]]) {
+            
+            NSString *date1 = [GTimeSwitch testtime:road1.startTime];
+            NSString *date2 = [GTimeSwitch testtime:road2.startTime];
+            
+            if ([date1  isEqualToString:date2]) {
                 //如果相同并且日期 = NO 就加入数组里
                 
-                NSLog(@"%@",[road1.startName substringToIndex:10]);
+                NSLog(@"%@",road1.startTime);
                 
                 if (!road1.time) {
                     
@@ -310,12 +364,9 @@
         [view removeFromSuperview];
     }
     
-    NSArray *arr = self.dataArray[indexPath.section];
-    
-    NSLog(@"arr.count %d",arr.count);
     
     
-    LRoadClass *model = arr[indexPath.row];
+    GyundongCanshuModel *model = self.dataArray[indexPath.row];
     
     [cell loadCustomCellWithMoedle:model];
     
@@ -345,9 +396,10 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     
-    int num = self.dataArray.count;
+//    int num = self.dataArray.count;
     
-    return num;
+    
+    return 1;
 }
 
 
@@ -355,14 +407,16 @@
     
     int num = 0;
     
-    for (NSString *str in _fangkaiArray) {
-        if ([str intValue] == section) {
-            if (self.dataArray.count>0) {
-                NSArray *arr = self.dataArray[section];
-                num = arr.count;
-            }
-        }
-    }
+//    for (NSString *str in _fangkaiArray) {
+//        if ([str intValue] == section) {
+//            if (self.dataArray.count>0) {
+//                NSArray *arr = self.dataArray[section];
+//                num = arr.count;
+//            }
+//        }
+//    }
+    
+    num = self.dataArray.count;
     
     
     return num;
@@ -376,56 +430,57 @@
 
 
 
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectZero];
-    upHeaderView.tag = section +10;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gShouFangZiRu:)];
-    [upHeaderView addGestureRecognizer:tap];
-    
-    upHeaderView.frame = CGRectMake(0, 0, 320, 30);
-    upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
-    
-    
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 200, 20)];
-    dateLabel.font = [UIFont systemFontOfSize:15];
-    
-//    LRoadClass *model = self.localDataArray[section][0];
-    [upHeaderView addSubview:dateLabel];
-    
-    
-    
-    NSMutableArray *arr = self.dataArray[section];
-    LRoadClass *model = arr[0];
-    dateLabel.text = [model.startName substringToIndex:10];
-    NSLog(@"%@",model.startName);
-    
-    NSLog(@"%d",arr.count);
-    
-    
-    return upHeaderView;
-}
+//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectZero];
+//    upHeaderView.tag = section +10;
+//    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gShouFangZiRu:)];
+//    [upHeaderView addGestureRecognizer:tap];
+//    
+//    upHeaderView.frame = CGRectMake(0, 0, 320, 30);
+//    upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
+//    
+//    
+//    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 200, 20)];
+//    dateLabel.font = [UIFont systemFontOfSize:15];
+//    
+////    LRoadClass *model = self.localDataArray[section][0];
+//    [upHeaderView addSubview:dateLabel];
+//    
+//    
+//    
+//    NSMutableArray *arr = self.dataArray[section];
+//    GyundongCanshuModel *model = arr[0];
+//    dateLabel.text = [GTimeSwitch testtime:model.startTime];
+//    
+//    
+//    return upHeaderView;
+//}
 
 
 
 
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    CGFloat height = 0;
-    height = 30;
-    return height;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    CGFloat height = 0;
+//    height = 30;
+//    return height;
+//}
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 5;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    return 5;
+//}
 
 
 
 -(void)gShouFangZiRu:(UIGestureRecognizer*)ges{
+    
+    
         
     NSString *sectionStr = [NSString stringWithFormat:@"%d",(ges.view.tag-10)];
+    
+    NSLog(@" section %@",sectionStr);
     
     int arrCount = _fangkaiArray.count;
     BOOL ishave = NO;

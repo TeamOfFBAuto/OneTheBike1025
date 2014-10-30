@@ -20,6 +20,8 @@
 
 #import "RootViewController.h"
 
+#import "GhistoryViewController.h"
+
 
 /*
  第三方登录
@@ -90,8 +92,8 @@
     
     GStartViewController * mainVC = [[GStartViewController alloc] init];
     
-    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];//带网络数据的
-//    GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
+//    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];//带网络数据的
+    GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
     
     StartViewController * messageVC = [[StartViewController alloc] init];
     

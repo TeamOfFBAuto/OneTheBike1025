@@ -8,6 +8,7 @@
 
 #import "GcustomHistoryTableViewCell.h"
 #import "LRoadClass.h"
+#import "GyundongCanshuModel.h"
 
 @implementation GcustomHistoryTableViewCell
 
@@ -33,7 +34,7 @@
 
 
 
--(void)loadCustomCellWithMoedle:(LRoadClass*)theModel{
+-(void)loadCustomCellWithMoedle:(GyundongCanshuModel*)theModel{
     //图标
     UIImageView *titleImv  = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 30, 30)];
     [titleImv setImage:[UIImage imageNamed:@"ghistoryBike.png"]];
@@ -53,19 +54,13 @@
     [self.contentView addSubview:self.spotrdistanceLabel];
     
     
-    self.timeLabel.text = [theModel.startName substringToIndex:10];//时间
-    self.spotrdistanceLabel.text = [theModel.distance stringByAppendingString:@"km"];//距离
-    
-    //均速 用时
-    NSArray *strArray = [theModel.startName componentsSeparatedByString:@","];
-    NSString *junsu = strArray[2];
-    for (NSString *ss in strArray) {
-        
-        NSLog(@"ssss  %@",ss);
-    }
-    NSString *str = [NSString stringWithFormat:@"均速:%@km 用时:%@",theModel.endName,junsu];
-    
-    self.sportInfoLabel.text = str;
+    self.timeLabel.text = theModel.startTime;//时间
+//    self.spotrdistanceLabel.text = [NSString stringWithFormat:@"%.2fkm",theModel.juli];//距离
+//    
+//    //均速 用时
+//    NSString *str = [NSString stringWithFormat:@"均速:%.2fkm 用时:%@",theModel.pingjunsudu,theModel.yongshi];
+//    
+//    self.sportInfoLabel.text = str;
     
     
     

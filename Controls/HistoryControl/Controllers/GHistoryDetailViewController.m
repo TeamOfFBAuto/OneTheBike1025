@@ -15,6 +15,42 @@
 
 @implementation GHistoryDetailViewController
 
+
+
+
+
+
+-(void)dealloc{
+    [self returnAction];
+}
+
+
+#pragma mark - 地图相关内存管理 点击返回按钮vc释放的时候走
+- (void)returnAction
+{
+    [self clearMapView];
+    
+    
+    
+    self.mapView.userTrackingMode  = MAUserTrackingModeNone;
+    
+//    [self.mapView removeObserver:self forKeyPath:@"showsUserLocation"];
+    
+}
+- (void)clearMapView
+{
+    self.mapView.showsUserLocation = NO;
+    
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    [self.mapView removeOverlays:self.mapView.overlays];
+    
+    self.mapView.delegate = nil;
+}
+
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -199,7 +235,7 @@
     
 
     
-    NSLog(@"---------- model.lineString ----- %@",self.passModel.lineString);
+    
     
     
     //把轨迹加到地图上
@@ -305,15 +341,25 @@
 
 
 
--(void)showRoadLineInMapViewWith:(LRoadClass*)model{
+-(void)showRoadLineInMapViewWith:(GyundongCanshuModel*)model{
     
-    NSArray *arr = [model.lineString objectFromJSONString];
+    NSLog(@"jsonStr %@",model.jsonStr);
+    NSLog(@"起点 %@",model.startCoorStr);
+    NSLog(@"终点 %@",model.coorStr);
+    
+    NSArray *arr = [model.jsonStr objectFromJSONString];
     
     CLLocationCoordinate2D start;
-    start = CLLocationCoordinate2DMake(model.startCoor.latitude, model.startCoor.longitude);
+    NSArray *a = [model.startCoorStr componentsSeparatedByString:@","];
+    NSString *lat = a[0];
+    NSString *lon = a[1];
+    start = CLLocationCoordinate2DMake([lat doubleValue], [lon doubleValue]);
     
     CLLocationCoordinate2D end;
-    end = CLLocationCoordinate2DMake(model.endCoor.latitude, model.endCoor.longitude);
+    NSArray *b = [model.coorStr componentsSeparatedByString:@","];
+    NSString *blat = b[0];
+    NSString *blon = b[1];
+    end = CLLocationCoordinate2DMake([blat doubleValue], [blon doubleValue]);
     
     if (0) {
         return;

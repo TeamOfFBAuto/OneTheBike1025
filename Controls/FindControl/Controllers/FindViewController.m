@@ -35,11 +35,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _data_array = [NSMutableArray array];
-//    
+//
     //适配ios7navigationbar高度
-    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
+//    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
     
     [self.navigationController.navigationBar setBackgroundImage:NAVIGATION_IMAGE forBarMetrics: UIBarMetricsDefault];
     
@@ -47,15 +47,17 @@
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.text = @"发现";
-    
     self.navigationItem.titleView = _titleLabel;
     
-    self.view.backgroundColor=RGBCOLOR(227,227,227);
+    self.edgesForExtendedLayout = UIRectEdgeBottom;
     
-    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT-64)];
+    self.view.backgroundColor = [UIColor whiteColor];
+
+    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT-64-49)];
+    myScrollView.backgroundColor = RGBCOLOR(227,227,227);
     myScrollView.showsHorizontalScrollIndicator = NO;
     myScrollView.showsVerticalScrollIndicator = NO;
-    myScrollView.contentSize = CGSizeMake(0,500);
+    myScrollView.contentSize = CGSizeMake(0,450);
     [self.view addSubview:myScrollView];
     
     
@@ -228,7 +230,7 @@
 
 -(void)shareTapWithType:(NSString *)type
 {
-    [[UMSocialControllerService defaultControllerService] setShareText:@"小手一抖，积分到手，每日一签，欢乐多多，兑换装备，分享抽奖。#骑行叭宝盒# @骑叭" shareImage:[UIImage imageNamed:@"icon120.png"] socialUIDelegate:self];        //设置分享内容和回调对象
+    [[UMSocialControllerService defaultControllerService] setShareText:@"小手一抖，积分到手，每日一签，欢乐多多，兑换装备，分享抽奖。#骑行叭宝盒# @骑叭" shareImage:[UIImage imageNamed:@"bike_share_check.png"] socialUIDelegate:self];        //设置分享内容和回调对象
     [UMSocialSnsPlatformManager getSocialPlatformWithName:type].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
 }
 
