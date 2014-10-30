@@ -15,6 +15,42 @@
 
 @implementation GHistoryDetailViewController
 
+
+
+
+
+
+-(void)dealloc{
+    [self returnAction];
+}
+
+
+#pragma mark - 地图相关内存管理 点击返回按钮vc释放的时候走
+- (void)returnAction
+{
+    [self clearMapView];
+    
+    
+    
+    self.mapView.userTrackingMode  = MAUserTrackingModeNone;
+    
+//    [self.mapView removeObserver:self forKeyPath:@"showsUserLocation"];
+    
+}
+- (void)clearMapView
+{
+    self.mapView.showsUserLocation = NO;
+    
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    [self.mapView removeOverlays:self.mapView.overlays];
+    
+    self.mapView.delegate = nil;
+}
+
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -65,7 +101,7 @@
     
     [self initMap];
     
-//    [self showRoadLineInMapViewWith:self.passModel];
+    [self showRoadLineInMapViewWith:self.passModel];
     
     
     [self customTabelView];
@@ -306,6 +342,10 @@
 
 
 -(void)showRoadLineInMapViewWith:(GyundongCanshuModel*)model{
+    
+    NSLog(@"jsonStr %@",model.jsonStr);
+    NSLog(@"起点 %@",model.startCoorStr);
+    NSLog(@"终点 %@",model.coorStr);
     
     NSArray *arr = [model.jsonStr objectFromJSONString];
     

@@ -845,6 +845,7 @@
                 NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;
                 NSString *endCoordinatesStr = self.gYunDongCanShuModel.coorStr;
                 
+                NSLog(@"终点经纬度 %@",endCoordinatesStr);
                 
                 
                 if (jsonStr) {

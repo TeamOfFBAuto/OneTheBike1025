@@ -86,13 +86,7 @@
 //    [self prepareLocalDataAndNetData];
     [self netData];
     
-//    //网路不可用先取本地
-//    [self prepareLocalData];
-//    [self paixuWithDateWithArray:self.netDataArray];
-    
-    
-    
-    
+
     
     self.view.backgroundColor=[UIColor whiteColor];
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-64 : 480-64) style:UITableViewStyleGrouped];
@@ -481,8 +475,12 @@
 
 
 -(void)gShouFangZiRu:(UIGestureRecognizer*)ges{
+    
+    
         
     NSString *sectionStr = [NSString stringWithFormat:@"%d",(ges.view.tag-10)];
+    
+    NSLog(@" section %@",sectionStr);
     
     int arrCount = _fangkaiArray.count;
     BOOL ishave = NO;
