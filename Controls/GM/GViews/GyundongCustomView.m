@@ -37,11 +37,11 @@
     
     
     //测试颜色
-    self.titleLable.backgroundColor = [UIColor redColor];
-    self.contentLable.backgroundColor = [UIColor grayColor];
-    self.danweiLabel.backgroundColor = [UIColor orangeColor];
-    self.line.backgroundColor = [UIColor blueColor];
-    self.line1.backgroundColor = [UIColor redColor];
+//    self.titleLable.backgroundColor = [UIColor redColor];
+//    self.contentLable.backgroundColor = [UIColor grayColor];
+//    self.danweiLabel.backgroundColor = [UIColor orangeColor];
+//    self.line.backgroundColor = [UIColor blueColor];
+//    self.line1.backgroundColor = [UIColor redColor];
     
     [self addSubview:self.titleLable];
     [self addSubview:self.titleImv];

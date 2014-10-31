@@ -254,10 +254,10 @@
             [_dingView addGestureRecognizer:tap];
             _dingView.line.frame = CGRectMake(0, 64, 320, 1);
             [_dingView.titleImv setImage:titleImageArr[i-1]];
-            _dingView.titleImv.frame = CGRectMake(50, 20, 30, 30);
+            _dingView.titleImv.frame = CGRectMake(80, 20, 30, 30);
             
             //内容label
-            _dingView.contentLable.frame = CGRectMake(CGRectGetMaxX(_dingView.titleImv.frame)+5, _dingView.titleImv.frame.origin.y-5, 92, 35);
+            _dingView.contentLable.frame = CGRectMake(CGRectGetMaxX(_dingView.titleImv.frame)+5, _dingView.titleImv.frame.origin.y-5,65, 35);
 //            _dingView.contentLable.backgroundColor = [UIColor redColor];
             
             _dingView.contentLable.text = @"0.0";
@@ -266,7 +266,7 @@
             //计量单位
             _dingView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_dingView.contentLable.frame)+5, _dingView.contentLable.frame.origin.y+5, 70, 30);
             _dingView.danweiLabel.text = @"km/h";
-            _dingView.viewTypeStr = @"速度";
+            _dingView.viewTypeStr = @"时速";
             
             
             
@@ -593,6 +593,13 @@
             _dingView.danweiLabel.text = theDanwei;
             _dingView.viewTypeStr = theViewType;
             
+            if ([theViewType isEqualToString:@"计时"]) {
+                _dingView.danweiLabel.hidden = YES;
+                _dingView.contentLable.frame = CGRectMake(CGRectGetMaxX(_dingView.titleImv.frame)+5, _dingView.titleImv.frame.origin.y-5, 100, 35);
+            }else{
+                _dingView.contentLable.frame = CGRectMake(CGRectGetMaxX(_dingView.titleImv.frame)+5, _dingView.titleImv.frame.origin.y-5, 65, 35);
+                _dingView.danweiLabel.hidden = NO;
+            }
         }
             break;
         case 52://左上 //计时lable 无单位label
@@ -897,6 +904,9 @@
                 if (jsonStr) {
 #pragma mark - 保存轨迹到本地数据库
                     [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr];
+                    
+                    
+                    
                     
 #pragma mark - 上传轨迹到服务器
                     [self saveRoadlinesJsonString:jsonStr custId:custIdStr cyclingKm:juli upMetre:upMetre downMetre:downMetre costCalories:costCalories avgSpeed:avgSpeed topSpeed:topSpeed heartRate:heartRate beginTime:beginTimeStr endTime:endTimeStr costTime:costTimeStr beginSite:@" " endSite:@" " beginCoordinates:beginCoordinatesStr endCoordinates:endCoordinatesStr];
@@ -1501,7 +1511,16 @@
     if (self.gYunDongCanShuModel.maxSudu  < self.gYunDongCanShuModel.dangqiansudu) {
         self.gYunDongCanShuModel.maxSudu = self.gYunDongCanShuModel.dangqiansudu;
     }
-#pragma mark - 数据model赋值 -- 平均速度/ 实时速度
+    
+    
+#pragma mark - 数据model赋值 -- 实时速度
+    for (GyundongCustomView *view in self.fiveCustomView) {
+        if ([view.viewTypeStr isEqualToString:@"时速"]||[view.viewTypeStr isEqualToString:@"km/时"]) {
+            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.dangqiansudu];
+            
+        }
+    }
+#pragma mark - 数据model赋值 -- 平均速度
     double zjuli = _distance/1000;//单位：公里
     
     if (self.gYunDongCanShuModel.yongshi.length>1) {
@@ -1548,16 +1567,16 @@
     }
     
     
-    self.gYunDongCanShuModel.dangqiansudu = userLocation.location.speed * 3.6;
-    if (self.gYunDongCanShuModel.dangqiansudu<0 || self.gYunDongCanShuModel.dangqiansudu >50) {
-        self.gYunDongCanShuModel.dangqiansudu = 0.0;
+    self.gYunDongCanShuModel.pingjunsudu = userLocation.location.speed * 3.6;
+    if (self.gYunDongCanShuModel.pingjunsudu<0 || self.gYunDongCanShuModel.pingjunsudu >50) {
+        self.gYunDongCanShuModel.pingjunsudu = 0.0;
     }
     for (GyundongCustomView *view in self.fiveCustomView) {
         
-        if ([view.viewTypeStr isEqualToString:@"速度"] || [view.viewTypeStr isEqualToString:@"km/时"]) {
+        if ([view.viewTypeStr isEqualToString:@"速度"]) {
             
             
-            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.dangqiansudu];
+            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.pingjunsudu];
             
         }
         

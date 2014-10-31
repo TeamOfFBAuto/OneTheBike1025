@@ -121,7 +121,7 @@
     
     
     switch (indexPath.row) {
-        case 0://时间
+        case 0://计时
         {
             
             contentLabel.text = self.yundongModel.timeRunLabel.text;
@@ -212,7 +212,7 @@
     NSString *contentStr = @"";
     
     switch (indexPath.row) {
-        case 0://时间
+        case 0://计时
         {
             contentStr = self.yundongModel.timeRunLabel.text;
             BOOL isChange = YES;

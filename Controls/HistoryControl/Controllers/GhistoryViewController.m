@@ -123,7 +123,7 @@
         self.totalYongshiLabel.text = [result objectForKey:@"sumCostTime"];
         
         
-        self.topTotalDistanceLabel.text = [NSString stringWithFormat:@"%@",[result objectForKey:@"sumCyclingKm"]];
+        self.topTotalDistanceLabel.text = [NSString stringWithFormat:@"%@公里",[result objectForKey:@"sumCyclingKm"]];
         
         
         if ([result objectForKey:@"status"]) {
@@ -438,11 +438,11 @@
     UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 115)];
     upHeaderView.backgroundColor = [UIColor whiteColor];
     
-    self.topTotalDistanceLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, 100, 25)];
+    self.topTotalDistanceLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, 320, 25)];
     //        self.totalYongshiLabel.backgroundColor = [UIColor orangeColor];
     self.topTotalDistanceLabel.font = [UIFont systemFontOfSize:25];
-    self.topTotalDistanceLabel.text = @"0";
-    self.topTotalDistanceLabel.textAlignment = NSTextAlignmentRight;
+    self.topTotalDistanceLabel.text = @"0公里";
+    self.topTotalDistanceLabel.textAlignment = NSTextAlignmentCenter;
     [upHeaderView addSubview:self.topTotalDistanceLabel];
     
     //用时单位 公里
@@ -451,7 +451,9 @@
     danweiLabel.textAlignment = NSTextAlignmentLeft;
     //        danweiLabel.backgroundColor = [UIColor purpleColor];
     danweiLabel.text = @"公里";
-    [upHeaderView addSubview:danweiLabel];
+//    [upHeaderView addSubview:danweiLabel];
+    
+    
     
     //运动次数
     self.totalCishuLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(danweiLabel.frame)+ 30, 100, 12)];
