@@ -219,6 +219,7 @@
 -(void)gKeepStart{
     
     [_navc3.tabBarItem setImage:[UIImage imageNamed:@"gqixingzhong.png"]];
+    [_navc3.tabBarItem setImageInsets:UIEdgeInsetsMake(-2, 0, 2, 0)];
     [_navc3.tabBarItem setTitle:@"骑行中"];
     _isStart = YES;
     

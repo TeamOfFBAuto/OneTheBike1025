@@ -55,8 +55,9 @@
     [shangGrayView addSubview:btn];
     [self.view addSubview:shangGrayView];
     
-    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"ghaiba.png"],[UIImage imageNamed:@"gbpm.png"]];
-    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"当前海拔",@"卡路里"];
+    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gjusu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"ghaiba.png"],[UIImage imageNamed:@"gbpm.png"],[UIImage imageNamed:@"gspeed.png"]];
+    
+    _titleArray = @[@"用时",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"当前海拔",@"卡路里",@"时速"];
     
     _tabelView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5?(568-64):(480-64)) style:UITableViewStylePlain];
     _tabelView.delegate = self;
@@ -177,7 +178,7 @@
             break;
         case 9://当前海拔
         {
-            contentLabel.text = [NSString stringWithFormat:@"%d",self.yundongModel.haiba];
+            contentLabel.text = [NSString stringWithFormat:@"%d米",self.yundongModel.haiba];
         }
             break;
         case 10://卡路里
@@ -185,6 +186,10 @@
             contentLabel.text = [self.yundongModel.bpm stringByAppendingString:@"bpm"];
         }
             break;
+        case 11://实速
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.yundongModel.dangqiansudu];
+        }
         default:
             break;
     }
@@ -194,7 +199,7 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 11;
+    return 12;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -360,8 +365,6 @@
                 }
                 
                 
-                
-                
             }
             
             
@@ -433,6 +436,21 @@
             }
         }
             break;
+        case 11://时速
+        {
+            contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.dangqiansudu];
+            BOOL isChange = YES;
+            for (GyundongCustomView *view in self.delegate.fiveCustomView) {
+                if ([view.viewTypeStr isEqualToString:@"时速"]) {
+                    isChange = NO;
+                }
+            }
+            
+            if (isChange) {
+                [self.delegate setImage:_imageArray[indexPath.row] andContent:contentStr andDanwei:@"km/h" withTag:self.passTag withType:@"时速"];
+            }
+            
+        }
         default:
             break;
     }

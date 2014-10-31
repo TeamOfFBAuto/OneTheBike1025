@@ -8,6 +8,7 @@
 
 #import "GStartViewController.h"
 #import "LoginViewController.h"
+#import "ShareView.h"
 
 
 @interface GStartViewController ()<UIActionSheetDelegate>
@@ -457,13 +458,9 @@
             
             if (self.lines.count>0) {
                 [self.mapView removeOverlays:self.lines];
-                
-//                MAPointAnnotation *startAnnotation;//起点
-//                MAPointAnnotation *detinationAnnotation;//终点
-//                NSMutableArray *middleAnntations;
-                
                 [self.mapView removeAnnotation:startAnnotation];
                 [self.mapView removeAnnotation:detinationAnnotation];
+                
             }
             
         }else{//路书为关闭状态
@@ -597,7 +594,8 @@
                 _zuoshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.contentLable.frame)+4, _zuoshangView.titleImv.frame.origin.y, 50, 30);
                 _zuoshangView.danweiLabel.hidden = NO;
             }else{
-                _zuoshangView.danweiLabel.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.contentLable.frame)+4, _zuoshangView.titleImv.frame.origin.y, 100, 35);
+                
+                _zuoshangView.contentLable.frame = CGRectMake(CGRectGetMaxX(_zuoshangView.titleImv.frame)+4, _zuoshangView.titleImv.frame.origin.y, 100, 35);
                 _zuoshangView.danweiLabel.hidden = YES;
             }
         }
@@ -851,28 +849,44 @@
                 
                 NSLog(@" jsonStr = %@",jsonStr);
                 
-                
-#pragma mark - 上传轨迹到服务器
-                
+                //网络上传参数
                 NSString *custIdStr = [LTools cacheForKey:USER_CUSTID];
                 CGFloat juli = self.gYunDongCanShuModel.juli;
+                CGFloat avgSpeed = self.gYunDongCanShuModel.pingjunsudu;
+                CGFloat topSpeed = self.gYunDongCanShuModel.maxSudu;
                 int upMetre = (self.gYunDongCanShuModel.maxHaiba - self.gYunDongCanShuModel.minHaiba);
                 int downMetre = (self.gYunDongCanShuModel.haiba  - self.gYunDongCanShuModel.minHaiba);
                 int costCalories = 30;
-                
-                CGFloat avgSpeed = self.gYunDongCanShuModel.pingjunsudu;
-                CGFloat topSpeed = self.gYunDongCanShuModel.maxSudu;
                 int heartRate = 70;
+                
                 NSString *beginTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];
                 NSString *endTimeStr = [self.gYunDongCanShuModel.endTime substringToIndex:19];
                 NSString *costTimeStr = self.gYunDongCanShuModel.yongshi;
-                NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;
-                NSString *endCoordinatesStr = self.gYunDongCanShuModel.coorStr;
-                
+                NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;//
+                NSString *endCoordinatesStr = self.gYunDongCanShuModel.coorStr;//
                 NSLog(@"终点经纬度 %@",endCoordinatesStr);
                 
                 
+                //本地保存数据
+                //jsostr 轨迹数据
+                //startName 开始时间 结束时间 用时
+                //endName 距离 平均速度 最高速度 上升海拔 下降海拔 卡路里 心率
+                //distance 距离
+                //type 1为路书 2为轨迹
+                //startCoorStr 开始经纬度
+                //endCoorStr 结束经纬度
+                
+                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",beginTimeStr,endTimeStr,costTimeStr];
+                NSString *gEndName = [NSString stringWithFormat:@"%.1f,%.1f,%.1f,%d,%d,%d,%d",juli,avgSpeed,topSpeed,upMetre,downMetre,costCalories,heartRate];
+                NSString *gDistance = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.juli];
+                NSString *gStartCoorStr = self.gYunDongCanShuModel.startCoorStr;
+                NSString *gEndCoorStr = self.gYunDongCanShuModel.coorStr;
+                
                 if (jsonStr) {
+#pragma mark - 保存轨迹到本地数据库
+                    [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr];
+                    
+#pragma mark - 上传轨迹到服务器
                     [self saveRoadlinesJsonString:jsonStr custId:custIdStr cyclingKm:juli upMetre:upMetre downMetre:downMetre costCalories:costCalories avgSpeed:avgSpeed topSpeed:topSpeed heartRate:heartRate beginTime:beginTimeStr endTime:endTimeStr costTime:costTimeStr beginSite:@" " endSite:@" " beginCoordinates:beginCoordinatesStr endCoordinates:endCoordinatesStr];
                 }else{
                     UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -883,20 +897,12 @@
                 
             }
             
-           
-            
-            
-#pragma mark - 保存轨迹到本地数据库
+
             
 //            if (jsonStr) {//有轨迹再往本地存
 //                if (jsonStr && startNameStr && endNameStr && self.gYunDongCanShuModel.juli && self.gYunDongCanShuModel.startCoorStr && self.gYunDongCanShuModel.coorStr) {
 //                    
 //                    [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
-            
-                    
-
-            
-            
             
             
             
@@ -2007,6 +2013,127 @@
         UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"相机不可用" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [al show];
     }
+}
+
+
+
+
+#pragma mark - 分享
+-(void)ShowShareView
+{
+    ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
+    share_view.userInteractionEnabled = YES;
+    share_view.delegate = self;
+    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
+}
+
+-(void)shareTapWithType:(NSString *)type
+{
+    //    [[UMSocialControllerService defaultControllerService] setShareText:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" shareImage:[UIImage imageNamed:@"bike_share_check.png"] socialUIDelegate:self];        //设置分享内容和回调对象
+    //    [UMSocialSnsPlatformManager getSocialPlatformWithName:type].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+    
+    [self autoShareTo:type];
+}
+
+//
+//NSString *url = @"http://www.baidu.com";
+//
+//NSString *content = [NSString stringWithFormat:@"%@",]
+//
+//UMSocialUrlResource *rr = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeDefault url:url];
+//
+//UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
+//[[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" image:shareImage location:nil urlResource:rr presentedController:self completion:^(UMSocialResponseEntity *response){
+//    if (response.responseCode == UMSResponseCodeSuccess) {
+//        NSLog(@"分享成功！");
+//    }
+//}];
+
+- (void)autoShareTo:(NSString *)type
+{
+    NSString *content = @"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~";
+    
+    NSString *url = @"http://www.baidu.com";
+    
+    UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
+    
+    if ([type isEqualToString:UMShareToQQ]) {
+        
+        
+        [UMSocialData defaultData].extConfig.qqData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ分享成功" addToView:self.view];
+                
+            }else{
+                
+                NSLog(@"分享失败");
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToSina]){
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:[NSString stringWithFormat:@"%@%@",content,url] shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToQzone]){
+        
+        //qqzone
+        [UMSocialData defaultData].extConfig.qzoneData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
+                
+            }else{
+                
+                
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToWechatSession]){
+        
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToWechatTimeline]){
+        
+        [UMSocialData defaultData].extConfig.wechatTimelineData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToTencent]){
+        
+        [UMSocialData defaultData].extConfig.tencentData.urlResource = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeImage url:url];
+        
+        //        [UMSocialSnsService presentSnsIconSheetView:self
+        //                                             appKey:@"5423e48cfd98c58eed00664f"
+        //                                          shareText:content
+        //                                         shareImage:shareImage
+        //                                    shareToSnsNames:@[UMShareToTencent]
+        //                                           delegate:self];
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToTencent] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                NSLog(@"分享成功！");
+            }
+        }];
+        
+        
+    }
+    
+    
+    
 }
 
 
