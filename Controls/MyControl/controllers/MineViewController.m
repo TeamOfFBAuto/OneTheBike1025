@@ -116,10 +116,22 @@
     
     MineCellOne *cell = (MineCellOne *)[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
-    [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:[UIImage imageNamed:@""]];
+//    [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:[UIImage imageNamed:@""]];
+    
+    UIImage *headImage = [LTools getImageForUserId:[LTools cacheForKey:USER_CUSTID]];
+    
+    if (headImage) {
+        
+        cell.headImageView.image = headImage;
+    }else
+    {
+        cell.headImageView.image = [UIImage imageNamed:@"bike_default"];
+    }
+
+    
     cell.nameLabel.text = nickName;
     
-    cell.infoLabel.text = [NSString stringWithFormat:@"轨币:%@",gold];
+    cell.infoLabel.text = [NSString stringWithFormat:@"金币:%@",gold];
     
     NSLog(@"icon %@ nickName %@ gold %@",icon,nickName,gold);
     
@@ -353,11 +365,22 @@
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
-        NSString *icon = [LTools cacheForKey:USER_HEAD_IMAGEURL];
+//        NSString *icon = [LTools cacheForKey:USER_HEAD_IMAGEURL];
         NSString *name = [LTools cacheForKey:USER_NAME];
         NSString *gold = [LTools cacheForKey:USER_GOLD];
         
-        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:nil];
+        UIImage *headImage = [LTools getImageForUserId:[LTools cacheForKey:USER_CUSTID]];
+        
+        if (headImage) {
+            
+            cell.headImageView.image = headImage;
+        }else
+        {
+            cell.headImageView.image = [UIImage imageNamed:@"bike_default"];
+        }
+
+        
+//        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:nil];
         cell.nameLabel.text = name;
         cell.infoLabel.text = [NSString stringWithFormat:@"金币:%@",gold];
         

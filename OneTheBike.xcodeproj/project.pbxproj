@@ -29,6 +29,7 @@
 		13601D4A19FFD04000FCC770 /* road_produce@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4519FFD04000FCC770 /* road_produce@2x.png */; };
 		13601D4B19FFD04000FCC770 /* road_start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4619FFD04000FCC770 /* road_start@2x.png */; };
 		13601D4D19FFD2CA00FCC770 /* share_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = 13601D4C19FFD2CA00FCC770 /* share_Image.png */; };
+		136EE56E1A03CF4600A42BCD /* bike_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 136EE56D1A03CF4600A42BCD /* bike_default@2x.png */; };
 		13736EA519FD0FD8009E50D2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA319FD0FD8009E50D2 /* LoginViewController.m */; };
 		13736EA619FD0FD8009E50D2 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13736EA419FD0FD8009E50D2 /* LoginViewController.xib */; };
 		13736EA919FD13D6009E50D2 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13736EA819FD13D6009E50D2 /* RootViewController.m */; };
@@ -611,6 +612,7 @@
 		13601D4519FFD04000FCC770 /* road_produce@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_produce@2x.png"; sourceTree = "<group>"; };
 		13601D4619FFD04000FCC770 /* road_start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "road_start@2x.png"; sourceTree = "<group>"; };
 		13601D4C19FFD2CA00FCC770 /* share_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_Image.png; sourceTree = "<group>"; };
+		136EE56D1A03CF4600A42BCD /* bike_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bike_default@2x.png"; sourceTree = "<group>"; };
 		13736EA219FD0FD8009E50D2 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		13736EA319FD0FD8009E50D2 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		13736EA419FD0FD8009E50D2 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -2034,6 +2036,7 @@
 		19DAE84E19D311D300519D22 /* PublicImages */ = {
 			isa = PBXGroup;
 			children = (
+				136EE56D1A03CF4600A42BCD /* bike_default@2x.png */,
 				13601D4C19FFD2CA00FCC770 /* share_Image.png */,
 				13601D4119FFD03F00FCC770 /* roadManager_new */,
 				13601D3D19FFCC9D00FCC770 /* login_qq@2x.png */,
@@ -3157,6 +3160,7 @@
 				19DAE9EF19D311D300519D22 /* zuji-42_42-xy84_404@2x.png in Resources */,
 				19DAE9D419D311D300519D22 /* Expression_18@2x.png in Resources */,
 				19DAEA3C19D311D300519D22 /* sheying@2x.png in Resources */,
+				136EE56E1A03CF4600A42BCD /* bike_default@2x.png in Resources */,
 				1965031419FB902800B19738 /* send_selected@2x.png in Resources */,
 				19DAEA3D19D311D300519D22 /* shuxian@2x.png in Resources */,
 				19DAEA7A19D311D300519D22 /* classification_big8@2x.png in Resources */,
