@@ -224,6 +224,8 @@
     return NO;
 }
 
+
+
 + (NSDictionary *)getRoadLinesForRoadId:(int)roadId
 {
     //打开数据库
@@ -309,6 +311,62 @@
     }
     sqlite3_finalize(stmt);
     return arr;
+}
+
+
++ (LRoadClass *)getRoadLinesForServerRoadId:(NSString *)serverRoadId
+{
+    //打开数据库
+    sqlite3 *db = [DataBase openDB];
+    //创建操作指针
+    sqlite3_stmt *stmt = nil;
+    //执行SQL语句
+    int result = sqlite3_prepare_v2(db, "select * from RoadLines where serverRoadId = ?", -1, &stmt, nil);
+    
+    
+    if (result == SQLITE_OK) {
+        
+        sqlite3_bind_text(stmt, 1, [serverRoadId UTF8String], -1, NULL);
+        
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            
+            int roadid = sqlite3_column_int(stmt, 0);
+            NSString *startName = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 1)];
+            NSString *endName = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 2)];
+            NSString *distance = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 3)];
+            NSString *lineString = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 4)];
+            NSString *date = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 5)];
+            NSString *startStr = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 7)];
+            NSString *endStr = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 8)];
+            
+            int isOpen = sqlite3_column_int(stmt, 9);
+            int isUpload = sqlite3_column_int(stmt, 10);
+            
+            NSString *serverRoadId = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 11)];
+            
+            NSArray *start_arr = [startStr componentsSeparatedByString:@","];
+            
+            CLLocationCoordinate2D start;
+            if (start_arr.count == 2) {
+                start = CLLocationCoordinate2DMake([[start_arr objectAtIndex:0]floatValue], [[start_arr objectAtIndex:1]floatValue]);
+            }
+            
+            NSArray *end_arr = [endStr componentsSeparatedByString:@","];
+            CLLocationCoordinate2D end;
+            if (end_arr.count == 2) {
+                end = CLLocationCoordinate2DMake([[end_arr objectAtIndex:0]floatValue], [[end_arr objectAtIndex:1]floatValue]);
+            }
+            
+            LRoadClass *road = [[LRoadClass alloc]initWithRoadId:roadid startName:startName endName:endName distance:distance lineString:lineString dateline:date startCoor:start endCoor:end];
+            road.isOpen = isOpen;
+            road.isUpload = isUpload;
+            road.serverRoadId = serverRoadId;
+            
+            return road;
+        }
+    }
+    sqlite3_finalize(stmt);
+    return nil;
 }
 
 

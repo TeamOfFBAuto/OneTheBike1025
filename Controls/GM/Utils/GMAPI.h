@@ -15,6 +15,8 @@
 #define END_COOR_STRING @"endCoorString"
 #define LINE_JSONSTRING @"lineJsonString"//线的jsonString
 
+@class LRoadClass;
+
 typedef enum{
     Type_Road = 1,//路书
     Type_GUIJI //轨迹
@@ -81,10 +83,6 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
              endName:(NSString *)endName
                 Open:(BOOL)isOpen;// yes 1 地图显示  NO 0 不显示
 
-
-
-
-
 + (void)updateRoadId:(int)roadId isUpload:(BOOL)finish;//是否上传成功
 
 + (void)updateRoadId:(int)roadId serverRoadId:(NSString *)serverRoadID isUpload:(BOOL)finish;//更改上传状态以及serverRoadID
@@ -116,7 +114,7 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
                           isOpen:(BOOL)open;//获取所有是否打开的路书或者轨迹
 
 
-
++ (LRoadClass *)getRoadLinesForServerRoadId:(NSString *)serverRoadId;//根据serverRoadId获取roadClass对象
 
 
 @end
