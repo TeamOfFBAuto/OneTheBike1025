@@ -11,6 +11,9 @@
 
 
 @interface GStartViewController ()<UIActionSheetDelegate>
+{
+    int openRoadId;//打开的路书
+}
 
 
 @end
@@ -46,6 +49,9 @@
         [self showRoadLineInMapViewWith:roadModelClass];
         
         btn.selected = YES;
+        
+        openRoadId = roadModelClass.roadId;
+        
     }else
     {
         btn.selected = NO;
@@ -464,6 +470,9 @@
                 
                 [self.mapView removeAnnotation:startAnnotation];
                 [self.mapView removeAnnotation:detinationAnnotation];
+                
+                [GMAPI updateRoadCloseForId:openRoadId];//lcw 关闭当前打开的路书
+                
             }
             
         }else{//路书为关闭状态
@@ -483,6 +492,8 @@
                 if (roadLineArray && roadLineArray.count>0) {
                     LRoadClass *roadModelClass= roadLineArray[0];
                     [bself showRoadLineInMapViewWith:roadModelClass];
+                    
+                    openRoadId = roadModelClass.roadId;//记录当前打开的路书
                     
                 }
             }];

@@ -136,7 +136,7 @@ enum{
     
     CGSize aSize = [UIScreen mainScreen].bounds.size;
     centerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"road_select"]];
-    centerImage.center = CGPointMake(aSize.width / 2.f, aSize.height / 2.f - 64);
+    centerImage.center = CGPointMake(aSize.width / 2.f, aSize.height / 2.f - 64 + 10 + 10 + 10);
     [self.view addSubview:centerImage];
     
     

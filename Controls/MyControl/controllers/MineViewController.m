@@ -119,7 +119,7 @@
     [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:[UIImage imageNamed:@""]];
     cell.nameLabel.text = nickName;
     
-    cell.infoLabel.text = [NSString stringWithFormat:@"轨币:%@",gold];
+    cell.infoLabel.text = [NSString stringWithFormat:@"金币:%@",gold];
     
     NSLog(@"icon %@ nickName %@ gold %@",icon,nickName,gold);
     
