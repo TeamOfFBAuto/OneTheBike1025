@@ -137,12 +137,8 @@
         {
             NSLog(@"反馈意见");
             
-            
             [self showNativeFeedbackWithAppkey:@"5440c181fd98c5a723000ea0"];
 
-            
-            
-            
         }
             break;
         case 3:

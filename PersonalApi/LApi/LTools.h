@@ -187,4 +187,7 @@ typedef void(^versionBlock)(BOOL isNewVersion,NSString *updateUrl,NSString *upda
 
 + (UIImage *)imageForBBSId:(NSString *)bbsId;
 
++ (UIImage *)getImageForUserId:(NSString *)userId;//根据用户id获取头像
++(void)saveImageToDocWithUserId:(NSString *)userId WithImage:(UIImage *)image;//本地存储用户头像
+
 @end

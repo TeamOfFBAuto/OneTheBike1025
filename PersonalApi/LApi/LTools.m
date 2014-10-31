@@ -1034,5 +1034,58 @@
     return image;
 }
 
+#pragma mark - 用户头像
+
++ (UIImage *)getImageForUserId:(NSString *)userId
+{
+    NSString * string = [NSString stringWithFormat:@"/headImage_%@.png",userId];
+    
+    NSString * thePath = [[LTools documentImagePath] stringByAppendingString:string];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if ([fileManager fileExistsAtPath:thePath]) {
+       
+        UIImage *image = [UIImage imageWithContentsOfFile:thePath];
+        
+        return image;
+        
+    }
+    
+    return nil;
+}
+
++(void)saveImageToDocWithUserId:(NSString *)userId WithImage:(UIImage *)image
+{
+    NSData *data;
+    
+    if (UIImagePNGRepresentation(image) == nil) {
+        
+        data = UIImageJPEGRepresentation(image, 1);
+        
+    } else {
+        
+        data = UIImagePNGRepresentation(image);
+        
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSString * string = [NSString stringWithFormat:@"/headImage_%@.png",userId];
+    
+    NSString * thePath = [[LTools documentImagePath] stringByAppendingString:string];
+    
+    [fileManager createFileAtPath:thePath  contents:data attributes:nil];
+}
+
+
++(NSString *)documentImagePath
+
+{
+    NSString * path1 = [NSHomeDirectory() stringByAppendingPathComponent:@"tmp/imagedata"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:path1 withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return path1;
+}
 
 @end
