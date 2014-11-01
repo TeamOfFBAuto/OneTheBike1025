@@ -183,7 +183,7 @@
             break;
         case 10://卡路里
         {
-            contentLabel.text = [self.yundongModel.bpm stringByAppendingString:@"bpm"];
+            contentLabel.text = [NSString stringWithFormat:@"%dbmp",self.yundongModel.bpm];
         }
             break;
         case 11://实速
@@ -423,7 +423,7 @@
             break;
         case 10://卡路里
         {
-            contentStr = self.yundongModel.bpm;
+            contentStr = [NSString stringWithFormat:@"%d",self.yundongModel.bpm];
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"热量"]) {

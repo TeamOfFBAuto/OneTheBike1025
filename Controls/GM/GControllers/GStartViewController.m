@@ -171,9 +171,19 @@
     shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     //方向
     _fangxiangLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 5, 50, 30)];
+//    _fangxiangLabel.backgroundColor = [UIColor redColor];
     _fangxiangLabel.font = [UIFont systemFontOfSize:13];
     _fangxiangLabel.textColor = [UIColor whiteColor];
     _fangxiangLabel.textAlignment = NSTextAlignmentCenter;
+    
+    //方向图标
+    _fangxiangImv = [[UIImageView alloc]initWithFrame:CGRectMake(220, 10, 20, 20)];
+//    _fangxiangImv.backgroundColor = [UIColor redColor];
+    [_fangxiangImv setImage:[UIImage imageNamed:@"gzhinanzhen.png"]];
+    [shangGrayView addSubview:_fangxiangImv];
+    
+    
+    
     //标题
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 6, 50, 30)];
     titleLabel.font = [UIFont systemFontOfSize:17];
@@ -412,10 +422,11 @@
             [btn setImage:[UIImage imageNamed:@"gRoadLineOff"] forState:UIControlStateSelected];
             [btn setImage:[UIImage imageNamed:@"gRoadLineOn"] forState:UIControlStateNormal];
         }else if (i == 1){//地图跟随 tag 41
-            [btn setImage:[UIImage imageNamed:@"gMapFllow.png"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"gMapFllow.png"] forState:UIControlStateSelected];
+            [btn setImage:[UIImage imageNamed:@"gMapCenterOn.png"] forState:UIControlStateNormal];
         }else if (i == 2){//定位中心点 tag 42
             [btn setImage:[UIImage imageNamed:@"gMapCenterOff.png"] forState:UIControlStateNormal];
-            [btn setImage:[UIImage imageNamed:@"gMapCenterOn.png"] forState:UIControlStateSelected];
+            
             _dingweiCenterBtn = btn;
         }
         
@@ -447,7 +458,13 @@
         if (sender.tag == 41){//地图跟随
             
             sender.selected = !sender.selected;
-            self.mapView.userTrackingMode = 2;
+            
+            if (sender.selected) {
+                self.mapView.userTrackingMode = 2;
+            }else{
+                self.mapView.userTrackingMode = 0;
+            }
+            
         }else if (sender.tag == 42){//定位中心点
             
             sender.selected = !sender.selected;
@@ -530,6 +547,8 @@
     
     self.mapView.showsScale= NO; //关闭比例尺
     self.mapView.scaleOrigin = CGPointMake(10, 70);
+    self.mapView.desiredAccuracy = kCLLocationAccuracyBest;
+    
     
     //    [self initGestureRecognizer];//长按手势
     
@@ -837,6 +856,7 @@
     self.gYunDongCanShuModel.endTime = [NSString stringWithFormat:@"%@",localeDate];
     
     
+    
     UIActionSheet *actionsheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"放弃记录" otherButtonTitles:@"保存分享", nil];
     actionsheet.tag = 101;
     [actionsheet showInView:self.view];
@@ -854,6 +874,13 @@
             
             
 //            [GMAPI zhengliPointArrayWithArray:self.routeLineArray];
+            
+            
+            
+            [self pointArrayBeforeUpData];
+            MAMapPoint* pointArray = malloc(sizeof(CLLocationCoordinate2D) * _points.count);
+            self.routeLine = [MAPolyline polylineWithPoints:pointArray count:_points.count];
+            [self.routeLineArray addObject:self.routeLine];
             
             NSArray *dic_arr = [LMapTools saveMaplines:self.routeLineArray];
             
@@ -875,27 +902,33 @@
                 CGFloat topSpeed = self.gYunDongCanShuModel.maxSudu;
                 int upMetre = (self.gYunDongCanShuModel.maxHaiba - self.gYunDongCanShuModel.minHaiba);
                 int downMetre = (self.gYunDongCanShuModel.haiba  - self.gYunDongCanShuModel.minHaiba);
-                int costCalories = 30;
-                int heartRate = 70;
+                self.gYunDongCanShuModel.bpm = 50;
+                int costCalories = self.gYunDongCanShuModel.bpm;
+                self.gYunDongCanShuModel.xinlv = 70;
+                int heartRate = self.gYunDongCanShuModel.xinlv;
+                
+                
+                
                 
                 NSString *beginTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];
                 NSString *endTimeStr = [self.gYunDongCanShuModel.endTime substringToIndex:19];
+                
+                
+                
+                
+                
                 NSString *costTimeStr = self.gYunDongCanShuModel.yongshi;
                 NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;//
                 NSString *endCoordinatesStr = self.gYunDongCanShuModel.coorStr;//
                 NSLog(@"终点经纬度 %@",endCoordinatesStr);
                 
                 
-                //本地保存数据
-                //jsostr 轨迹数据
-                //startName 开始时间 结束时间 用时
-                //endName 距离 平均速度 最高速度 上升海拔 下降海拔 卡路里 心率
-                //distance 距离
-                //type 1为路书 2为轨迹
-                //startCoorStr 开始经纬度
-                //endCoorStr 结束经纬度
                 
-                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",beginTimeStr,endTimeStr,costTimeStr];
+                
+                
+                //本地数据保存
+                
+                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",self.gYunDongCanShuModel.startTime,self.gYunDongCanShuModel.endTime,costTimeStr];
                 NSString *gEndName = [NSString stringWithFormat:@"%.1f,%.1f,%.1f,%d,%d,%d,%d",juli,avgSpeed,topSpeed,upMetre,downMetre,costCalories,heartRate];
                 NSString *gDistance = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.juli];
                 NSString *gStartCoorStr = self.gYunDongCanShuModel.startCoorStr;
@@ -903,12 +936,36 @@
                 
                 if (jsonStr) {
 #pragma mark - 保存轨迹到本地数据库
-                    [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr];
-                    
-                    
+                    //本地保存数据
+                    //jsostr 轨迹数据
+                    //startName 开始时间 结束时间 用时
+                    //endName 距离 平均速度 最高速度 上升海拔 下降海拔 卡路里 心率
+                    //distance 距离
+                    //type 1为路书 2为轨迹
+                    //startCoorStr 开始经纬度
+                    //endCoorStr 结束经纬度
+                    _nowSaveAndWaittingUpGuijiId = [LTools timechangeToDateline];
+                    [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr serverRoadId:_nowSaveAndWaittingUpGuijiId isUpload:NO];
                     
                     
 #pragma mark - 上传轨迹到服务器
+                    //网络保存数据
+                    //jsonstr 轨迹数据
+                    //custId 用户id
+                    //cyclingKm: 距离
+                    //upMetre: 上升海拔
+                    //downMetre:下降海拔
+                    //costCalories 卡路里
+                    //avgspeed 平均速度
+                    //topSpeed 最高速度
+                    //heartRate:心率
+                    //beginTime :开始时间
+                    //endTime:结束时间
+                    //costTime:用时
+                    //beginSite:暂无
+                    //endSite 暂无
+                    //beginCoordinates: 起点经纬度
+                    //endCoordinates: 终点经纬度
                     [self saveRoadlinesJsonString:jsonStr custId:custIdStr cyclingKm:juli upMetre:upMetre downMetre:downMetre costCalories:costCalories avgSpeed:avgSpeed topSpeed:topSpeed heartRate:heartRate beginTime:beginTimeStr endTime:endTimeStr costTime:costTimeStr beginSite:@" " endSite:@" " beginCoordinates:beginCoordinatesStr endCoordinates:endCoordinatesStr];
                 }else{
                     UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -1372,6 +1429,17 @@
 
 
 #pragma mark - 定位的回调方法===========================================
+
+
+
+- (void)mapViewWillStartLocatingUser:(MAMapView *)mapView{
+    
+    NSLog(@"%f",self.mapView.maxZoomLevel);
+    [self.mapView setZoomLevel:15];
+    
+}
+
+
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
     
@@ -1401,6 +1469,8 @@
         int alti = (int)currentLocation.altitude;
         
         if (_isFirstStartCanshu) {
+            self.mapView.userTrackingMode = 1;
+            
             if (alti != 0) {
                 self.gYunDongCanShuModel.startHaiba = alti;//开始海拔
                 self.gYunDongCanShuModel.maxHaiba = alti;
@@ -1445,7 +1515,7 @@
             
             double degree = userLocation.heading.trueHeading - self.mapView.rotationDegree;
             self.userLocationAnnotationView.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.f );
-            
+            _fangxiangImv.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.f );
         }];
     }
     
@@ -1476,16 +1546,12 @@
     _currentLocation = location;
         NSLog(@"?????? distance = %f",distance);
         
-        if (distance < 5 ||distance>10){
-            return;
-        }
+//        if (distance < 3 || distance>50){
+//            return;
+//        }
     
-        [_points addObject:location];
-    
-    
-        CLLocationDistance julishangyigedian = [location distanceFromLocation:_currentLocation];
-    
-    
+//        [_points addObject:location];
+    [self addNewLocationToPath:userLocation.location];
         [self configureRoutes];
 #pragma mark --  划线- end
         
@@ -1514,6 +1580,9 @@
     
     
 #pragma mark - 数据model赋值 -- 实时速度
+    if (self.gYunDongCanShuModel.dangqiansudu<0) {
+        self.gYunDongCanShuModel.dangqiansudu = 0;
+    }
     for (GyundongCustomView *view in self.fiveCustomView) {
         if ([view.viewTypeStr isEqualToString:@"时速"]||[view.viewTypeStr isEqualToString:@"km/时"]) {
             view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.dangqiansudu];
@@ -1562,25 +1631,26 @@
             pjsd = 0.0;
         }
         
-        self.gYunDongCanShuModel.pingjunsudu = pjsd;
+//        self.gYunDongCanShuModel.pingjunsudu = pjsd;
         
-    }
-    
-    
-    self.gYunDongCanShuModel.pingjunsudu = userLocation.location.speed * 3.6;
-    if (self.gYunDongCanShuModel.pingjunsudu<0 || self.gYunDongCanShuModel.pingjunsudu >50) {
-        self.gYunDongCanShuModel.pingjunsudu = 0.0;
-    }
-    for (GyundongCustomView *view in self.fiveCustomView) {
         
-        if ([view.viewTypeStr isEqualToString:@"速度"]) {
+        self.gYunDongCanShuModel.pingjunsudu = pjsd * 3.6;
+        if (self.gYunDongCanShuModel.pingjunsudu<0 || self.gYunDongCanShuModel.pingjunsudu >100) {
+            self.gYunDongCanShuModel.pingjunsudu = 0.0;
+        }
+        for (GyundongCustomView *view in self.fiveCustomView) {
             
-            
-            view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.pingjunsudu];
+            if ([view.viewTypeStr isEqualToString:@"速度"]) {
+                
+                view.contentLable.text = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.pingjunsudu];
+                
+            }
             
         }
         
     }
+    
+    
     
     
     
@@ -1590,10 +1660,10 @@
 
 
 // 添加原始位置点到数据，去除一些异常点后，返回走过的距离
--(CLLocationDistance)addNewLocationToPath:(CLLocation *)cLocation
+-(void)addNewLocationToPath:(CLLocation *)cLocation
 {
     
-    CLLocationDistance dist = 0.0f;
+//    CLLocationDistance dist = 0.0f;
 
     [_points addObject:cLocation];
     
@@ -1676,17 +1746,60 @@
     }
 
     
-    for (int j = 1; j < [_points count]; j++) {
-        CLLocationDistance distItems = [[_points objectAtIndex:j ] distanceFromLocation:[_points objectAtIndex:(j - 1)]];
-        dist = distItems;
-    }
-
-    
-    return dist;
+//    for (int j = 1; j < [_points count]; j++) {
+//        CLLocationDistance distItems = [[_points objectAtIndex:j ] distanceFromLocation:[_points objectAtIndex:(j - 1)]];
+//        dist = distItems;
+//    }
+//
+//    
+//    return dist;
 }
 
 
-
+// 增加上传前过滤操作
+-(void)pointArrayBeforeUpData{
+    
+    // 判断连续三个点之间的夹角，当大于某个给定临界值(此处选170度)时，可以认为三点一线，去掉中间点
+    if (_points.count >5) {
+        float fArcThreshold = 170.0f;       //临界值
+        BOOL bFind = YES;
+        while (bFind) {
+            
+            bFind = NO;
+            
+            for (int i = 0; i < [_points count] - 2; i++) {
+                
+                CLLocationDistance distItem1 = [[_points objectAtIndex:i ] distanceFromLocation:[_points objectAtIndex:(i + 1)]];
+                
+                CLLocationDistance distItem2 = [[_points objectAtIndex:i + 1 ] distanceFromLocation:[_points objectAtIndex:(i + 2)]];
+                
+                CLLocationDistance distItem13 = [[_points objectAtIndex:i ] distanceFromLocation:[_points objectAtIndex:(i + 2)]];
+                
+                // 余弦定理求出ABC夹角
+                double fRate = (distItem1 * distItem1 + distItem2 * distItem2 - distItem13 * distItem13) / (2.0f * distItem1 * distItem2);
+                
+                float fArc = (180.0f / M_PI) *  acosf((float)fRate);        // 转化成度数
+                
+                if (isnan(fArc)) {
+                    
+                    [_points removeObjectAtIndex:i + 1];
+                    bFind = YES;
+                }
+                else if (fArc > fArcThreshold){
+                    
+                    bFind = YES;
+                    [_points removeObjectAtIndex:i + 1];
+                }
+                else if (distItem1 + distItem2 > 50.0f && (distItem1 + distItem2 - distItem13 < distItem13 * 0.005)) {
+                    
+                    bFind = YES;
+                    [_points removeObjectAtIndex:i + 1];
+                }
+            }
+        }
+        
+    }
+}
 
 
 
@@ -2007,6 +2120,9 @@
         if (status == 1) {
             
             NSLog(@"上传返回的dic ： %@",result);
+            
+            LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:_nowSaveAndWaittingUpGuijiId];
+            [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:@"已上传" isUpload:YES];
             
             [LTools showMBProgressWithText:@"路书上传成功" addToView:self.view];
         }else

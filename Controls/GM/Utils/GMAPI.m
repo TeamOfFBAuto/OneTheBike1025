@@ -314,7 +314,7 @@
 }
 
 
-+ (LRoadClass *)getRoadLinesForServerRoadId:(NSString *)serverRoadId
++ (LRoadClass *)getRoadLinesForDateLineId:(NSString *)dateLineId
 {
     //打开数据库
     sqlite3 *db = [DataBase openDB];
@@ -326,7 +326,7 @@
     
     if (result == SQLITE_OK) {
         
-        sqlite3_bind_text(stmt, 1, [serverRoadId UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 1, [dateLineId UTF8String], -1, NULL);
         
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             
@@ -669,11 +669,125 @@
 
 
 
++(NSString *)getWeekStrWithInt:(int)theDay{
+    NSString *xingqiStr = @"";
+    switch (theDay) {
+        case 1:
+        {
+            xingqiStr = @"星期日";
+        }
+            break;
+        case 2:
+        {
+            xingqiStr = @"星期一";
+        }
+            break;
+        case 3:
+        {
+            xingqiStr = @"星期二";
+        }
+            break;
+        case 4:
+        {
+            xingqiStr = @"星期三";
+        }
+            break;
+        case 5:
+        {
+            xingqiStr = @"星期四";
+        }
+            break;
+        case 6:
+        {
+            xingqiStr = @"星期五";
+        }
+            break;
+        case 7:
+        {
+            xingqiStr = @"星期六";
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return xingqiStr;
+}
+
++(int)getWeekDayFromDateStr:(NSString *)dateStr{
+    
+        
+        //根据字符串转换成一种时间格式 供下面解析
+//        NSString* string = @"2013-07-16 13:21";
+    
+        NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
+        
+        [inputFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+        
+        NSDate* inputDate = [inputFormatter dateFromString:dateStr];
+        
+        
+        
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        
+        NSInteger unitFlags = NSYearCalendarUnit |
+        
+        NSMonthCalendarUnit |
+        
+        NSDayCalendarUnit |
+        
+        NSWeekdayCalendarUnit |
+        
+        NSHourCalendarUnit |
+        
+        NSMinuteCalendarUnit |
+        
+        NSSecondCalendarUnit;
+        
+        
+        
+        comps = [calendar components:unitFlags fromDate:inputDate];
+        
+        int week = [comps weekday];
+        
+    return week;
+    
+    
+}
 
 
 
++(NSString *)getYearMonthDayHMS:(NSDate *)date{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    //设定时间格式,这里可以设置成自己需要的格式
+    
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    //用[NSDate date]可以获取系统当前时间
+    
+    NSString *currentDateStr = [dateFormatter stringFromDate:date];
+    
+    //输出格式为：2010-10-27 10:22:13
+    
+    return currentDateStr;
+}
 
 
+
++(NSString *)timechange:(NSString *)timeLine
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[timeLine doubleValue]];
+    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+    return confromTimespStr;
+}
 
 
 @end

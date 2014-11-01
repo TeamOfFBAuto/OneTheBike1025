@@ -34,6 +34,7 @@
 
 
 
+
 #define FRAME_IPHONE5_MAP_UP CGRectMake(0, 30, 320, 568-60-20)
 #define FRAME_IPHONE5_MAP_DOWN CGRectMake(0, 230+20, 320, 568-230-20)
 #define FRAME_IPHONE5_UPVIEW_UP CGRectMake(0, -106, 320, 230)
@@ -143,6 +144,10 @@
     
     
     int _kaishihuaxian;//开始后延迟10s
+    
+    NSString *_nowSaveAndWaittingUpGuijiId;//需要上传的轨迹id
+    
+    UIImageView *_fangxiangImv;//方向图标
     
 }
 @property (nonatomic, strong) MAMapView *mapView;

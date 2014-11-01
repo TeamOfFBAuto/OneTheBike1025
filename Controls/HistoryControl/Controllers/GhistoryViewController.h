@@ -39,6 +39,10 @@
     //请求轨迹数据 count为0 _currentPage不加
     int _guijiCount;
     
+    int isOpen[2000];
+    
+    
+    
 }
 
 @property(nonatomic,strong)NSMutableArray *netDataArray;//请求到的网络数据数组

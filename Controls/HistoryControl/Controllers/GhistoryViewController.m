@@ -20,12 +20,53 @@
 @implementation GhistoryViewController
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    
+//    //下拉刷新
+//    
+//    _refreshHeaderView = [[EGORefreshTableHeaderView alloc]initWithFrame:CGRectMake(0, 0-_tableView.bounds.size.height, 320, _tableView.bounds.size.height)];
+//    _refreshHeaderView.delegate = self;
+//    [_tableView addSubview:_refreshHeaderView];
+//    _currentPage = 1;
+//    _isupMore = NO;//是否为上提加载
+//    _isUpMoreSuccess = NO;//上提加载是否成功
+    
+    
+    
+//    //上提加载更多
+//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    _upMoreView = [[LoadingIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    _upMoreView.type = 1;
+//    _upMoreView.hidden = YES;
+//    [view addSubview:_upMoreView];
+//    
+//    _tableView.tableFooterView = view;
+    
+    
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewDidLoad];
+    
+    for (int i=0; i<2000; i++) {
+        isOpen[i]=0;
+    }
+    
+    
     self.navigationController.navigationBarHidden = YES;
     
     self.view.backgroundColor = [UIColor whiteColor];
     
     
+    
+    
+    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0))
+    {
+        self.navigationController.navigationBar.translucent = NO;
+    }
     
     
     //给属性分配内存
@@ -36,15 +77,9 @@
     
     
     //自定义导航栏
-    //总公里数 运动次数 时长
     UIView *upGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 44)];
     upGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     
-    
-//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    //    btn.backgroundColor = [UIColor orangeColor];
-//    [btn setFrame:CGRectMake(270, 5, 40, 40)];
-//    [btn addTarget:self action:@selector(fenxiangBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(140, 0, 44, 44)];
     titielLabel.textColor = [UIColor whiteColor];
@@ -57,7 +92,7 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5? 568-35 : 480-35) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-64-44 : 480-64-44) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -75,36 +110,58 @@
     //请求网络数据
     [self netDataWithPage:1];
     
-    //下拉刷新
     
-    _refreshHeaderView = [[EGORefreshTableHeaderView alloc]initWithFrame:CGRectMake(0, 0-_tableView.bounds.size.height, 320, _tableView.bounds.size.height)];
-    _refreshHeaderView.delegate = self;
-    [_tableView addSubview:_refreshHeaderView];
-    _currentPage = 1;
-    _isupMore = NO;//是否为上提加载
-    _isUpMoreSuccess = NO;//上提加载是否成功
+    //取本地数据
+//    [self dataAarrayWithLocal];
     
     
-    
-    //上提加载更多
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
-    _upMoreView = [[LoadingIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
-    _upMoreView.type = 1;
-    _upMoreView.hidden = YES;
-    [view addSubview:_upMoreView];
-    
-    _tableView.tableFooterView = view;
-    
-    
-    
-    
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
 
+
+//从本地取数据
+-(void)dataAarrayWithLocal{
+    
+    
+    NSArray *localGuijiArray = [GMAPI GgetGuiji];
+    
+    for (LRoadClass *model in localGuijiArray) {
+        
+        if (![model.serverRoadId isEqualToString:@"已上传"]) {
+            NSString *startNameStr = model.startName;
+            NSString *endNameStr = model.endName;
+            NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
+            NSArray *endArr = [endNameStr componentsSeparatedByString:@","];
+            
+            GyundongCanshuModel *gmodel = [[GyundongCanshuModel alloc]init];
+            gmodel.jsonStr = model.lineString;
+            gmodel.startTime = startArr[0];
+            gmodel.endTime = startArr[1];
+            gmodel.yongshi = startArr[2];
+            gmodel.juli = [endArr[0]floatValue];
+            gmodel.pingjunsudu = [endArr[1]floatValue];
+            gmodel.maxSudu = [endArr[2]floatValue];
+            gmodel.haibaUp = [endArr[3]floatValue];
+            gmodel.haibaDown = [endArr[4]intValue];
+            gmodel.bpm = [endArr[5]intValue];
+            gmodel.xinlv = [endArr[6]intValue];
+            gmodel.juli = [model.distance floatValue];
+            gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
+            gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
+            
+            
+            [self.netDataArray addObject:gmodel];
+            
+        }
+        
+        
+    }
+    
+    
+    
+    [self paixuWithDateWithArray:self.netDataArray];
+    
+}
 
 
 -(void)netDataWithPage:(int)thePage{
@@ -147,10 +204,11 @@
                     model.coorStr = [dic objectForKey:@"endCoordinates"];
                     
                     NSString *beginTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"beginTime"]];
-                    model.startTime = [GTimeSwitch testtime:[beginTime substringToIndex:beginTime.length - 3]];
+                    model.startTime = [GMAPI timechange:[beginTime substringToIndex:beginTime.length - 3]];
                     
                     NSString *endTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"endTime"]];
-                    model.endTime = [GTimeSwitch testtime:[endTime substringToIndex:beginTime.length - 3]];
+                    model.endTime = [GMAPI timechange:[endTime substringToIndex:beginTime.length-3]];
+                    
                     
                     
                     model.yongshi = [NSString stringWithFormat:@"%@",[dic objectForKey:@"costTime"]];
@@ -159,6 +217,7 @@
                     model.haibaUp = (int)[dic objectForKey:@"upMetre"];
                     model.haibaDown = (int)[dic objectForKey:@"downMetre"];
                     model.maxSudu = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"topSpeed"]] floatValue];
+                    
                     
                     
                     
@@ -211,6 +270,41 @@
             
             
             
+#pragma mark -取本地数据
+//            NSArray *localGuijiArray = [GMAPI GgetGuiji];
+//            for (LRoadClass *model in localGuijiArray) {
+//                
+//                if (![model.serverRoadId isEqualToString:@"已上传"]) {
+//                    NSString *startNameStr = model.startName;
+//                    NSString *endNameStr = model.endName;
+//                    NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
+//                    NSArray *endArr = [endNameStr componentsSeparatedByString:@","];
+//                    
+//                    GyundongCanshuModel *gmodel = [[GyundongCanshuModel alloc]init];
+//                    gmodel.jsonStr = model.lineString;
+//                    gmodel.startTime = startArr[0];
+//                    gmodel.endTime = startArr[1];
+//                    gmodel.yongshi = startArr[2];
+//                    gmodel.juli = [endArr[0]floatValue];
+//                    gmodel.pingjunsudu = [endArr[1]floatValue];
+//                    gmodel.maxSudu = [endArr[2]floatValue];
+//                    gmodel.haibaUp = [endArr[3]floatValue];
+//                    gmodel.haibaDown = [endArr[4]intValue];
+//                    gmodel.bpm = [endArr[5]intValue];
+//                    gmodel.xinlv = [endArr[6]intValue];
+//                    gmodel.juli = [model.distance floatValue];
+//                    gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
+//                    gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
+//                    
+//                    
+//                    [self.netDataArray addObject:gmodel];
+//                }
+//                
+//               
+//            }
+            
+            
+            
             //按照时间排序
             [self paixuWithDateWithArray:self.netDataArray];
             
@@ -237,9 +331,9 @@
     
     NSLog(@"%s %d",__FUNCTION__,array.count);
     
-    for (GyundongCanshuModel *model in array) {
-        NSLog(@"model.startTime   %@",model.startTime);
-    }
+//    for (GyundongCanshuModel *model in array) {
+//        NSLog(@"model.startTime   %@",model.startTime);
+//    }
     int count = array.count;
     
     //找出同一天的文章 放到一个数组里
@@ -251,13 +345,14 @@
             GyundongCanshuModel *road2 = array[j];
             //判断时间
             
-            NSString *date1 = road1.startTime;
-            NSString *date2 = road2.startTime;
+            NSString *date1 = [road1.startTime substringWithRange:NSMakeRange(0, 10)];
+            NSString *date2 = [road2.startTime substringWithRange:NSMakeRange(0, 10)];
             
             if ([date1  isEqualToString:date2]) {
                 //如果相同并且日期 = NO 就加入数组里
                 
-                NSLog(@"%@",road1.startTime);
+                NSLog(@"road1.startTime 年 月 %@",road1.startTime);
+                NSLog(@"日期截取判断 %@",date1);
                 
                 if (!road1.time) {
                     
@@ -309,19 +404,21 @@
     
     int num = 0;
     
-    for (NSString *str in _fangkaiArray) {
+ 
+    
+    if (self.dataArray.count>0) {
         
-        if ([str intValue] == section) {
+        
+        NSArray *arr = self.dataArray[section];
+        
+        if (!isOpen[section]) {
+            num=0;
+        }else{
             
-            if (self.dataArray.count>0) {
-                
-                
-                NSArray *arr = self.dataArray[section];
-                
-                num = arr.count;
-                
-            }
+            num=arr.count;
         }
+        
+        
     }
     
     return num;
@@ -342,6 +439,9 @@
 }
 
 
+
+
+
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *upHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
     upHeaderView.userInteractionEnabled = YES;
@@ -354,18 +454,56 @@
     upHeaderView.frame = CGRectMake(0, 0, 320, 30);
     upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
 
-
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 100, 20)];
+    //箭头
+    UIImageView *showOrHiddenImv = [[UIImageView alloc]initWithFrame:CGRectMake(24, 10, 40, 20)];
+    showOrHiddenImv.tag = section +1000;
+    showOrHiddenImv.backgroundColor = [UIColor whiteColor];
+    
+    if ( !isOpen[section]) {
+        [showOrHiddenImv setImage:[UIImage imageNamed:@"ghistorydown.png"]];
+    }else{
+        [showOrHiddenImv setImage:[UIImage imageNamed:@"ghistoryup.png"]];
+    }
+    [upHeaderView addSubview:showOrHiddenImv];
+    
+    //日期
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(showOrHiddenImv.frame)+5, 10, 100, 20)];
     dateLabel.font = [UIFont systemFontOfSize:15];
-
+//    dateLabel.backgroundColor = [UIColor redColor];
+    dateLabel.textColor = RGBCOLOR(105, 105, 105);
     [upHeaderView addSubview:dateLabel];
 
+    
+    //距离
+    UILabel *juliLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(dateLabel.frame)+75, 10, 75, 20)];
+    juliLabel.font = [UIFont systemFontOfSize:15];
+//    juliLabel.backgroundColor = [UIColor redColor];
+    juliLabel.textColor = RGBCOLOR(105, 105, 105);
+    [upHeaderView addSubview:juliLabel];
+    
+    CGFloat juli  = 0;
+    
+    if (self.dataArray.count>0) {
+        
+        for (NSArray *arr in self.dataArray) {
+            
+            for (GyundongCanshuModel *model in arr) {
+                juli +=model.juli;
+            }
+        }
+    }
+    
+    juliLabel.text = [NSString stringWithFormat:@"%.1fkm",juli];
 
 
     NSMutableArray *arr = self.dataArray[section];
     GyundongCanshuModel *model = arr[0];
     dateLabel.text = model.startTime;
-
+    if (model.startTime.length >9) {
+        NSString *month = [model.startTime substringWithRange:NSMakeRange(5, 2)];
+        NSString *year = [model.startTime substringWithRange:NSMakeRange(0, 4)];
+        dateLabel.text = [NSString stringWithFormat:@"%@月%@年",month,year];
+    }
 
     return upHeaderView;
 }
@@ -373,23 +511,8 @@
 
 -(void)ggShouFang:(UIGestureRecognizer*)ges{
     
-    NSString *sectionStr = [NSString stringWithFormat:@"%d",(ges.view.tag-10)];
     
-    int arrCount = _fangkaiArray.count;
-    BOOL ishave = NO;
-    
-    for (int i = 0; i<arrCount; i++) {
-        NSString *str = _fangkaiArray[i];
-        if ([str isEqualToString:sectionStr]) {
-            ishave = YES;
-            [_fangkaiArray removeObject:str];
-        }
-    }
-    
-    if (!ishave || arrCount==0) {
-        [_fangkaiArray addObject:sectionStr];
-    }
-    
+    isOpen[ges.view.tag-10]=!isOpen[ges.view.tag-10];
     [_tableView reloadData];
     
     
@@ -423,11 +546,11 @@
 
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSMutableArray *dayGuijiArray = self.dataArray[indexPath.section];
-        [dayGuijiArray removeObjectAtIndex:indexPath.row];
-        [_tableView reloadData];
-    }
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        NSMutableArray *dayGuijiArray = self.dataArray[indexPath.section];
+//        [dayGuijiArray removeObjectAtIndex:indexPath.row];
+//        [_tableView reloadData];
+//    }
 }
 
 

@@ -14,10 +14,10 @@
 
 
 
-@property(nonatomic,assign)NSString* podu;//坡度
-@property(nonatomic,assign)NSString* pashenglv;//爬升率
-@property(nonatomic,assign)NSString* bpm;//卡路里
-
+@property(nonatomic,strong)NSString* podu;//坡度
+@property(nonatomic,strong)NSString* pashenglv;//爬升率
+@property(nonatomic,assign)int bpm;//卡路里
+@property(nonatomic,assign)int xinlv;//心率
 
 @property(nonatomic,assign)CGFloat  juli;//距离 单位公里
 @property(nonatomic,assign)CGFloat  dangqiansudu;//当前速度 定位返回对象的属性
@@ -36,6 +36,7 @@
 @property(nonatomic,assign)int haiba;//实时海拔 完成骑行之后这个参数为终点海拔
 @property(nonatomic,assign)int haibaUp;//
 @property(nonatomic,assign)int haibaDown;
+
 
 
 @property(nonatomic,strong)NSString *startCoorStr;//开始时候的经纬度  用逗号隔开
