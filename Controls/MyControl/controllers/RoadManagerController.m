@@ -91,7 +91,7 @@
     header.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = header;
     
-    loading = [LTools MBProgressWithText:@"路书同步" addToView:self.view];
+    loading = [LTools MBProgressWithText:@"路书同步" addToView:self.tableView];
     
     NSString *custid = [LTools cacheForKey:USER_CUSTID];
     
