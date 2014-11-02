@@ -37,6 +37,8 @@
 @property(nonatomic,assign)int haibaUp;//
 @property(nonatomic,assign)int haibaDown;
 
+@property(nonatomic,strong)NSString *fuwuqiId;//服务器返回的id 用于删除
+
 
 
 @property(nonatomic,strong)NSString *startCoorStr;//开始时候的经纬度  用逗号隔开

@@ -506,16 +506,16 @@
 		E30B129319FBF3B5005D5DA9 /* SharePlatformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */; };
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
-		E35150621A049FAB00DC2CF5 /* gzhinanzhen.png in Resources */ = {isa = PBXBuildFile; fileRef = E35150611A049FAB00DC2CF5 /* gzhinanzhen.png */; };
 		E361DA631A01A21100CA4EFA /* GTimeSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA621A01A21100CA4EFA /* GTimeSwitch.m */; };
 		E361DA661A01BA7100CA4EFA /* GhistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */; };
 		E36271F71A025A7800F35C2F /* gqixingzhong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */; };
 		E37C9DDA19FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */; };
 		E37C9DDD19FF86DE00B7F4BB /* GHistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */; };
+		E38AE88E1A058530006A52C7 /* ghistoryup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E38AE88B1A058530006A52C7 /* ghistoryup@2x.png */; };
+		E38AE88F1A058530006A52C7 /* ghistorydown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E38AE88C1A058530006A52C7 /* ghistorydown@2x.png */; };
+		E38AE8901A058530006A52C7 /* gzhinanzhen.png in Resources */ = {isa = PBXBuildFile; fileRef = E38AE88D1A058530006A52C7 /* gzhinanzhen.png */; };
 		E39BA5361A03CAE000342F25 /* gstartime.png in Resources */ = {isa = PBXBuildFile; fileRef = E39BA5351A03CAE000342F25 /* gstartime.png */; };
 		E39BA5381A03CC6200342F25 /* gjusu.png in Resources */ = {isa = PBXBuildFile; fileRef = E39BA5371A03CC6200342F25 /* gjusu.png */; };
-		E39BA5701A04115700342F25 /* ghistoryup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E39BA56E1A04115700342F25 /* ghistoryup@2x.png */; };
-		E39BA5711A04115700342F25 /* ghistorydown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E39BA56F1A04115700342F25 /* ghistorydown@2x.png */; };
 		E3AD66A519FD5455002E69CA /* GyundongCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A219FD5455002E69CA /* GyundongCustomView.m */; };
 		E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD66A419FD5455002E69CA /* MAHeaderView.m */; };
 		E3B8022719FC0C2600AF9831 /* GMapStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B801E819FC0C2600AF9831 /* GMapStarViewController.m */; };
@@ -557,8 +557,8 @@
 		E3B8024E19FC0C2600AF9831 /* LRoadClass.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8022119FC0C2600AF9831 /* LRoadClass.m */; };
 		E3B8024F19FC0C2600AF9831 /* MAPolyline+UN.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8022319FC0C2600AF9831 /* MAPolyline+UN.m */; };
 		E3B8025019FC0C2600AF9831 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B8022619FC0C2600AF9831 /* CommonUtility.m */; };
-		E3B8025319FC2EF800AF9831 /* gGuijiStart.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025119FC2EF800AF9831 /* gGuijiStart.png */; };
-		E3B8025419FC2EF800AF9831 /* gGuijiEnd.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025219FC2EF800AF9831 /* gGuijiEnd.png */; };
+		E3B8025319FC2EF800AF9831 /* gGuijiStart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025119FC2EF800AF9831 /* gGuijiStart@2x.png */; };
+		E3B8025419FC2EF800AF9831 /* gGuijiEnd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025219FC2EF800AF9831 /* gGuijiEnd@2x.png */; };
 		E3B8025A19FC2F0B00AF9831 /* gRoadLineOn.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025519FC2F0B00AF9831 /* gRoadLineOn.png */; };
 		E3B8025B19FC2F0B00AF9831 /* gRoadLineOff.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025619FC2F0B00AF9831 /* gRoadLineOff.png */; };
 		E3B8025C19FC2F0B00AF9831 /* gMapFllow.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B8025719FC2F0B00AF9831 /* gMapFllow.png */; };
@@ -1181,7 +1181,6 @@
 		E30B129119FBF3B5005D5DA9 /* ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareView.m; sourceTree = "<group>"; };
 		E31F584719F638450064959E /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
-		E35150611A049FAB00DC2CF5 /* gzhinanzhen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gzhinanzhen.png; sourceTree = "<group>"; };
 		E361DA611A01A21100CA4EFA /* GTimeSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTimeSwitch.h; sourceTree = "<group>"; };
 		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTimeSwitch.m; sourceTree = "<group>"; };
 		E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhistoryViewController.h; sourceTree = "<group>"; };
@@ -1191,10 +1190,11 @@
 		E37C9DD919FF6F0B00B7F4BB /* GcustomHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcustomHistoryTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHistoryDetailViewController.h; sourceTree = "<group>"; };
 		E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHistoryDetailViewController.m; sourceTree = "<group>"; };
+		E38AE88B1A058530006A52C7 /* ghistoryup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ghistoryup@2x.png"; sourceTree = "<group>"; };
+		E38AE88C1A058530006A52C7 /* ghistorydown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ghistorydown@2x.png"; sourceTree = "<group>"; };
+		E38AE88D1A058530006A52C7 /* gzhinanzhen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gzhinanzhen.png; sourceTree = "<group>"; };
 		E39BA5351A03CAE000342F25 /* gstartime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gstartime.png; sourceTree = "<group>"; };
 		E39BA5371A03CC6200342F25 /* gjusu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gjusu.png; sourceTree = "<group>"; };
-		E39BA56E1A04115700342F25 /* ghistoryup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ghistoryup@2x.png"; sourceTree = "<group>"; };
-		E39BA56F1A04115700342F25 /* ghistorydown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ghistorydown@2x.png"; sourceTree = "<group>"; };
 		E3AD66A119FD5455002E69CA /* GyundongCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyundongCustomView.h; sourceTree = "<group>"; };
 		E3AD66A219FD5455002E69CA /* GyundongCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GyundongCustomView.m; sourceTree = "<group>"; };
 		E3AD66A319FD5455002E69CA /* MAHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAHeaderView.h; sourceTree = "<group>"; };
@@ -1252,8 +1252,8 @@
 		E3B8022319FC0C2600AF9831 /* MAPolyline+UN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MAPolyline+UN.m"; sourceTree = "<group>"; };
 		E3B8022519FC0C2600AF9831 /* CommonUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtility.h; sourceTree = "<group>"; };
 		E3B8022619FC0C2600AF9831 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtility.m; sourceTree = "<group>"; };
-		E3B8025119FC2EF800AF9831 /* gGuijiStart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gGuijiStart.png; sourceTree = "<group>"; };
-		E3B8025219FC2EF800AF9831 /* gGuijiEnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gGuijiEnd.png; sourceTree = "<group>"; };
+		E3B8025119FC2EF800AF9831 /* gGuijiStart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gGuijiStart@2x.png"; sourceTree = "<group>"; };
+		E3B8025219FC2EF800AF9831 /* gGuijiEnd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gGuijiEnd@2x.png"; sourceTree = "<group>"; };
 		E3B8025519FC2F0B00AF9831 /* gRoadLineOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gRoadLineOn.png; sourceTree = "<group>"; };
 		E3B8025619FC2F0B00AF9831 /* gRoadLineOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gRoadLineOff.png; sourceTree = "<group>"; };
 		E3B8025719FC2F0B00AF9831 /* gMapFllow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gMapFllow.png; sourceTree = "<group>"; };
@@ -2800,9 +2800,9 @@
 		E3B801F219FC0C2600AF9831 /* Gimages */ = {
 			isa = PBXGroup;
 			children = (
-				E35150611A049FAB00DC2CF5 /* gzhinanzhen.png */,
-				E39BA56E1A04115700342F25 /* ghistoryup@2x.png */,
-				E39BA56F1A04115700342F25 /* ghistorydown@2x.png */,
+				E38AE88B1A058530006A52C7 /* ghistoryup@2x.png */,
+				E38AE88C1A058530006A52C7 /* ghistorydown@2x.png */,
+				E38AE88D1A058530006A52C7 /* gzhinanzhen.png */,
 				E39BA5371A03CC6200342F25 /* gjusu.png */,
 				E39BA5351A03CAE000342F25 /* gstartime.png */,
 				E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */,
@@ -2817,8 +2817,8 @@
 				E3B8025719FC2F0B00AF9831 /* gMapFllow.png */,
 				E3B8025819FC2F0B00AF9831 /* gMapCenterOn.png */,
 				E3B8025919FC2F0B00AF9831 /* gMapCenterOff.png */,
-				E3B8025119FC2EF800AF9831 /* gGuijiStart.png */,
-				E3B8025219FC2EF800AF9831 /* gGuijiEnd.png */,
+				E3B8025119FC2EF800AF9831 /* gGuijiStart@2x.png */,
+				E3B8025219FC2EF800AF9831 /* gGuijiEnd@2x.png */,
 				E3B801F319FC0C2600AF9831 /* gback160x98.png */,
 				E3B801F419FC0C2600AF9831 /* gbpm.png */,
 				E3B801F519FC0C2600AF9831 /* gbtndown.png */,
@@ -3022,7 +3022,6 @@
 				19DAEA4319D311D300519D22 /* qi@2x.png in Resources */,
 				565DF22019FBE31D00DE99EA /* share_qqhaoyou_image@2x.png in Resources */,
 				565DF22719FBE33500DE99EA /* find_bike_qiandao_image@2x.png in Resources */,
-				E39BA5701A04115700342F25 /* ghistoryup@2x.png in Resources */,
 				134BA69019D940AA00282D7D /* backButton@2x.png in Resources */,
 				13D21C8F19F4095C0015AAF2 /* gps图标4格.png in Resources */,
 				19DAEA8419D311D300519D22 /* unselected_mine_image@2x.png in Resources */,
@@ -3035,6 +3034,7 @@
 				13D21C9119F4095C0015AAF2 /* 卡路里.png in Resources */,
 				19DAE99819D311D300519D22 /* shurukuang_yonghumingi528_268@2x.png in Resources */,
 				19DAEA7219D311D300519D22 /* mirco_icon_9@2x.png in Resources */,
+				E38AE88F1A058530006A52C7 /* ghistorydown@2x.png in Resources */,
 				137D9FCA19F25FF500B31100 /* UserInfoRowCell.xib in Resources */,
 				E39BA5381A03CC6200342F25 /* gjusu.png in Resources */,
 				19DAE9F819D311D300519D22 /* jieshou_button-100_60@2x.png in Resources */,
@@ -3070,6 +3070,7 @@
 				564157C41A00823B007E6A28 /* bike_share_check@2x.png in Resources */,
 				1965030719FB902800B19738 /* item_ok_selected@2x.png in Resources */,
 				19DAE9ED19D311D300519D22 /* touxiang-126_126@2x.png in Resources */,
+				E38AE8901A058530006A52C7 /* gzhinanzhen.png in Resources */,
 				13D21CA619F4095C0015AAF2 /* 配速.png in Resources */,
 				19DAE9AE19D311D300519D22 /* pinglun-bg1-down212_76@2x.jpg in Resources */,
 				1965030E19FB902800B19738 /* nav_bar_bg@2x.png in Resources */,
@@ -3129,6 +3130,7 @@
 				137D9FB919F25EC700B31100 /* 点击分享背景.png in Resources */,
 				19DAEA3719D311D300519D22 /* car@2x.png in Resources */,
 				137D9FC419F25EC700B31100 /* navigationBack@2x.png in Resources */,
+				E38AE88E1A058530006A52C7 /* ghistoryup@2x.png in Resources */,
 				19DAE9BB19D311D300519D22 /* pinglun596_10@2x.png in Resources */,
 				E39BA5361A03CAE000342F25 /* gstartime.png in Resources */,
 				565DF22519FBE31D00DE99EA /* share_weixinpengyouquan_image@2x.png in Resources */,
@@ -3256,7 +3258,7 @@
 				13D21C9919F4095C0015AAF2 /* 地图路书导入.png in Resources */,
 				19DAE9FF19D311D300519D22 /* shortSearch486_60@2x.png in Resources */,
 				19DAEA3919D311D300519D22 /* gongyi@2x.png in Resources */,
-				E3B8025419FC2EF800AF9831 /* gGuijiEnd.png in Resources */,
+				E3B8025419FC2EF800AF9831 /* gGuijiEnd@2x.png in Resources */,
 				19DAE9BD19D311D300519D22 /* pinglunkuang-640_208@2x.png in Resources */,
 				13B4AFA31A0283D900E16EFA /* default568.png in Resources */,
 				13D21C9019F4095C0015AAF2 /* 公里.png in Resources */,
@@ -3293,7 +3295,6 @@
 				19DAEA2019D311D300519D22 /* button2-down252_94@2x.png in Resources */,
 				19DAEA1619D311D300519D22 /* duihao-42_42@2x.png in Resources */,
 				137D9FC019F25EC700B31100 /* more_good@2x.png in Resources */,
-				E39BA5711A04115700342F25 /* ghistorydown@2x.png in Resources */,
 				19DAE9C219D311D300519D22 /* wo-34_38@2x.png in Resources */,
 				19DAEA2F19D311D300519D22 /* car_@2x.png in Resources */,
 				19DAEA0F19D311D300519D22 /* yanzhengma-116_44@2x.png in Resources */,
@@ -3375,7 +3376,6 @@
 				13A2AA8319D7BAB3008D1B9F /* UMSocialLocalizable.strings in Resources */,
 				19DAE9A419D311D300519D22 /* fb_zan_28_28@2x.png in Resources */,
 				19DAEA7119D311D300519D22 /* mirco_icon_8@2x.png in Resources */,
-				E35150621A049FAB00DC2CF5 /* gzhinanzhen.png in Resources */,
 				19DAE9C419D311D300519D22 /* write_blog_smil@2x.png in Resources */,
 				19DAE9DA19D311D300519D22 /* Expression_23@2x.png in Resources */,
 				19DAE9BF19D311D300519D22 /* shuliang-bg-30_30@2x.png in Resources */,
@@ -3425,7 +3425,7 @@
 				19DAEA6519D311D300519D22 /* mirco_icon_17@2x.png in Resources */,
 				19DAE9A119D311D300519D22 /* fabu-40_40@2x.png in Resources */,
 				19DAE9F519D311D300519D22 /* dingwei-icon-30_36@2x.png in Resources */,
-				E3B8025319FC2EF800AF9831 /* gGuijiStart.png in Resources */,
+				E3B8025319FC2EF800AF9831 /* gGuijiStart@2x.png in Resources */,
 				137D9FBF19F25EC700B31100 /* more_update@2x.png in Resources */,
 				19DAE9C519D311D300519D22 /* xiangqing-pinglun-icon-24_24@2x.png in Resources */,
 				13D21CA219F4095C0015AAF2 /* 海拔.png in Resources */,

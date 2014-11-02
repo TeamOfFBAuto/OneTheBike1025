@@ -19,7 +19,7 @@
 #import "GTimeSwitch.h"
 #import "ShareView.h"
 
-@interface GhistoryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate>
+@interface GhistoryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray * _fangkaiArray;

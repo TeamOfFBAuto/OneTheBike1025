@@ -65,7 +65,8 @@ alpha:(a)]
 #define BIKE_ROAD_LINE_GUIJI  @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_saveCycling.action?custId=%@&cyclingKm=%.2f&upMetre=%d&downMetre=%d&costCalories=%d&avgSpeed=%.2f&topSpeed=%.2f&heartRate=%d&beginTime=%@&endTime=%@&costTime=%@&beginSite=%@&endSite=%@&beginCoordinates=%@&endCoordinates=%@"
 //获取轨迹
 #define BIKE_ROAD_LINE_GETGUIJILIST @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_queryCycListByPage.action?custId=%@&page=%d"
-
+//删除轨迹
+#define BIKE_GUIJI_DELETE @"http://182.254.242.58:8080/QiBa/QiBa/cyclingAction_deleteCyc.action?cycId=%@"
 
 
 #endif

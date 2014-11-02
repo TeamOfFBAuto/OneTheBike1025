@@ -22,35 +22,6 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
-//    //下拉刷新
-//    
-//    _refreshHeaderView = [[EGORefreshTableHeaderView alloc]initWithFrame:CGRectMake(0, 0-_tableView.bounds.size.height, 320, _tableView.bounds.size.height)];
-//    _refreshHeaderView.delegate = self;
-//    [_tableView addSubview:_refreshHeaderView];
-//    _currentPage = 1;
-//    _isupMore = NO;//是否为上提加载
-//    _isUpMoreSuccess = NO;//上提加载是否成功
-    
-    
-    
-//    //上提加载更多
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
-//    _upMoreView = [[LoadingIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
-//    _upMoreView.type = 1;
-//    _upMoreView.hidden = YES;
-//    [view addSubview:_upMoreView];
-//    
-//    _tableView.tableFooterView = view;
-    
-    
-    
-    
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewDidLoad];
-    
     for (int i=0; i<2000; i++) {
         isOpen[i]=0;
     }
@@ -87,12 +58,13 @@
     titielLabel.text = @"历史";
     [upGrayView addSubview:titielLabel];
     
+    [self.view addSubview:upGrayView];
     
     
     
     self.view.backgroundColor=[UIColor whiteColor];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-64-44 : 480-64-44) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5? 568-44-64 : 480-44-64) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -101,19 +73,21 @@
     UIView *topInfoView = [self customTableHeaderView];
     _tableView.tableHeaderView = topInfoView;
     
+    NSLog(@"%@",NSStringFromCGRect(_tableView.tableHeaderView.frame));
+    
     
     //给属性分配内存
     self.netDataArray = [NSMutableArray arrayWithCapacity:1];
     
-    [self.view addSubview:upGrayView];
-    
     //请求网络数据
     [self netDataWithPage:1];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(netDataWithPage:) name:@"gstopandnosave" object:nil];
     
-    //取本地数据
-//    [self dataAarrayWithLocal];
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewDidLoad];
     
     // Do any additional setup after loading the view.
 }
@@ -163,10 +137,12 @@
     
 }
 
-
+//取网络数据
 -(void)netDataWithPage:(int)thePage{
     
-    NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],thePage];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],1];
     
     NSLog(@"请求轨迹历史接口的url:%@",urlStr);
     
@@ -198,7 +174,7 @@
                     
                     GyundongCanshuModel *model = [[GyundongCanshuModel alloc]init];
                     
-                    
+                    model.fuwuqiId = [dic objectForKey:@"cycId"];
                     model.pingjunsudu = [[dic objectForKey:@"avgSpeed"]floatValue];
                     model.startCoorStr = [dic objectForKey:@"beginCoordinates"];
                     model.coorStr = [dic objectForKey:@"endCoordinates"];
@@ -226,8 +202,7 @@
                     
                     //1414634471
                     //1414605769
-                    
-                    NSLog(@"--timeline %@",[LTools timechangeToDateline]);
+//                    NSLog(@"--timeline %@",[LTools timechangeToDateline]);
                     
                     NSLog(@"轨迹字典 ----------- :%@",dic);
                     
@@ -308,7 +283,7 @@
             //按照时间排序
             [self paixuWithDateWithArray:self.netDataArray];
             
-            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             
         }
         
@@ -345,8 +320,12 @@
             GyundongCanshuModel *road2 = array[j];
             //判断时间
             
-            NSString *date1 = [road1.startTime substringWithRange:NSMakeRange(0, 10)];
-            NSString *date2 = [road2.startTime substringWithRange:NSMakeRange(0, 10)];
+            NSString *date1 = [road1.startTime substringWithRange:NSMakeRange(0, 7)];
+            NSString *date2 = [road2.startTime substringWithRange:NSMakeRange(0, 7)];
+            
+            
+            NSLog(@"%@",date1);
+            NSLog(@"%@",date2);
             
             if ([date1  isEqualToString:date2]) {
                 //如果相同并且日期 = NO 就加入数组里
@@ -455,9 +434,8 @@
     upHeaderView.backgroundColor = RGBCOLOR(190, 190, 190);
 
     //箭头
-    UIImageView *showOrHiddenImv = [[UIImageView alloc]initWithFrame:CGRectMake(24, 10, 40, 20)];
-    showOrHiddenImv.tag = section +1000;
-    showOrHiddenImv.backgroundColor = [UIColor whiteColor];
+    UIImageView *showOrHiddenImv = [[UIImageView alloc]initWithFrame:CGRectMake(14, 10, 20, 20)];
+    
     
     if ( !isOpen[section]) {
         [showOrHiddenImv setImage:[UIImage imageNamed:@"ghistorydown.png"]];
@@ -467,7 +445,7 @@
     [upHeaderView addSubview:showOrHiddenImv];
     
     //日期
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(showOrHiddenImv.frame)+5, 10, 100, 20)];
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(showOrHiddenImv.frame)+10, 10, 100, 20)];
     dateLabel.font = [UIFont systemFontOfSize:15];
 //    dateLabel.backgroundColor = [UIColor redColor];
     dateLabel.textColor = RGBCOLOR(105, 105, 105);
@@ -546,11 +524,33 @@
 
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        NSMutableArray *dayGuijiArray = self.dataArray[indexPath.section];
-//        [dayGuijiArray removeObjectAtIndex:indexPath.row];
-//        [_tableView reloadData];
-//    }
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSMutableArray *dayGuijiArray = self.dataArray[indexPath.section];
+        GyundongCanshuModel *model = dayGuijiArray[indexPath.row];
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        NSString *urlStr = [NSString stringWithFormat:BIKE_GUIJI_DELETE,model.fuwuqiId];
+        NSLog(@"请求删除轨迹历史接口的url:%@",urlStr);
+        LTools *tool = [[LTools alloc]initWithUrl:urlStr isPost:NO postData:nil];
+        
+        [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [dayGuijiArray removeObjectAtIndex:indexPath.row];
+            [_tableView reloadData];
+            
+        } failBlock:^(NSDictionary *failDic, NSError *erro) {
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
+            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"删除失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [al show];
+            [dayGuijiArray removeObjectAtIndex:indexPath.row];
+            [_tableView reloadData];
+        }];
+        
+        
+    }
 }
 
 
@@ -622,6 +622,7 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     GHistoryDetailViewController *cc = [[GHistoryDetailViewController alloc]init];
     NSArray *arr = self.dataArray[indexPath.section];
     GyundongCanshuModel *model = arr[indexPath.row];

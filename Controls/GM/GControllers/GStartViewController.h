@@ -31,6 +31,8 @@
 
 #import "LRoadClass.h"
 
+#import "CommonUtility.h"
+
 
 
 
@@ -120,7 +122,8 @@
     GyundongCustomView *_saveViewTag54View;//upview上移之前的view样式
     GyundongCustomView *_saveViewTag55View;
     
-    NSTimer *_localTimer;//本地时钟
+    NSTimer *_localTimer;//本地时钟 秒表计时
+    NSTimer *_pointArrayTimer;//轨迹数组
     
     UIImageView *_gpsQiangRuo;//gps强弱
     
@@ -149,6 +152,10 @@
     
     UIImageView *_fangxiangImv;//方向图标
     
+    NSInteger _shangyigetime;//上次时间戳
+    
+    UILabel *xxxxLabel;
+    
 }
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
@@ -158,6 +165,10 @@
 @property (nonatomic, retain) MAPolyline* routeLine;
 @property (nonatomic, retain) MAPolylineView* routeLineView;
 @property(nonatomic,strong) NSMutableArray *routeLineArray;
+@property(nonatomic,strong)NSMutableArray *needRemoveLineArray;
+
+@property(nonatomic,strong)NSString *jixushangchanURlStr;//上传失败继续上传的url字符串
+@property(nonatomic,strong)NSString *jixushangchanJsonStr;
 
 
 @property(nonatomic,strong)NSArray *lines;//小胖界面 跳转过来显示的路书线数组
