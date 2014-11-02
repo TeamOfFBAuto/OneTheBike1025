@@ -918,7 +918,42 @@
             
             [self makePoLine];
             
-            NSArray *dic_arr = [LMapTools saveMaplines:self.routeLineArray];
+            NSArray *dic_arr = [NSArray array];
+            
+            if (self.routeLineArray.count>3) {
+                dic_arr = [LMapTools saveMaplines:self.routeLineArray];
+            }else{
+                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"轨迹太短无法保存" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [al show];
+                
+                for (GyundongCustomView *view in self.fiveCustomView) {
+                    
+                    [self.gYunDongCanShuModel cleanAllData];
+                    
+                    if ([view.viewTypeStr isEqualToString:@"计时"]) {
+                        view.contentLable.text = @"00:00:00";
+                    }else{
+                        view.contentLable.text = @"0.0";
+                    }
+                }
+                
+                _distance = 0.0f;
+                
+                [self.mapView removeOverlays:self.needRemoveLineArray];
+                [_points removeAllObjects];
+                [self.routeLineArray removeAllObjects];
+                [self.needRemoveLineArray removeAllObjects];
+                [self.gYunDongCanShuModel cleanAllData];
+                _downView.hidden = YES;
+                [self hideTabBar:NO];
+                
+                self.mapView.showsUserLocation = NO;
+                reset = YES;//停止计时器
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
+                
+                
+                return;
+            }
             
             int dic_arr_count = dic_arr.count;
             NSLog(@"dic_arr.count %d",dic_arr.count);
@@ -927,6 +962,8 @@
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"轨迹太短无法保存" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [al show];
             }else{
+                
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                  NSString *jsonStr = [dic_arr JSONString];
                 
                 NSLog(@" jsonStr = %@",jsonStr);
@@ -1505,9 +1542,9 @@
     }else if (horizontal<25 && horizontal>10){//3
         [_gpsQiangRuo setImage:[UIImage imageNamed:@"gps3.png"]];
         
-    }else if (horizontal<80 && horizontal>30){//2
+    }else if (horizontal<50 && horizontal>25){//2
         [_gpsQiangRuo setImage:[UIImage imageNamed:@"gps2.png"]];
-    }else if (horizontal>80){//1
+    }else if (horizontal>50){//1
         [_gpsQiangRuo setImage:[UIImage imageNamed:@"gps1.png"]];
     }else{//1
         [_gpsQiangRuo setImage:[UIImage imageNamed:@"gps1.png"]];
@@ -2163,6 +2200,7 @@
             LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:_nowSaveAndWaittingUpGuijiId];
             [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:@"已上传" isUpload:YES];
             
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [LTools showMBProgressWithText:@"上传成功" addToView:self.view];
             
             self.jixushangchanJsonStr = @" ";
@@ -2178,6 +2216,7 @@
             
         }else
         {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             NSLog(@"上传返回的dic ： %@",result);
             UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             al.tag = 666;
@@ -2187,7 +2226,7 @@
         
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSLog(@"failDic %@ erro %@",failDic,[failDic objectForKey:@"ERRO_INFO"]);
         UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         al.tag = 666;
@@ -2207,6 +2246,8 @@
         
         if (buttonIndex == 1) {//继续上传
             
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
             NSString *post = [NSString stringWithFormat:@"&roadlines=%@",self.jixushangchanJsonStr];
             NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
             LTools *tool = [[LTools alloc]initWithUrl:self.jixushangchanURlStr isPost:YES postData:postData];
@@ -2223,6 +2264,7 @@
                     LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:_nowSaveAndWaittingUpGuijiId];
                     [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:@"已上传" isUpload:YES];
                     
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
                     [LTools showMBProgressWithText:@"上传成功" addToView:self.view];
                     
                     self.jixushangchanJsonStr = @" ";
@@ -2239,6 +2281,7 @@
                     
                 }else
                 {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
                     NSLog(@"上传返回的dic ： %@",result);
                     UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                     al.tag = 666;
@@ -2248,7 +2291,7 @@
                 
                 
             } failBlock:^(NSDictionary *failDic, NSError *erro) {
-                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 NSLog(@"failDic %@ erro %@",failDic,[failDic objectForKey:@"ERRO_INFO"]);
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 al.tag = 666;
