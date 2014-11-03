@@ -34,8 +34,8 @@
 @property(nonatomic,assign)int maxHaiba;//最高海拔
 @property(nonatomic,assign)int minHaiba;//最低海拔
 @property(nonatomic,assign)int haiba;//实时海拔 完成骑行之后这个参数为终点海拔
-@property(nonatomic,assign)int haibaUp;//
-@property(nonatomic,assign)int haibaDown;
+@property(nonatomic,assign)int haibaUp;//海拔下降
+@property(nonatomic,assign)int haibaDown;//海拔下降
 
 @property(nonatomic,strong)NSString *fuwuqiId;//服务器返回的id 用于删除
 

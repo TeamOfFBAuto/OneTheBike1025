@@ -156,6 +156,10 @@
     
     UILabel *xxxxLabel;
     
+    
+    
+    int _shangyicihaiba;
+    
 }
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;

@@ -13,6 +13,8 @@
 
 #import "GTimeSwitch.h"
 
+#import "AFNetworking.h"
+
 @interface GhistoryViewController ()
 
 @end
@@ -80,14 +82,88 @@
     self.netDataArray = [NSMutableArray arrayWithCapacity:1];
     
     //请求网络数据
-    [self netDataWithPage:1];
+    
+    //判断网络是否可用
+    //开启监控
+    //[[AFNetworkActivityIndicatorManager sharedManager]setEnabled:YES];
+    AFNetworkReachabilityManager *afnrm =[AFNetworkReachabilityManager sharedManager];
+    [afnrm startMonitoring];
+    //设置网络状况监控后的代码块
+    [afnrm setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch ([[AFNetworkReachabilityManager sharedManager]networkReachabilityStatus]) {
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                NSLog(@"WiFi");
+                [self netDataWithPage:1];
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                NSLog(@"WWAN");
+                [self netDataWithPage:1];
+                break;
+            case AFNetworkReachabilityStatusUnknown:
+                NSLog(@"Unknown");
+                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
+//                [self dataAarrayWithLocal];
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                NSLog(@"NotReachable");
+                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
+//                [self dataAarrayWithLocal];
+                break;
+            default:
+                break;
+        }
+    }];
+    
+    
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(netDataWithPage:) name:@"gstopandnosave" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(localDataWithNoNetWorking) name:@"gstopandsavenonetworking" object:nil];
     
 }
 
+
+-(void)localDataWithNoNetWorking{
+    [self dataAarrayWithLocal];
+}
+
+
+
+
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewDidLoad];
+    
+    
+    
+//    //开启监控
+//    //[[AFNetworkActivityIndicatorManager sharedManager]setEnabled:YES];
+//    AFNetworkReachabilityManager *afnrm =[AFNetworkReachabilityManager sharedManager];
+//    [afnrm startMonitoring];
+//    //设置网络状况监控后的代码块
+//    [afnrm setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+//        switch ([[AFNetworkReachabilityManager sharedManager]networkReachabilityStatus]) {
+//            case AFNetworkReachabilityStatusReachableViaWiFi:
+//                NSLog(@"WiFi");
+//                break;
+//            case AFNetworkReachabilityStatusReachableViaWWAN:
+//                NSLog(@"WWAN");
+//                break;
+//            case AFNetworkReachabilityStatusUnknown:
+//                NSLog(@"Unknown");
+//                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
+//                [self dataAarrayWithLocal];
+//                break;
+//            case AFNetworkReachabilityStatusNotReachable:
+//                NSLog(@"NotReachable");
+//                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
+//                [self dataAarrayWithLocal];
+//                break;
+//            default:
+//                break;
+//        }
+//    }];
+    
+    
     
     // Do any additional setup after loading the view.
 }
@@ -101,7 +177,7 @@
     
     for (LRoadClass *model in localGuijiArray) {
         
-        if (![model.serverRoadId isEqualToString:@"已上传"]) {
+//        if (![model.serverRoadId isEqualToString:@"已上传"]) {
             NSString *startNameStr = model.startName;
             NSString *endNameStr = model.endName;
             NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
@@ -126,7 +202,7 @@
             
             [self.netDataArray addObject:gmodel];
             
-        }
+//        }
         
         
     }
@@ -190,12 +266,13 @@
                     model.yongshi = [NSString stringWithFormat:@"%@",[dic objectForKey:@"costTime"]];
                     model.juli = [[dic objectForKey:@"cyclingKm"]floatValue];
                     model.jsonStr = [dic objectForKey:@"roadlines"];
-                    model.haibaUp = (int)[dic objectForKey:@"upMetre"];
-                    model.haibaDown = (int)[dic objectForKey:@"downMetre"];
+                    model.haibaUp = [[dic objectForKey:@"upMetre"]intValue];
+                    model.haibaDown = [[dic objectForKey:@"downMetre"]intValue];
                     model.maxSudu = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"topSpeed"]] floatValue];
                     
                     
-                    
+                    NSLog(@"%d",model.haibaUp);
+                    NSLog(@"%d",model.haibaDown);
                     
                     
                     NSLog(@" ,,,,, %@",model.jsonStr);
@@ -513,7 +590,10 @@
     
     
     NSArray *arr = self.dataArray[indexPath.section];
-    GyundongCanshuModel *model = arr[indexPath.section];
+    GyundongCanshuModel *model = arr[indexPath.row];
+    
+    
+    
     [cell loadCustomCellWithMoedle:model];
     
     return cell;
@@ -625,6 +705,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     GHistoryDetailViewController *cc = [[GHistoryDetailViewController alloc]init];
     NSArray *arr = self.dataArray[indexPath.section];
+    
+    
+    
     GyundongCanshuModel *model = arr[indexPath.row];
     cc.passModel = model;
     cc.hidesBottomBarWhenPushed = YES;

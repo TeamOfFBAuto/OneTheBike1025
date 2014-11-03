@@ -93,6 +93,7 @@
     
     
     
+    
     [self initMap];
     
     [self initGestureRecognizer];
@@ -127,9 +128,14 @@
 -(void)customTabelView{
     
     
-    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
-    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
+//    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
+//    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
     
+    
+    
+    
+    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
+    _titleArray = @[@"时间",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
     
     
     
@@ -203,47 +209,33 @@
             contentLabel.text = [self.passModel.startTime substringWithRange:NSMakeRange(0, 10)];
         }
             break;
-        case 1://坡度
-        {
-            contentLabel.text = self.passModel.podu;
-        }
-            break;
-        case 2://配速
-        {
-            contentLabel.text = self.passModel.peisu;
-        }
-            break;
-        case 3://爬升率
-        {
-            contentLabel.text = self.passModel.pashenglv;
-        }
-            break;
-        case 4://海拔上升
+        
+        case 1://海拔上升
         {
             contentLabel.text = [NSString stringWithFormat:@"%d米",self.passModel.haibaUp];
         }
             break;
-        case 5://海拔下降
+        case 2://海拔下降
         {
             contentLabel.text = [NSString stringWithFormat:@"%d米",self.passModel.haibaDown];
         }
             break;
-        case 6://平均速度
+        case 3://平均速度
         {
             contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.passModel.pingjunsudu];
         }
             break;
-        case 7://最高速度
+        case 4://最高速度
         {
             contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.passModel.maxSudu];
         }
             break;
-        case 8://距离
+        case 5://距离
         {
             contentLabel.text = [NSString stringWithFormat:@"%.1fkm",self.passModel.juli];
         }
             break;
-        case 9://卡路里
+        case 6://卡路里
         {
             contentLabel.text = [NSString stringWithFormat:@"%dbpm",self.passModel.bpm];
         }
@@ -263,7 +255,7 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return 7;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
