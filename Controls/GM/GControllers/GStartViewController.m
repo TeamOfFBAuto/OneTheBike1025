@@ -144,7 +144,7 @@
     [main addTimer:_localTimer forMode:NSRunLoopCommonModes];
     
     
-    _pointArrayTimer = [NSTimer scheduledTimerWithTimeInterval:5
+    _pointArrayTimer = [NSTimer scheduledTimerWithTimeInterval:3
                                                          target:self
                                                        selector:@selector(addLocationPoint)
                                                        userInfo:nil
@@ -899,7 +899,7 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (actionSheet.tag == 101) {
         if (buttonIndex == 1) {//保存记录
-//            _kaishiyundong = NO;
+            
             self.mapView.showsUserLocation = NO;
             _distance = 0.0f;
             reset = YES;//停止计时器
@@ -920,9 +920,11 @@
             
             NSArray *dic_arr = [NSArray array];
             
-            if (self.routeLineArray.count>3) {
+            if (_points.count>1) {
+                
                 dic_arr = [LMapTools saveMaplines:self.routeLineArray];
             }else{
+                
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"轨迹太短无法保存" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [al show];
                 
@@ -1552,7 +1554,7 @@
 
     
     
-    if (horizontal>0 &&horizontal<25 && vertical>0 && vertical<80) {
+    if (horizontal>0 &&horizontal<50 && vertical>0 && vertical<80) {
 #pragma mark - 给数据model赋值=========== 海拔(最高 最低 实时) 经纬度(开始，实时)
         //海拔
         CLLocation *currentLocation = userLocation.location;
@@ -1643,7 +1645,11 @@
         
         
 #pragma mark - 数据model赋值 -- 最高速度
-        self.gYunDongCanShuModel.dangqiansudu = userLocation.location.speed;
+        
+        double shisums = userLocation.location.speed;
+        
+        self.gYunDongCanShuModel.dangqiansudu = shisums *3.6;
+        
         if (self.gYunDongCanShuModel.maxSudu  < self.gYunDongCanShuModel.dangqiansudu) {
             self.gYunDongCanShuModel.maxSudu = self.gYunDongCanShuModel.dangqiansudu;
         }
@@ -1875,6 +1881,7 @@
     self.routeLine = [MAPolyline polylineWithPoints:pointArray count:_points.count];
     
     if (self.routeLine != nil) {
+        
         [self.routeLineArray addObject:self.routeLine];
     }
     
@@ -1922,6 +1929,7 @@
 
     
     if (self.routeLine) {
+        
         [self.mapView removeOverlay:self.routeLine];
     }
     
