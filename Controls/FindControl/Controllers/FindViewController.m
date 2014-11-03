@@ -83,6 +83,8 @@
     [request setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         @try {
             NSDictionary * allDic = [operation.responseString objectFromJSONString];
+            [[NSUserDefaults standardUserDefaults] setObject:allDic forKey:@"faxianhuandeng"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             NSArray * array = [allDic objectForKey:@"Rows"];
             
             if ([array isKindOfClass:[NSArray class]] && array.count > 0)
@@ -107,11 +109,38 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+        ///加载缓存数据
+        [bself loadCache];
     }];
     
     
     [request start];
+}
+
+#pragma mark - 加载缓存数据
+-(void)loadCache
+{
+    NSDictionary * allDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"faxianhuandeng"];
+    if ([allDic isKindOfClass:[NSDictionary class]] && allDic.count > 0)
+    {
+        NSArray * array = [allDic objectForKey:@"Rows"];
+        
+        if ([array isKindOfClass:[NSArray class]] && array.count > 0)
+        {
+            NSArray * temp = [array objectAtIndex:0];
+            for (NSDictionary * dic in temp)
+            {
+                CycleScrollModel * model = [[CycleScrollModel alloc] init];
+                model.c_id = [dic objectForKey:@"activityId"];
+                model.c_image_url = [dic objectForKey:@"thumbnailUrl"];
+                model.c_title = [dic objectForKey:@"subtitle"];
+                [self.data_array addObject:model];
+            }
+            [self setup];
+        }
+    }
+    
+    
 }
 
 #pragma mark - 加载幻灯数据
