@@ -144,6 +144,8 @@
     MAPointAnnotation *detinationAnnotation;//终点
     NSMutableArray *middleAnntations;//途经点
     
+    //轨迹
+    MAPointAnnotation *guijiStartAnnotation;//轨迹绿色起点
     
     
     

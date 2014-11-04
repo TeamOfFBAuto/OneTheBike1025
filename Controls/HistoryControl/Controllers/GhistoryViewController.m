@@ -83,8 +83,39 @@
     
     
     
-//    [self netDataWithPage:1];
-    [self dataAarrayWithLocal];
+    if ([GMAPI getRoadLinesForType:2].count>0) {//本地有就取本地
+        [self dataAarrayWithLocal];
+    }else{//没有就请求网络
+        //判断网络是否可用
+        //开启监控
+        //[[AFNetworkActivityIndicatorManager sharedManager]setEnabled:YES];
+        AFNetworkReachabilityManager *afnrm =[AFNetworkReachabilityManager sharedManager];
+        [afnrm startMonitoring];
+        //设置网络状况监控后的代码块
+        [afnrm setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+            switch ([[AFNetworkReachabilityManager sharedManager]networkReachabilityStatus]) {
+                case AFNetworkReachabilityStatusReachableViaWiFi:
+                    NSLog(@"WiFi");
+                    [self netDataWithPage:1];
+                    break;
+                case AFNetworkReachabilityStatusReachableViaWWAN:
+                    NSLog(@"WWAN");
+                    [self netDataWithPage:1];
+                    break;
+                case AFNetworkReachabilityStatusUnknown:
+                    NSLog(@"Unknown");
+                    [self dataAarrayWithLocal];
+                    break;
+                case AFNetworkReachabilityStatusNotReachable:
+                    NSLog(@"NotReachable");
+                    [self dataAarrayWithLocal];
+                    break;
+                default:
+                    break;
+            }
+        }];
+        
+    }
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dataAarrayWithLocal) name:@"gstopandnosave" object:nil];
     
@@ -95,18 +126,136 @@
     [super viewDidLoad];
   
     // Do any additional setup after loading the view.
+
+    [self upLoadDataToNet];
+    
+}
+
+
+
+#pragma mark - 本地数据isUpload == no 上传服务器
+-(void)upLoadDataToNet{
+    NSArray *localArray = [GMAPI getRoadLinesForType:2];
+    for (LRoadClass *model in localArray) {
+        if (!model.isUpload) {
+            NSString *custId =  [LTools cacheForKey:USER_CUSTID];
+            NSString *startNameStr = model.startName;
+            NSString *endNameStr = model.endName;
+            NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
+            NSArray *endArr = [endNameStr componentsSeparatedByString:@","];
+            
+            GyundongCanshuModel *gmodel = [[GyundongCanshuModel alloc]init];
+            gmodel.jsonStr = model.lineString;
+            gmodel.startTime = startArr[0];
+            gmodel.endTime = startArr[1];
+            gmodel.yongshi = startArr[2];
+            gmodel.juli = [endArr[0]floatValue];
+            gmodel.pingjunsudu = [endArr[1]floatValue];
+            gmodel.maxSudu = [endArr[2]floatValue];
+            gmodel.haibaUp = [endArr[3]floatValue];
+            gmodel.haibaDown = [endArr[4]intValue];
+            gmodel.bpm = [endArr[5]intValue];
+            gmodel.xinlv = [endArr[6]intValue];
+            gmodel.juli = [model.distance floatValue];
+            gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
+            gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
+            gmodel.fuwuqiId = model.serverRoadId;
+            NSInteger localeid = model.roadId;
+            gmodel.localId = localeid;
+            gmodel.isUpLoad = model.isUpload;
+            
+            //上传
+            [self saveRoadlinesJsonString:gmodel.jsonStr
+                                   custId:custId
+                                cyclingKm:gmodel.juli
+                                  upMetre:gmodel.haibaUp
+                                downMetre:gmodel.haibaDown
+                             costCalories:gmodel.bpm
+                                 avgSpeed:gmodel.pingjunsudu
+                                 topSpeed:gmodel.maxSudu
+                                heartRate:gmodel.xinlv
+                                beginTime:gmodel.startTime
+                                  endTime:gmodel.endTime
+                                 costTime:gmodel.yongshi
+                                beginSite:@" " endSite:@" "
+                         beginCoordinates:gmodel.startCoorStr
+                           endCoordinates:gmodel.coorStr
+                                localflag:gmodel.serverRoadId];
+            
+            
+            
+        }
+    }
+}
+
+
+
+#pragma mark - 上传轨迹
+- (void)saveRoadlinesJsonString:(NSString *)jsonStr
+                         custId:(NSString *)userId
+                      cyclingKm:(CGFloat)juli
+                        upMetre:(int)haibashangsheng
+                      downMetre:(int)haibaxiajiang
+                   costCalories:(int)kaluli
+                       avgSpeed:(CGFloat)pingjunsudu
+                       topSpeed:(CGFloat)zuigaosudu
+                      heartRate:(int)xinlv
+                      beginTime:(NSString *)kaishishijian
+                        endTime:(NSString *)jiesushijian
+                       costTime:(NSString *)yongshi
+                      beginSite:(NSString *)kaishididian
+                        endSite:(NSString *)jiesudidian
+               beginCoordinates:(NSString *)kaishijingweidu
+                 endCoordinates:(NSString *)jiesujingweidu
+                      localflag:(NSString *)locacustomflag
+
+{
+    NSString *custId =  [LTools cacheForKey:USER_CUSTID];
+    
+    
+    NSString *post = [NSString stringWithFormat:@"&roadlines=%@",jsonStr];
+    
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    
+    NSString *url = [NSString stringWithFormat:BIKE_ROAD_LINE_GUIJI,custId,juli,haibashangsheng,haibaxiajiang,kaluli,pingjunsudu,zuigaosudu,xinlv,kaishishijian,jiesushijian,yongshi,kaishididian,jiesudidian,kaishijingweidu,jiesujingweidu];
+    
+    
+    NSLog(@"上传轨迹请求的url : %@",url);
+    
+    LTools *tool = [[LTools alloc]initWithUrl:url isPost:YES postData:postData];
+    [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
+        
+        NSLog(@"result %@ erro %@",result,erro);
+        
+        int status = [[result objectForKey:@"status"]integerValue];
+        
+        if (status == 1) {
+            
+            NSLog(@"上传返回的dic ： %@",result);
+            
+            NSString *fuwuqiid = [result objectForKey:@"cycId"];
+            LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:locacustomflag];
+            [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:fuwuqiid isUpload:YES];
+            
+        }
+        
+        
+    } failBlock:^(NSDictionary *failDic, NSError *erro) {
+        NSLog(@"failDic %@ erro %@",failDic,[failDic objectForKey:@"ERRO_INFO"]);
+        
+    }];
 }
 
 
 //从本地取数据
 -(void)dataAarrayWithLocal{
     
-    
     if (self.dataArray) {
         [self.dataArray removeAllObjects];
     }
     
     NSArray *localGuijiArray = [GMAPI getRoadLinesForType:2];
+    
     
     for (LRoadClass *model in localGuijiArray) {
             NSString *startNameStr = model.startName;
@@ -126,6 +275,11 @@
             gmodel.haibaDown = [endArr[4]intValue];
             gmodel.bpm = [endArr[5]intValue];
             gmodel.xinlv = [endArr[6]intValue];
+        
+            if (endArr.count>7) {
+                gmodel.yongshiMiao = [endArr[7]intValue];
+            }
+        
             gmodel.juli = [model.distance floatValue];
             gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
             gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
@@ -152,71 +306,71 @@
 
 //取网络数据
 -(void)netDataWithPage:(int)thePage{
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     NSString *urlStr = [NSString stringWithFormat:BIKE_ROAD_LINE_GETGUIJILIST,[LTools cacheForKey:USER_CUSTID],1];
-    
     NSLog(@"请求轨迹历史接口的url:%@",urlStr);
-    
-    
     LTools *tool = [[LTools alloc]initWithUrl:urlStr isPost:NO postData:nil];
     [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
-        
         NSLog(@"result = %@",result);
-        
         self.totalCishuLabel.text = [NSString stringWithFormat:@"%@",[result objectForKey:@"Total"]];
         self.totalYongshiLabel.text = [result objectForKey:@"sumCostTime"];
-        
-        
         self.topTotalDistanceLabel.text = [NSString stringWithFormat:@"%@公里",[result objectForKey:@"sumCyclingKm"]];
-        
-        
         if ([result objectForKey:@"status"]) {
-            
             NSArray *rows = [result objectForKey:@"Rows"];
-            
             NSLog(@"rows.count = %d",rows.count);
-            
             for (int i = 0; i<rows.count;i++) {
                 NSArray *arr = rows[i];
-                
                 for (int j = 0;j<arr.count;j++) {
-                    
                     NSDictionary *dic = arr[j];
-                    
                     GyundongCanshuModel *model = [[GyundongCanshuModel alloc]init];
-                    
                     model.fuwuqiId = [dic objectForKey:@"cycId"];
                     model.pingjunsudu = [[dic objectForKey:@"avgSpeed"]floatValue];
                     model.startCoorStr = [dic objectForKey:@"beginCoordinates"];
                     model.coorStr = [dic objectForKey:@"endCoordinates"];
-                    
                     NSString *beginTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"beginTime"]];
-                    model.startTime = [GMAPI timechange:[beginTime substringToIndex:beginTime.length - 3]];
-                    
+//                    model.startTime = [GMAPI timechange:[beginTime substringToIndex:beginTime.length - 3]];
+                    model.startTime = beginTime;
                     NSString *endTime = [NSString stringWithFormat:@"%@",[dic objectForKey:@"endTime"]];
-                    model.endTime = [GMAPI timechange:[endTime substringToIndex:beginTime.length-3]];
-                    
-                    
-                    
-                    model.yongshi = [NSString stringWithFormat:@"%@",[dic objectForKey:@"costTime"]];
+//                    model.endTime = [GMAPI timechange:[endTime substringToIndex:beginTime.length-3]];
+                    model.endTime = endTime;
+                    model.yongshi = [NSString stringWithFormat:@"%@",[dic objectForKey:@"costTimeBak"]];
                     model.juli = [[dic objectForKey:@"cyclingKm"]floatValue];
                     model.jsonStr = [dic objectForKey:@"roadlines"];
                     model.haibaUp = [[dic objectForKey:@"upMetre"]intValue];
                     model.haibaDown = [[dic objectForKey:@"downMetre"]intValue];
                     model.maxSudu = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"topSpeed"]] floatValue];
-                    
-                    
+                    model.fuwuqiId = [NSString stringWithFormat:@"%@",[dic objectForKey:@""]];
                     NSLog(@"%d",model.haibaUp);
                     NSLog(@"%d",model.haibaDown);
-                    
-                    
                     NSLog(@" ,,,,, %@",model.jsonStr);
                     
                     NSLog(@"轨迹字典 ----------- :%@",dic);
                     
+                    
+                    NSInteger yongshiMiao = [[dic objectForKey:@"costTime"]integerValue];
+                    model.yongshiMiao = yongshiMiao;
                     [self.netDataArray addObject:model];
+                    
+                    
+#pragma mark - 保存轨迹到本地数据库
+                    NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",model.startTime,model.endTime,model.yongshi];
+                    
+                    NSString *gEndName = [NSString stringWithFormat:@"%.1f,%.1f,%.1f,%d,%d,%d,%d,%d",model.juli,model.pingjunsudu,model.maxSudu,model.haibaUp,model.haibaDown,model.bpm,model.xinlv,yongshiMiao];
+                    NSString *gDistance = [NSString stringWithFormat:@"%.1f",model.juli];
+                    NSString *gStartCoorStr = model.startCoorStr;
+                    NSString *gEndCoorStr = model.coorStr;
+                    NSString *jsonStr = model.jsonStr;
+                    
+                    if (jsonStr) {
+                        //本地保存数据
+                        //jsostr 轨迹数据
+                        //startName 开始时间 结束时间 用时
+                        //endName 距离 平均速度 最高速度 上升海拔 下降海拔 卡路里 心率
+                        //distance 距离
+                        //type 1为路书 2为轨迹
+                        //startCoorStr 开始经纬度
+                        //endCoorStr 结束经纬度
+                        [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr serverRoadId:model.fuwuqiId isUpload:YES];}
                 }
             }
             
@@ -232,10 +386,8 @@
    
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
-        
-        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"获取用户轨迹失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [al show];
-        
+        [self dataAarrayWithLocal];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
@@ -308,17 +460,29 @@
     
     double zongjuli = 0.0;
     NSInteger zongcishu = 0;
+    NSInteger yongshiMiao = 0;
     
     for (NSArray *arr in self.dataArray) {
         zongcishu += arr.count;
         for (GyundongCanshuModel *model in arr) {
             zongjuli += model.juli;
+            yongshiMiao += model.yongshiMiao;
         }
+    }
+    
+    int hh = yongshiMiao/3600;
+    int mm = yongshiMiao%3600/60;
+    int ss = yongshiMiao%3600%60;
+    NSString *yongshiStr = @"00:00:00";
+    if (hh<100) {
+        yongshiStr = [NSString stringWithFormat:@"%02d:%02d:%02d",hh,mm,ss];
+    }else if (hh>100){
+        yongshiStr = [NSString stringWithFormat:@"%d:%02d:%02d",hh,mm,ss];
     }
     
     self.topTotalDistanceLabel.text = [NSString stringWithFormat:@"%.1f公里",zongjuli];
     self.totalCishuLabel.text = [NSString stringWithFormat:@"%d",zongcishu];
-    
+    self.totalYongshiLabel.text = yongshiStr;
     [_tableView reloadData];
     
     
@@ -426,7 +590,6 @@
     }
     
     juliLabel.text = [NSString stringWithFormat:@"%.1fkm",juli];
-
 
     NSMutableArray *arr = self.dataArray[section];
     GyundongCanshuModel *model = arr[0];
@@ -584,6 +747,8 @@
     cccLabel.font = [UIFont systemFontOfSize:12];
     cccLabel.text = @"时长";
     [upHeaderView addSubview:cccLabel];
+    
+    
     
     return upHeaderView;
 }

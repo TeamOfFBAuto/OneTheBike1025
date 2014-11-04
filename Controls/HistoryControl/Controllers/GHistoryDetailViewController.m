@@ -113,18 +113,6 @@
 }
 
 
-
--(void)gshare
-{
-    ShareView * share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
-    share_view.userInteractionEnabled = YES;
-    share_view.delegate = self;
-    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
-    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
-}
-
-
-
 -(void)customTabelView{
     
     
@@ -559,6 +547,113 @@
 
 -(void)gGoBackVc{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+
+
+#pragma mark - 分享
+-(void)gshare
+{
+    ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
+    share_view.userInteractionEnabled = YES;
+    share_view.delegate = self;
+    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
+}
+
+-(void)shareTapWithType:(NSString *)type
+{
+    
+    [self autoShareTo:type];
+}
+
+
+- (void)autoShareTo:(NSString *)type
+{
+    NSString *content = @"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~";
+    
+    NSString *url = @"http://www.baidu.com";
+    
+    UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
+    
+    if ([type isEqualToString:UMShareToQQ]) {
+        
+        
+        [UMSocialData defaultData].extConfig.qqData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ分享成功" addToView:self.view];
+                
+            }else{
+                
+                NSLog(@"分享失败");
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToSina]){
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:[NSString stringWithFormat:@"%@%@",content,url] shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToQzone]){
+        
+        //qqzone
+        [UMSocialData defaultData].extConfig.qzoneData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
+                
+            }else{
+                
+                
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToWechatSession]){
+        
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToWechatTimeline]){
+        
+        [UMSocialData defaultData].extConfig.wechatTimelineData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToTencent]){
+        
+        [UMSocialData defaultData].extConfig.tencentData.urlResource = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeImage url:url];
+        
+        //        [UMSocialSnsService presentSnsIconSheetView:self
+        //                                             appKey:@"5423e48cfd98c58eed00664f"
+        //                                          shareText:content
+        //                                         shareImage:shareImage
+        //                                    shareToSnsNames:@[UMShareToTencent]
+        //                                           delegate:self];
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToTencent] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                NSLog(@"分享成功！");
+            }
+        }];
+        
+        
+    }
+    
+    
+    
 }
 
 

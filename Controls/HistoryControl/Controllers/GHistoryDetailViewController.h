@@ -15,6 +15,7 @@
 #import "LRoadClass.h"
 #import "LineDashPolyline.h"
 #import "GyundongCanshuModel.h"
+#import "ShareView.h"
 
 #define TABLEHEADERVIEW_FRAME_UP CGRectMake(0,264,320,30)
 #define TABLEVIEW_FRAME_UP CGRectMake(0,294,320,274)
@@ -25,7 +26,8 @@
 #define MAP_FRAME_UP CGRectMake(0, 64, 320, iPhone5?200:150)
 #define MAP_FRAME_DOWN CGRectMake(0, 64, 320, iPhone5?568-64:480-64)
 
-@interface GHistoryDetailViewController : UIViewController<MAMapViewDelegate>
+
+@interface GHistoryDetailViewController : UIViewController<MAMapViewDelegate,ShareViewDelegate>
 {
     //路书
     MAPointAnnotation *startAnnotation;//起点

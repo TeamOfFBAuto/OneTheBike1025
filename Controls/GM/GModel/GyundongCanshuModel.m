@@ -38,6 +38,7 @@
         self.haibaDown = 0;
         self.localId = 0;
         self.isUpLoad = NO;
+        self.yongshiMiao = 0;
         
     }
     
@@ -71,6 +72,7 @@
     self.haibaDown = 0;
     self.localId = 0;
     self.isUpLoad = NO;
+    self.yongshiMiao = 0;
 }
 
 @end

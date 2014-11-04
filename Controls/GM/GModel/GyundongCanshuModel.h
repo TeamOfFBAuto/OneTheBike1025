@@ -48,10 +48,13 @@
 @property(nonatomic,strong)NSString *jsonStr;//轨迹
 @property(nonatomic,assign)BOOL isUpLoad;//是否上传
 
+@property(nonatomic,strong)NSString *serverRoadId;//
+
 @property(nonatomic,assign)MAUserLocation *userLocation;//用户定位信息
 
 @property(nonatomic,assign)BOOL time;
 
+@property(nonatomic,assign)NSInteger yongshiMiao;
 
 
 //计时器label
