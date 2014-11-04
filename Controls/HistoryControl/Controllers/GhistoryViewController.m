@@ -81,90 +81,19 @@
     //给属性分配内存
     self.netDataArray = [NSMutableArray arrayWithCapacity:1];
     
-    //请求网络数据
-    
-    //判断网络是否可用
-    //开启监控
-    //[[AFNetworkActivityIndicatorManager sharedManager]setEnabled:YES];
-    AFNetworkReachabilityManager *afnrm =[AFNetworkReachabilityManager sharedManager];
-    [afnrm startMonitoring];
-    //设置网络状况监控后的代码块
-    [afnrm setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        switch ([[AFNetworkReachabilityManager sharedManager]networkReachabilityStatus]) {
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                NSLog(@"WiFi");
-                [self netDataWithPage:1];
-                break;
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                NSLog(@"WWAN");
-                [self netDataWithPage:1];
-                break;
-            case AFNetworkReachabilityStatusUnknown:
-                NSLog(@"Unknown");
-                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
-//                [self dataAarrayWithLocal];
-                break;
-            case AFNetworkReachabilityStatusNotReachable:
-                NSLog(@"NotReachable");
-                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
-//                [self dataAarrayWithLocal];
-                break;
-            default:
-                break;
-        }
-    }];
     
     
-    
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(netDataWithPage:) name:@"gstopandnosave" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(localDataWithNoNetWorking) name:@"gstopandsavenonetworking" object:nil];
-    
-}
-
-
--(void)localDataWithNoNetWorking{
+//    [self netDataWithPage:1];
     [self dataAarrayWithLocal];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dataAarrayWithLocal) name:@"gstopandnosave" object:nil];
+    
 }
-
-
-
 
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewDidLoad];
-    
-    
-    
-//    //开启监控
-//    //[[AFNetworkActivityIndicatorManager sharedManager]setEnabled:YES];
-//    AFNetworkReachabilityManager *afnrm =[AFNetworkReachabilityManager sharedManager];
-//    [afnrm startMonitoring];
-//    //设置网络状况监控后的代码块
-//    [afnrm setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-//        switch ([[AFNetworkReachabilityManager sharedManager]networkReachabilityStatus]) {
-//            case AFNetworkReachabilityStatusReachableViaWiFi:
-//                NSLog(@"WiFi");
-//                break;
-//            case AFNetworkReachabilityStatusReachableViaWWAN:
-//                NSLog(@"WWAN");
-//                break;
-//            case AFNetworkReachabilityStatusUnknown:
-//                NSLog(@"Unknown");
-//                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
-//                [self dataAarrayWithLocal];
-//                break;
-//            case AFNetworkReachabilityStatusNotReachable:
-//                NSLog(@"NotReachable");
-//                [LTools showMBProgressWithText:@"请连接网络" addToView:self.view];
-//                [self dataAarrayWithLocal];
-//                break;
-//            default:
-//                break;
-//        }
-//    }];
-    
-    
-    
+  
     // Do any additional setup after loading the view.
 }
 
@@ -173,11 +102,13 @@
 -(void)dataAarrayWithLocal{
     
     
-    NSArray *localGuijiArray = [GMAPI GgetGuiji];
+    if (self.dataArray) {
+        [self.dataArray removeAllObjects];
+    }
+    
+    NSArray *localGuijiArray = [GMAPI getRoadLinesForType:2];
     
     for (LRoadClass *model in localGuijiArray) {
-        
-//        if (![model.serverRoadId isEqualToString:@"已上传"]) {
             NSString *startNameStr = model.startName;
             NSString *endNameStr = model.endName;
             NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
@@ -198,11 +129,17 @@
             gmodel.juli = [model.distance floatValue];
             gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
             gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
-            
-            
+            gmodel.fuwuqiId = model.serverRoadId;
+        
+            NSInteger localeid = model.roadId;
+            gmodel.localId = localeid;
+            gmodel.isUpLoad = model.isUpload;
             [self.netDataArray addObject:gmodel];
-            
-//        }
+        
+        
+        NSLog(@"localid %d",model.roadId);
+        NSLog(@"serverid %@",model.serverRoadId);
+        NSLog(@"isupload %d",model.isUpload);
         
         
     }
@@ -277,10 +214,6 @@
                     
                     NSLog(@" ,,,,, %@",model.jsonStr);
                     
-                    //1414634471
-                    //1414605769
-//                    NSLog(@"--timeline %@",[LTools timechangeToDateline]);
-                    
                     NSLog(@"轨迹字典 ----------- :%@",dic);
                     
                     [self.netDataArray addObject:model];
@@ -290,82 +223,13 @@
              NSLog(@"self.netDataArray.count = %d",self.netDataArray.count);
             
             
-            
-          
-//            //判断有没有更多
-//            if (self.netDataArray.count <100) {
-//                [_upMoreView stopLoading:3];
-//            }else{
-//                [_upMoreView stopLoading:1];
-//            }
-//            
-//            
-//            //判断是否为上提加载更多
-//            if (_isupMore) {//是加载更多的话把请求到的文章加到原来的数组中
-//                [self.netDataArray addObjectsFromArray:(NSArray*)array];
-//                
-//                
-//            }else{//不是上提加载更多
-//                self.netDataArray = array;
-//            }
-//            
-//            
-//            _isUpMoreSuccess = YES;//上提加载更多的标志位
-//            
-//            
-//            //有文章再显示上提加载更多
-//            if (self.netDataArray.count>0) {
-//                _upMoreView.hidden = NO;
-//            }else{
-//                _upMoreView.hidden = YES;
-//            }
-            
-            
-            
-#pragma mark -取本地数据
-//            NSArray *localGuijiArray = [GMAPI GgetGuiji];
-//            for (LRoadClass *model in localGuijiArray) {
-//                
-//                if (![model.serverRoadId isEqualToString:@"已上传"]) {
-//                    NSString *startNameStr = model.startName;
-//                    NSString *endNameStr = model.endName;
-//                    NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
-//                    NSArray *endArr = [endNameStr componentsSeparatedByString:@","];
-//                    
-//                    GyundongCanshuModel *gmodel = [[GyundongCanshuModel alloc]init];
-//                    gmodel.jsonStr = model.lineString;
-//                    gmodel.startTime = startArr[0];
-//                    gmodel.endTime = startArr[1];
-//                    gmodel.yongshi = startArr[2];
-//                    gmodel.juli = [endArr[0]floatValue];
-//                    gmodel.pingjunsudu = [endArr[1]floatValue];
-//                    gmodel.maxSudu = [endArr[2]floatValue];
-//                    gmodel.haibaUp = [endArr[3]floatValue];
-//                    gmodel.haibaDown = [endArr[4]intValue];
-//                    gmodel.bpm = [endArr[5]intValue];
-//                    gmodel.xinlv = [endArr[6]intValue];
-//                    gmodel.juli = [model.distance floatValue];
-//                    gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
-//                    gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
-//                    
-//                    
-//                    [self.netDataArray addObject:gmodel];
-//                }
-//                
-//               
-//            }
-            
-            
-            
             //按照时间排序
             [self paixuWithDateWithArray:self.netDataArray];
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
         }
-        
-        
-        
+   
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
         
@@ -441,6 +305,19 @@
     }
     
     
+    
+    double zongjuli = 0.0;
+    NSInteger zongcishu = 0;
+    
+    for (NSArray *arr in self.dataArray) {
+        zongcishu += arr.count;
+        for (GyundongCanshuModel *model in arr) {
+            zongjuli += model.juli;
+        }
+    }
+    
+    self.topTotalDistanceLabel.text = [NSString stringWithFormat:@"%.1f公里",zongjuli];
+    self.totalCishuLabel.text = [NSString stringWithFormat:@"%d",zongcishu];
     
     [_tableView reloadData];
     
@@ -524,7 +401,7 @@
     //日期
     UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(showOrHiddenImv.frame)+10, 10, 100, 20)];
     dateLabel.font = [UIFont systemFontOfSize:15];
-//    dateLabel.backgroundColor = [UIColor redColor];
+
     dateLabel.textColor = RGBCOLOR(105, 105, 105);
     [upHeaderView addSubview:dateLabel];
 
@@ -532,7 +409,7 @@
     //距离
     UILabel *juliLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(dateLabel.frame)+75, 10, 75, 20)];
     juliLabel.font = [UIFont systemFontOfSize:15];
-//    juliLabel.backgroundColor = [UIColor redColor];
+
     juliLabel.textColor = RGBCOLOR(105, 105, 105);
     [upHeaderView addSubview:juliLabel];
     
@@ -601,33 +478,50 @@
 
 
 
-
+#pragma mark - 删除数据 (本地和网络)
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSMutableArray *dayGuijiArray = self.dataArray[indexPath.section];
         GyundongCanshuModel *model = dayGuijiArray[indexPath.row];
         
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        NSString *urlStr = [NSString stringWithFormat:BIKE_GUIJI_DELETE,model.fuwuqiId];
-        NSLog(@"请求删除轨迹历史接口的url:%@",urlStr);
-        LTools *tool = [[LTools alloc]initWithUrl:urlStr isPost:NO postData:nil];
+        NSLog(@"%d",model.localId);
         
-        [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
+        if (model.isUpLoad) {//已经上传过
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            if (model.fuwuqiId ) {
+                NSString *urlStr = [NSString stringWithFormat:BIKE_GUIJI_DELETE,model.fuwuqiId];
+                NSLog(@"请求删除轨迹历史接口的url:%@",urlStr);
+                LTools *tool = [[LTools alloc]initWithUrl:urlStr isPost:NO postData:nil];
+                
+                [tool requestCompletion:^(NSDictionary *result, NSError *erro) {
+                    
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    if (model.localId !=0) {
+                        [GMAPI deleteRoadId:model.localId type:2];
+                        [dayGuijiArray removeObjectAtIndex:indexPath.row];
+                        [_tableView reloadData];
+                    }
+                    
+                } failBlock:^(NSDictionary *failDic, NSError *erro) {
+                    
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    
+                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"删除失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [al show];
+                    
+                }];
+            }
             
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [dayGuijiArray removeObjectAtIndex:indexPath.row];
-            [_tableView reloadData];
+        }else{
+            if (model.localId !=0) {
+                [GMAPI deleteRoadId:model.localId type:2];
+                [dayGuijiArray removeObjectAtIndex:indexPath.row];
+                [_tableView reloadData];
+            }
             
-        } failBlock:^(NSDictionary *failDic, NSError *erro) {
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"删除失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [al show];
-            [dayGuijiArray removeObjectAtIndex:indexPath.row];
-            [_tableView reloadData];
-        }];
+        }
+        
         
         
     }
@@ -707,75 +601,11 @@
     NSArray *arr = self.dataArray[indexPath.section];
     
     
-    
     GyundongCanshuModel *model = arr[indexPath.row];
     cc.passModel = model;
     cc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:cc animated:YES];
 }
-
-
-
-
-
-
-//#pragma mark - 下拉上提 相关代理
-//
-//-(void)reloadTableViewDataSource{
-//    _reloading = YES;
-//}
-//
-//-(void)doneLoadingTableViewData{
-//    _reloading = NO;
-//    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:_tableView];
-//    
-//}
-//
-//
-//#pragma mark - EGORefreshTableHeaderDelegate
-//
-//-(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView *)view{
-//    _currentPage = 1;
-//    _isupMore = NO;
-//    [self reloadTableViewDataSource];
-//    [self netDataWithPage:_currentPage];
-//    
-//    
-//}
-//
-//-(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView *)view{
-//    return _reloading;
-//}
-//
-//- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
-//    
-//    return [NSDate date];
-//}
-//
-//
-//#pragma mark - UIScrollViewDelegate
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    
-//    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
-//}
-//
-//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
-//    
-//    
-//    if(_tableView.contentOffset.y > (_tableView.contentSize.height - _tableView.frame.size.height+40)&&_isUpMoreSuccess==YES&&[self.dataArray count]>0)
-//    {
-//        [_upMoreView startLoading];
-//        _isupMore = YES;
-//        if (_guijiCount) {
-//            _currentPage++;
-//        }
-//        
-//        _isUpMoreSuccess = NO;
-//        [self netDataWithPage:_currentPage];
-//    }
-//}
-
 
 
 

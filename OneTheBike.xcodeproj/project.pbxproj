@@ -206,7 +206,6 @@
 		19DAE81519D30C2D00519D22 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE81319D30C2D00519D22 /* LaunchScreen.xib */; };
 		19DAE82119D30C2D00519D22 /* OneTheBikeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE82019D30C2D00519D22 /* OneTheBikeTests.m */; };
 		19DAE84119D30F3100519D22 /* FindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE84019D30F3100519D22 /* FindViewController.m */; };
-		19DAE84419D30F4E00519D22 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE84319D30F4E00519D22 /* HistoryViewController.m */; };
 		19DAE84719D30F6000519D22 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE84619D30F6000519D22 /* MainViewController.m */; };
 		19DAE97F19D311D300519D22 /* add_beijing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE85019D311D300519D22 /* add_beijing@2x.png */; };
 		19DAE98019D311D300519D22 /* add_fenlei@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE85119D311D300519D22 /* add_fenlei@2x.png */; };
@@ -860,8 +859,6 @@
 		19DAE82019D30C2D00519D22 /* OneTheBikeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneTheBikeTests.m; sourceTree = "<group>"; };
 		19DAE83F19D30F3100519D22 /* FindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindViewController.h; sourceTree = "<group>"; };
 		19DAE84019D30F3100519D22 /* FindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindViewController.m; sourceTree = "<group>"; };
-		19DAE84219D30F4E00519D22 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
-		19DAE84319D30F4E00519D22 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		19DAE84519D30F6000519D22 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		19DAE84619D30F6000519D22 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		19DAE85019D311D300519D22 /* add_beijing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_beijing@2x.png"; sourceTree = "<group>"; };
@@ -1947,8 +1944,6 @@
 		19DAE83019D30EEE00519D22 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				19DAE84219D30F4E00519D22 /* HistoryViewController.h */,
-				19DAE84319D30F4E00519D22 /* HistoryViewController.m */,
 				E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */,
 				E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */,
 				E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */,
@@ -3580,7 +3575,6 @@
 				13E8EE1619F60CE8006FA5CE /* LMaplineClass.m in Sources */,
 				E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */,
 				19DAE80419D30C2D00519D22 /* main.m in Sources */,
-				19DAE84419D30F4E00519D22 /* HistoryViewController.m in Sources */,
 				137D9FE219F27A6500B31100 /* RoadProduceController.m in Sources */,
 				565DF21719FBE27F00DE99EA /* LRefreshTableHeaderView.m in Sources */,
 			);

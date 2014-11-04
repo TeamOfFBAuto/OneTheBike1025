@@ -33,6 +33,7 @@
 
 #import "CommonUtility.h"
 
+#import <math.h>
 
 
 
@@ -159,6 +160,7 @@
     
     
     int _shangyicihaiba;
+    int _shangyiciyongshi;
     
 }
 @property (nonatomic, strong) MAMapView *mapView;
@@ -171,8 +173,7 @@
 @property(nonatomic,strong) NSMutableArray *routeLineArray;
 @property(nonatomic,strong)NSMutableArray *needRemoveLineArray;
 
-@property(nonatomic,strong)NSString *jixushangchanURlStr;//上传失败继续上传的url字符串
-@property(nonatomic,strong)NSString *jixushangchanJsonStr;
+
 
 
 @property(nonatomic,strong)NSArray *lines;//小胖界面 跳转过来显示的路书线数组

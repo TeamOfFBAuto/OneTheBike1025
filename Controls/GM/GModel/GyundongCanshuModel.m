@@ -31,11 +31,13 @@
         self.haiba = 0;
         self.startCoorStr = @"0";
         self.coorStr = @"0";
-        self.podu = @"0";
-        self.pashenglv = @"0.0";
+        self.podu = 0;
+        self.pashenglv = 0.0;
         self.bpm = 0;
         self.haibaUp = 0;
         self.haibaDown = 0;
+        self.localId = 0;
+        self.isUpLoad = NO;
         
     }
     
@@ -62,11 +64,13 @@
     self.haiba = 0;
     self.startCoorStr = @"0";
     self.coorStr = @"0";
-    self.podu = @"0";
-    self.pashenglv = @"0.0";
+    self.podu = 0;
+    self.pashenglv = 0.0;
     self.bpm = 0;
     self.haibaUp = 0;
     self.haibaDown = 0;
+    self.localId = 0;
+    self.isUpLoad = NO;
 }
 
 @end

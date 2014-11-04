@@ -59,7 +59,7 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
 +(void)findNowAllLocation;
 
 
-///存储路线数据 type 1为路书 2为轨迹   当type = 1时 startCoorString为起点的坐标 endCoorString为终点的坐标 经度和纬度用逗号分隔的字符串      当type = 2时   startName:开始时间 结束时间 用时   endName:平均速度 distance:距离 startCoorString:开始的经纬度 endCoorString:结束时的经纬度
+///存储路线数据
 + (void)addRoadLinesJsonString:(NSString *)jsonstr
                      startName:(NSString *)startName
                        endName:(NSString *)endName
@@ -115,8 +115,7 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
 
 
 
-///根据type获取轨迹
-+ (NSArray *)GgetGuiji;
+
 
 
 //路书在地图显示相关method

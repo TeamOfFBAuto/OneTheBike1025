@@ -130,7 +130,10 @@
         case 1://坡度
         {
             
-            contentLabel.text = [self.yundongModel.podu stringByAppendingString:@"%"];
+            NSLog(@"%.1f",self.yundongModel.podu);
+            
+            NSString *ss = [NSString stringWithFormat:@"%.1f",self.yundongModel.podu];
+            contentLabel.text = [ss stringByAppendingString:@"%"];
         }
             break;
         case 2://配速
@@ -142,7 +145,7 @@
         case 3://爬升率
         {
             
-            contentLabel.text = [self.yundongModel.pashenglv stringByAppendingString:@"米/min"];
+            contentLabel.text = [NSString stringWithFormat:@"%.1f米/min",self.yundongModel.pashenglv];
         }
             break;
         case 4://海拔上升
@@ -233,7 +236,7 @@
         case 1://坡度
         {
             
-            contentStr = self.yundongModel.podu;
+            contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.podu];
             BOOL isChange = YES;
             
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
@@ -280,7 +283,7 @@
         case 3://爬升率
         {
             
-            contentStr = self.yundongModel.pashenglv;
+            contentStr = [NSString stringWithFormat:@"%.1f米/min",self.yundongModel.pashenglv];
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"爬升率"]) {
