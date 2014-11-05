@@ -349,7 +349,7 @@
                     
                     NSInteger yongshiMiao = [[dic objectForKey:@"costTime"]integerValue];
                     model.yongshiMiao = yongshiMiao;
-                    [self.netDataArray addObject:model];
+                    
                     
                     
 #pragma mark - 保存轨迹到本地数据库
@@ -373,6 +373,10 @@
                         [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr serverRoadId:model.fuwuqiId isUpload:YES];}
                 }
             }
+            
+            
+            [self dataAarrayWithLocal];
+            
             
              NSLog(@"self.netDataArray.count = %d",self.netDataArray.count);
             

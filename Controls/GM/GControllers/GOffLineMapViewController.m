@@ -127,11 +127,11 @@ NSString const *DownloadStageInfoKey2      = @"DownloadStageInfoKey";
     {
         if (item.itemStatus == MAOfflineItemStatusCached)
         {
-            detailText = [NSString stringWithFormat:@"%lld/%lld", item.downloadedSize, item.size];
+            detailText = [NSString stringWithFormat:@"%lldM/%lldM", item.downloadedSize/1000000, item.size/1000000];
         }
         else
         {
-            detailText = [NSString stringWithFormat:@"大小:%lld", item.size];
+            detailText = [NSString stringWithFormat:@"大小:%lldM", item.size/1000000];
         }
     }
     else
@@ -161,7 +161,7 @@ NSString const *DownloadStageInfoKey2      = @"DownloadStageInfoKey";
                 long long recieved = [[progressDict objectForKey:MAOfflineMapDownloadReceivedSizeKey] longLongValue];
                 long long expected = [[progressDict objectForKey:MAOfflineMapDownloadExpectedSizeKey] longLongValue];
                 
-                detailText = [NSString stringWithFormat:@"%lld/%lld(%.1f%%)", recieved, expected, recieved/(float)expected*100];
+                detailText = [NSString stringWithFormat:@"%lldM/%lldM(%.1f%%)", recieved/1000000, expected/1000000, recieved/(float)expected*100];
                 break;
             }
             case MAOfflineMapDownloadStatusCompleted:
@@ -522,28 +522,28 @@ NSString const *DownloadStageInfoKey2      = @"DownloadStageInfoKey";
                                                                              action:@selector(cancelAllAction)];
 }
 
-- (void)initToolBar
-{
-    UIBarButtonItem *flexbleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                                 target:self
-                                                                                 action:nil];
-    
-    UILabel *prompts = [[UILabel alloc] init];
-    prompts.text            = [NSString stringWithFormat:@"点击相应地区进行下载"];
-    prompts.textAlignment   = UITextAlignmentCenter;
-    prompts.backgroundColor = [UIColor clearColor];
-    prompts.textColor       = [UIColor whiteColor];
-    prompts.font            = [UIFont systemFontOfSize:15];
-    [prompts sizeToFit];
-    
-    UIBarButtonItem *promptsItem = [[UIBarButtonItem alloc] initWithCustomView:prompts];
-    
-    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                                                target:self
-                                                                                action:@selector(searchAction)];
-    
-    self.toolbarItems = [NSArray arrayWithObjects:flexbleItem, promptsItem, flexbleItem, searchItem,flexbleItem, nil];
-}
+//- (void)initToolBar
+//{
+//    UIBarButtonItem *flexbleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+//                                                                                 target:self
+//                                                                                 action:nil];
+//    
+//    UILabel *prompts = [[UILabel alloc] init];
+//    prompts.text            = [NSString stringWithFormat:@"点击相应地区进行下载"];
+//    prompts.textAlignment   = UITextAlignmentCenter;
+//    prompts.backgroundColor = [UIColor clearColor];
+//    prompts.textColor       = [UIColor whiteColor];
+//    prompts.font            = [UIFont systemFontOfSize:15];
+//    [prompts sizeToFit];
+//    
+//    UIBarButtonItem *promptsItem = [[UIBarButtonItem alloc] initWithCustomView:prompts];
+//    
+//    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+//                                                                                target:self
+//                                                                                action:@selector(searchAction)];
+//    
+//    self.toolbarItems = [NSArray arrayWithObjects:flexbleItem, promptsItem, flexbleItem, searchItem,flexbleItem, nil];
+//}
 
 - (void)initTableView
 {
@@ -621,7 +621,7 @@ NSString const *DownloadStageInfoKey2      = @"DownloadStageInfoKey";
     
     [self initTableView];
     
-    [self initToolBar];
+//    [self initToolBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated
