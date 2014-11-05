@@ -49,6 +49,9 @@
     
     NSLog(@"--uid %@",[LTools cacheForKey:USER_CUSTID]);
     
+    
+    [self getUserInfoForId:[LTools cacheForKey:USER_CUSTID]];
+    
     //http://182.254.242.58:8080/QiBa/QiBa/custAction_updateCust.action?custId=1414327474970&nickName=华丽毛毛&sex=1&cellphone=18612389982&personSign=theOne&height=176&weight=145&birthday=1989-5-21&city=linyi
 }
 
@@ -108,6 +111,36 @@
     
     [self updateUserInfoIcon:icon name:name custID:custid gold:gold];
 }
+
+- (void)getUserInfoForId:(NSString *)userId{
+    
+    NSString *url = [NSString stringWithFormat:BIKE_USER_INFO,userId];
+    LTools *tool = [[LTools alloc]initWithUrl:url isPost:NO postData:nil];
+    [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
+        
+        NSLog(@"result %@ erro %@",result,erro);
+        
+        UserInfoClass *userInfo = [[UserInfoClass alloc]initWithDictionary:result];
+        
+        [LTools cache:userInfo.nickName ForKey:USER_NAME];
+        
+        [LTools cache:userInfo.custId ForKey:USER_CUSTID];
+        [LTools cache:userInfo.headPhoto ForKey:USER_HEAD_IMAGEURL];
+        [LTools cache:userInfo.nickName ForKey:USER_NAME];
+        [LTools cache:userInfo.gold ForKey:USER_GOLD];
+        
+        [self.table reloadData];
+
+        
+    } failBlock:^(NSDictionary *failDic, NSError *erro) {
+        
+        NSLog(@"failDic %@ erro %@",failDic,erro);
+        
+ 
+        
+    }];
+}
+
 
 #pragma mark - 事件处理
 

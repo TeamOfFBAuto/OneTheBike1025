@@ -93,7 +93,16 @@
     NSString *custId = [LTools cacheForKey:USER_CUSTID];
     
     NSString *nickName = [self labelForTag:101].text;
-    NSString *sex = [[self labelForTag:102].text isEqualToString:@"男"] ? @"1" : @"2";
+    
+    NSString *sex = @"";
+    if ([[self labelForTag:102].text isEqualToString:@"男"]) {
+        
+        sex = @"1";
+    }else if ([[self labelForTag:102].text isEqualToString:@"女"]){
+        
+        sex = @"2";
+    }
+ 
     NSString *personSign = [self labelForTag:103].text;
     NSString *height = [self labelForTag:104].text;
     
@@ -424,25 +433,33 @@
         cell.aDetailLabel.text = nick;
     }else if (indexPath.row == 2){
         
-        cell.aDetailLabel.text = [userInfo.sex isEqualToString:@"1"] ? @"男" : @"女";
+        
+        NSLog(@"--->%@",userInfo.sex);
+        
+        if ([userInfo.sex isEqualToString:@"null"]) {
+            
+            cell.aDetailLabel.text = @"";
+        }else{
+            cell.aDetailLabel.text = [userInfo.sex intValue] == 1 ? @"男" : @"女";
+        }
         
         
         //性别
     }else if (indexPath.row == 3){
         //签名
-        cell.aDetailLabel.text = userInfo.personSign;
+        cell.aDetailLabel.text = [self StringNoNull:userInfo.personSign];
         
     }else if (indexPath.row == 4){
         //身高
         
-        NSString *height = userInfo.height == nil ? @"" : [NSString stringWithFormat:@"%@cm",userInfo.height];
+        NSString *height = userInfo.height == nil ? @"" : [NSString stringWithFormat:@"%.1fcm",[userInfo.height floatValue]];
         
         cell.aDetailLabel.text = height;
         
     }else if (indexPath.row == 5){
         //体重
         
-        NSString *weight = userInfo.height == nil ? @"" : [NSString stringWithFormat:@"%@kg",userInfo.weight];
+        NSString *weight = userInfo.height == nil ? @"" : [NSString stringWithFormat:@"%.1fkg",[userInfo.weight floatValue]];
         cell.aDetailLabel.text = weight;
     }
     
@@ -450,6 +467,19 @@
     
     return cell;
     
+}
+
+- (NSString *)StringNoNull:(NSString *)str
+{
+    if ([str isEqualToString:@"null"]) {
+        return @"";
+    }
+    
+    if (str.length > 0) {
+        return str;
+    }
+    
+    return @"";
 }
 
 #pragma - mark imagePicker 代理

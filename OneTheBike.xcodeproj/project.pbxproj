@@ -1179,7 +1179,7 @@
 		E31F584719F638450064959E /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		E361DA611A01A21100CA4EFA /* GTimeSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTimeSwitch.h; sourceTree = "<group>"; };
-		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTimeSwitch.m; sourceTree = "<group>"; };
+		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTimeSwitch.m; path = ../Controls/GM/Utils/GTimeSwitch.m; sourceTree = "<group>"; };
 		E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhistoryViewController.h; sourceTree = "<group>"; };
 		E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhistoryViewController.m; sourceTree = "<group>"; };
 		E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gqixingzhong@2x.png"; sourceTree = "<group>"; };
@@ -2647,6 +2647,7 @@
 		19DAEA8619D3133600519D22 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
+				E361DA621A01A21100CA4EFA /* GTimeSwitch.m */,
 				565DF20E19FBE27F00DE99EA /* 下拉刷新上拉加载 */,
 				56442DEF19F5467500BAE678 /* 滚动视图 */,
 				137D76CC19F4BB5B00DD29D7 /* MJExtension */,
@@ -2854,7 +2855,6 @@
 			isa = PBXGroup;
 			children = (
 				E361DA611A01A21100CA4EFA /* GTimeSwitch.h */,
-				E361DA621A01A21100CA4EFA /* GTimeSwitch.m */,
 				E3B8027B19FC4E4900AF9831 /* LoadingIndicatorView.h */,
 				E3B8027C19FC4E4900AF9831 /* LoadingIndicatorView.m */,
 				E3B8027819FC4DAE00AF9831 /* EGORefreshTableHeaderView.h */,
