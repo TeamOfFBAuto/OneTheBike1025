@@ -554,6 +554,61 @@
 
 
 #pragma mark - 分享
+
+//截屏
+- (UIImage *) captureScreen {
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    CGRect rect = [keyWindow bounds];
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [keyWindow.layer renderInContext:context];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+}
+
+
+-(UIImage*)screenShots
+{
+    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+    if (NULL != UIGraphicsBeginImageContextWithOptions) {
+        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    }
+    else
+    {
+        UIGraphicsBeginImageContext(imageSize);
+    }
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    for (UIWindow * window in [[UIApplication sharedApplication] windows]) {
+        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen]) {
+            CGContextSaveGState(context);
+            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            CGContextConcatCTM(context, [window transform]);
+            CGContextTranslateCTM(context, -[window bounds].size.width*[[window layer] anchorPoint].x, -[window bounds].size.height*[[window layer] anchorPoint].y);
+            [[window layer] renderInContext:context];
+            
+            CGContextRestoreGState(context);
+        }
+    }
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+    NSLog(@"Suceeded!");
+    return image;
+}
+
+//保存到相册
+- (void)saveScreenshotToPhotosAlbum:(UIView *)view
+{
+    UIImageWriteToSavedPhotosAlbum([self captureScreen], nil, nil, nil);
+}
+
+
+//点击分享按钮
 -(void)gshare
 {
     ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
@@ -572,11 +627,12 @@
 
 - (void)autoShareTo:(NSString *)type
 {
-    NSString *content = @"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~";
+    NSString *content = [NSString stringWithFormat:@"#骑行分享抽奖#本次骑行%.1f公里，用时%@，均速%.1fkm/h，我来定义我的骑行@骑叭",self.passModel.juli,self.passModel.yongshi,self.passModel.pingjunsudu];
     
-    NSString *url = @"http://www.baidu.com";
+    NSString *url = @" ";
     
     UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
+    shareImage = [self screenShots];
     
     if ([type isEqualToString:UMShareToQQ]) {
         

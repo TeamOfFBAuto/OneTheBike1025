@@ -35,6 +35,8 @@
 
 #import <math.h>
 
+#import "GHistoryDetailViewController.h"
+
 
 
 
@@ -163,6 +165,10 @@
     
     int _shangyicihaiba;
     int _shangyiciyongshi;
+    
+    
+    //跳转详细页面需要的lroad对象
+    LRoadClass *_passModel;
     
 }
 @property (nonatomic, strong) MAMapView *mapView;

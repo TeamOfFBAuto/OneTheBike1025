@@ -37,7 +37,8 @@
 @property(nonatomic,assign)int haibaUp;//海拔下降
 @property(nonatomic,assign)int haibaDown;//海拔下降
 
-@property(nonatomic,strong)NSString *fuwuqiId;//服务器返回的id 用于删除
+@property(nonatomic,strong)NSString *serverRoadId;//保存本地时候的一个时间戳 上传完成时候存的是服务器返回的id 用于在历史界面的删除
+
 @property(nonatomic,assign)NSInteger localId;//本地id
 
 
@@ -48,7 +49,6 @@
 @property(nonatomic,strong)NSString *jsonStr;//轨迹
 @property(nonatomic,assign)BOOL isUpLoad;//是否上传
 
-@property(nonatomic,strong)NSString *serverRoadId;//
 
 @property(nonatomic,assign)MAUserLocation *userLocation;//用户定位信息
 

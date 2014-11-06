@@ -27,6 +27,10 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+}
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -815,6 +819,7 @@
 #pragma mark - 计时label=======
         self.gYunDongCanShuModel.timeRunLabel.text = [[NSString alloc]initWithFormat:@"%02d:%02d:%02d",_timerHour,timerMin,timerSecond];
         
+        
 #pragma mark - 用时=======
         self.gYunDongCanShuModel.yongshi = self.gYunDongCanShuModel.timeRunLabel.text;
     
@@ -958,8 +963,10 @@
                 self.gYunDongCanShuModel.xinlv = 70;
                 int heartRate = self.gYunDongCanShuModel.xinlv;
                 
+                
                 NSString *beginTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];
                 NSString *endTimeStr = [self.gYunDongCanShuModel.endTime substringToIndex:19];
+
                 
                 NSString *costTimeStr = self.gYunDongCanShuModel.yongshi;
                 NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;//
@@ -992,12 +999,23 @@
                     yongshiMiao = hh*3600+mm*60*ss;
                 }
                 
+                self.gYunDongCanShuModel.yongshiMiao = yongshiMiao;
+                
                 //本地数据保存
-                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",self.gYunDongCanShuModel.startTime,self.gYunDongCanShuModel.endTime,costTimeStr];
+                NSDate *date = [NSDate date];
+                NSTimeZone *zone = [NSTimeZone systemTimeZone];
+                NSInteger interval = [zone secondsFromGMTForDate: date];
+                NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
+                self.gYunDongCanShuModel.endTime = [NSString stringWithFormat:@"%@",localeDate];
+                
+                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",beginTimeStr,endTimeStr,costTimeStr];
                 NSString *gEndName = [NSString stringWithFormat:@"%.1f,%.1f,%.1f,%d,%d,%d,%d,%d",juli,avgSpeed,topSpeed,upMetre,downMetre,costCalories,heartRate,yongshiMiao];
                 NSString *gDistance = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.juli];
                 NSString *gStartCoorStr = self.gYunDongCanShuModel.startCoorStr;
                 NSString *gEndCoorStr = self.gYunDongCanShuModel.coorStr;
+               
+
+                
                 
                 if (jsonStr) {
 #pragma mark - 保存轨迹到本地数据库
@@ -1009,8 +1027,10 @@
                     //type 1为路书 2为轨迹
                     //startCoorStr 开始经纬度
                     //endCoorStr 结束经纬度
+                    //serverRoadId :保存本地时存时间戳 上传成功后存服务器返回的id
                     
-                    _nowSaveAndWaittingUpGuijiId = [LTools timechangeToDateline];
+                    NSString *serverid = [LTools timechangeToDateline];
+                    
                     [GMAPI addRoadLinesJsonString:jsonStr
                                         startName:gStartName
                                           endName:gEndName
@@ -1018,8 +1038,18 @@
                                              type:2
                                      startCoorStr:gStartCoorStr
                                        endCoorStr:gEndCoorStr
-                                     serverRoadId:_nowSaveAndWaittingUpGuijiId
+                                     serverRoadId:serverid
                                          isUpload:NO];
+                    
+                    
+                   NSArray *arr = [GMAPI getRoadLinesForType:2];
+                    for (LRoadClass *model in arr) {
+                        if ([model.serverRoadId isEqualToString: serverid]) {
+                            _passModel = model;
+                        }
+                    }
+                    
+                    
                     
 #pragma mark - 上传轨迹到服务器
                     //网络保存数据
@@ -1055,7 +1085,8 @@
                                         beginSite:@" "
                                           endSite:@" "
                                  beginCoordinates:beginCoordinatesStr
-                                   endCoordinates:endCoordinatesStr];
+                                   endCoordinates:endCoordinatesStr
+                                     serverRoadId:serverid];
                 }else{
                     UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [al show];
@@ -1063,6 +1094,8 @@
                 
             }
 
+            
+            
             for (GyundongCustomView *view in self.fiveCustomView) {
                 
                 [self.gYunDongCanShuModel cleanAllData];
@@ -1075,6 +1108,15 @@
             }
             [self allCleanAndNewStart];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
+            
+            
+            
+            GHistoryDetailViewController *gcc = [[GHistoryDetailViewController alloc]init];
+            gcc.passModel = [self changeLroadToGyundongModel:_passModel];
+            gcc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:gcc animated:YES];
+            
+            
             
         }else if (buttonIndex == 0){//放弃保存
             [self.gYunDongCanShuModel cleanAllData];
@@ -1103,9 +1145,49 @@
 }
 
 
+
+
+-(GyundongCanshuModel *)changeLroadToGyundongModel:(LRoadClass*)model{
+    NSString *startNameStr = model.startName;
+    NSString *endNameStr = model.endName;
+    NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
+    NSArray *endArr = [endNameStr componentsSeparatedByString:@","];
+    
+    GyundongCanshuModel *gmodel = [[GyundongCanshuModel alloc]init];
+    gmodel.jsonStr = model.lineString;
+    gmodel.startTime = startArr[0];
+    gmodel.endTime = startArr[1];
+    gmodel.yongshi = startArr[2];
+    gmodel.juli = [endArr[0]floatValue];
+    gmodel.pingjunsudu = [endArr[1]floatValue];
+    gmodel.maxSudu = [endArr[2]floatValue];
+    gmodel.haibaUp = [endArr[3]floatValue];
+    gmodel.haibaDown = [endArr[4]intValue];
+    gmodel.bpm = [endArr[5]intValue];
+    gmodel.xinlv = [endArr[6]intValue];
+    
+    if (endArr.count>7) {
+        gmodel.yongshiMiao = [endArr[7]intValue];
+    }
+    
+    gmodel.juli = [model.distance floatValue];
+    gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
+    gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
+    gmodel.serverRoadId = model.serverRoadId;
+    
+    NSInteger localeid = model.roadId;
+    gmodel.localId = localeid;
+    gmodel.isUpLoad = model.isUpload;
+    
+    
+    return gmodel;
+}
+
+
 //清空数据重新开始
 -(void)allCleanAndNewStart{
     _distance = 0.0f;
+    [self.mapView removeAnnotation:guijiStartAnnotation];
     [self.mapView removeOverlays:self.needRemoveLineArray];
     [_points removeAllObjects];
     [self.routeLineArray removeAllObjects];
@@ -1120,9 +1202,13 @@
     _isFirstStartCanshu = NO;
     _shangyicihaiba = 0;
     _shangyiciyongshi = 0;
+    _totalTakt = 0;
+    _lapTakt = 0;
+    reset = NO;
     self.lines = [NSArray array];
     self.routeLineArray = [NSMutableArray arrayWithCapacity:1];
     self.needRemoveLineArray = [NSMutableArray arrayWithCapacity:1];
+    _passModel = nil;
 }
 
 
@@ -1171,8 +1257,6 @@
     [self clearSearch];
     
     self.mapView.userTrackingMode  = MAUserTrackingModeNone;
-    
-    [self.mapView removeObserver:self forKeyPath:@"showsUserLocation"];
     
 }
 - (void)clearMapView
@@ -1497,6 +1581,13 @@
 
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
+    
+    
+    
+    if (_points.count>0) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
+    
     CLLocationAccuracy horizontal = userLocation.location.horizontalAccuracy;//水平方向的精度
     CLLocationAccuracy vertical = userLocation.location.verticalAccuracy;//垂直方向的精度
     
@@ -1540,7 +1631,7 @@
 
     
     
-    if (horizontal>0 &&horizontal<50 && vertical>0 && vertical<80) {
+    if (horizontal>0 && horizontal<70 && vertical>0 && vertical<50) {
 #pragma mark - 给数据model赋值=========== 海拔(最高 最低 实时) 经纬度(开始，实时)
         //海拔
         CLLocation *currentLocation = userLocation.location;
@@ -2047,11 +2138,15 @@
     _downView.hidden = NO;
     self.mapView.showsUserLocation = YES;//开启定位
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     //接收到appdelegate通知 开始骑行 下面这个是判断 是否为暂停后点击返回然后再点击开始骑行进入的
     if (_isTimeOutClicked) {
         
     }else{
+        
         started = YES;
+        
         NSDate *date = [NSDate date];
         NSTimeZone *zone = [NSTimeZone systemTimeZone];
         NSInteger interval = [zone secondsFromGMTForDate: date];
@@ -2281,7 +2376,7 @@
                         endSite:(NSString *)jiesudidian
                beginCoordinates:(NSString *)kaishijingweidu
                  endCoordinates:(NSString *)jiesujingweidu
-
+                   serverRoadId:(NSString *)serverId
 {
     NSString *custId =  [LTools cacheForKey:USER_CUSTID];
     
@@ -2307,7 +2402,7 @@
             NSLog(@"上传返回的dic ： %@",result);
             
             NSString *fuwuqiid = [result objectForKey:@"cycId"];
-            LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:_nowSaveAndWaittingUpGuijiId];
+            LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:serverId];
             [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:fuwuqiid isUpload:YES];
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -2325,7 +2420,7 @@
     }];
 }
 
-
+#pragma 拍照
 -(void)gTakePhotos{
     UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -2342,6 +2437,24 @@
         [al show];
     }
 }
+
+
+//使用图片拾取器要实现的代理方法
+
+//选择了图片以后触发的方法
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo NS_DEPRECATED_IOS(2_0, 3_0){
+    NSLog(@"用户选择 了照片了%@",editingInfo);
+    
+    
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+    //选择框消失
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    
+}
+
+
 
 
 
