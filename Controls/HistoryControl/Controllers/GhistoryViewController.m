@@ -477,7 +477,7 @@
     }
     
     int hh = yongshiMiao/3600;
-    int mm = yongshiMiao%3600/60;
+    int mm = (yongshiMiao%3600)/60;
     int ss = yongshiMiao%3600%60;
     NSString *yongshiStr = @"00:00:00";
     if (hh<100) {

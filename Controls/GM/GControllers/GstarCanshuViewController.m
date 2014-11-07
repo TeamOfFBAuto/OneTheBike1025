@@ -283,7 +283,7 @@
         case 3://爬升率
         {
             
-            contentStr = [NSString stringWithFormat:@"%.1f米/min",self.yundongModel.pashenglv];
+            contentStr = [NSString stringWithFormat:@"%.1f",self.yundongModel.pashenglv];
             BOOL isChange = YES;
             for (GyundongCustomView *view in self.delegate.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"爬升率"]) {

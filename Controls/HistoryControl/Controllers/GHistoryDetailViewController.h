@@ -17,11 +17,11 @@
 #import "GyundongCanshuModel.h"
 #import "ShareView.h"
 
-#define TABLEHEADERVIEW_FRAME_UP CGRectMake(0,264,320,30)
-#define TABLEVIEW_FRAME_UP CGRectMake(0,294,320,274)
+#define TABLEHEADERVIEW_FRAME_UP CGRectMake(0,iPhone5?264:214,320,30)
+#define TABLEVIEW_FRAME_UP CGRectMake(0,iPhone5?294:244,320,iPhone5?274:274-42)
 
 #define TABLEHEADERVIEW_FRAME_DOWN CGRectMake(0,568,320,30)
-#define TABLEVIEW_FRAME_DOWN CGRectMake(0,568,320,274)
+#define TABLEVIEW_FRAME_DOWN CGRectMake(0,568,320,iPhone5?274:274-42)
 
 #define MAP_FRAME_UP CGRectMake(0, 64, 320, iPhone5?200:150)
 #define MAP_FRAME_DOWN CGRectMake(0, 64, 320, iPhone5?568-64:480-64)
