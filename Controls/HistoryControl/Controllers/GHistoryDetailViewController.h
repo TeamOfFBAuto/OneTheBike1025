@@ -42,6 +42,9 @@
     
     
     BOOL _isShowMap;//是否隐藏地图
+    
+    UIImage *_jiepingImage;//截屏image
+    UIImage *_jiepingMapImage;//地图截屏
 }
 
 

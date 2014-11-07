@@ -9,7 +9,7 @@
 #import "GHistoryDetailViewController.h"
 #import "ShareView.h"
 #import "Gmap.h"
-@interface GHistoryDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ShareViewDelegate>
+@interface GHistoryDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ShareViewDelegate,UMSocialUIDelegate>
 @property (nonatomic, strong) NSMutableArray *overlays;
 @end
 
@@ -53,7 +53,6 @@
     
     
     _isShowMap = NO;
-    
     
     
     if ([[[UIDevice currentDevice]systemVersion]doubleValue] >=7.0) {
@@ -102,6 +101,13 @@
     
     
     [self customTabelView];
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -556,27 +562,11 @@
 #pragma mark - 分享
 
 //截屏
-- (UIImage *) captureScreen {
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    CGRect rect = [keyWindow bounds];
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return img;
-}
-
-
 -(UIImage*)screenShots
 {
     CGSize imageSize = [[UIScreen mainScreen] bounds].size;
     if (NULL != UIGraphicsBeginImageContextWithOptions) {
         UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-    }
-    else
-    {
-        UIGraphicsBeginImageContext(imageSize);
     }
     
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -594,23 +584,59 @@
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    
     UIGraphicsEndImageContext();
     UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
     NSLog(@"Suceeded!");
     return image;
 }
 
-//保存到相册
-- (void)saveScreenshotToPhotosAlbum:(UIView *)view
-{
-    UIImageWriteToSavedPhotosAlbum([self captureScreen], nil, nil, nil);
+////保存到相册
+//- (void)saveScreenshotToPhotosAlbum:(UIView *)view
+//{
+//    UIImageWriteToSavedPhotosAlbum([self captureScreen], nil, nil, nil);
+//}
+
+
+//合并图片
+-(UIImage *)mergerImage:(UIImage *)firstImage secodImage:(UIImage *)secondImage{
+    
+    CGSize imageSize = CGSizeMake(320, iPhone5?568:480);
+    UIGraphicsBeginImageContext(imageSize);
+    
+    [firstImage drawInRect:CGRectMake(0, 0, firstImage.size.width, firstImage.size.height)];
+    [secondImage drawInRect:CGRectMake(0, 64, secondImage.size.width, secondImage.size.height)];
+    
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resultImage;
 }
+
+//地图截屏
+-(void) captureAction: (CGRect) inRect
+{
+    _jiepingMapImage = [self.mapView takeSnapshotInRect:inRect] ;
+}
+
 
 
 //点击分享按钮
 -(void)gshare
 {
+    UIImage *im1 = [self screenShots];
+    
+    NSLog(@"%@",NSStringFromCGSize(im1.size));
+    
+    [self captureAction:CGRectMake(0, 0, 320,self.mapView.frame.size.height)];
+    
+    NSLog(@"%@",NSStringFromCGSize(_jiepingMapImage.size));
+    
+    _jiepingImage = [self mergerImage:im1 secodImage:_jiepingMapImage];
+    
+//    UIImageView *imv = [[UIImageView alloc]initWithFrame:CGRectMake(10, 50, 200, 400)];
+//    imv.image = _jiepingImage;
+//    [self.view addSubview:imv];
+    
     ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
     share_view.userInteractionEnabled = YES;
     share_view.delegate = self;
@@ -631,8 +657,7 @@
     
     NSString *url = @" ";
     
-    UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
-    shareImage = [self screenShots];
+    UIImage *shareImage = _jiepingImage;
     
     if ([type isEqualToString:UMShareToQQ]) {
         

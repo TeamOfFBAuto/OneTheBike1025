@@ -10,18 +10,20 @@
 #import <CoreData/CoreData.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    __block    UIBackgroundTaskIdentifier bgTask;
+}
+
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property(nonatomic,retain)NSArray *mapLines;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-
-
-@property(nonatomic,retain)NSArray *mapLines;
 
 
 @end
