@@ -1632,7 +1632,7 @@
 
     
     
-    if (horizontal>0 && horizontal<700 && vertical>0 && vertical<50) {
+    if (horizontal>0 && horizontal<70 && vertical>0 && vertical<50) {
 #pragma mark - 给数据model赋值=========== 海拔(最高 最低 实时) 经纬度(开始，实时)
         //海拔
         CLLocation *currentLocation = userLocation.location;
