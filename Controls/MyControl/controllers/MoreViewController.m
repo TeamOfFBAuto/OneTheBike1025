@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view from its nib.
     //适配ios7navigationbar高度
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
     }
     
     [self.navigationController.navigationBar setBackgroundImage:NAVIGATION_IMAGE forBarMetrics: UIBarMetricsDefault];
@@ -56,7 +56,7 @@
     header.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = header;
     
-    titles_arr = @[@"给个好评",@"联系轨记",@"反馈意见",@"帮助说明",@"更换账号"];
+    titles_arr = @[@"给个好评",@"联系骑叭",@"反馈意见",@"帮助说明",@"更换账号"];
     imagesArray = @[@"more_good",@"more_contact",@"more_recommend",@"more_help",@"more_update"];
 }
 
@@ -90,8 +90,14 @@
 
 - (void)gotoTelephone
 {
-    NSString *num = [[NSString alloc] initWithFormat:@"tel://%@",@"18612389982"];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:num]];
+//    NSString *num = [[NSString alloc] initWithFormat:@"tel://%@",@"18612389982"];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:num]];
+    NSString *title = @"骑叭是一款专门为骑行爱好者量身打造的骑行软件,加入我们吧。";
+    NSString *message = @"活动发布微博:新浪微博搜索\"骑叭\"\n叭友吐槽QQ群:284570442";
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    
+    [alert show];
+    
 }
 
 - (void)gotoCheckVersion
@@ -131,12 +137,8 @@
         {
             NSLog(@"反馈意见");
             
-            
             [self showNativeFeedbackWithAppkey:@"5440c181fd98c5a723000ea0"];
 
-            
-            
-            
         }
             break;
         case 3:

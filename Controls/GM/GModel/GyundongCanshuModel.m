@@ -33,7 +33,7 @@
         self.coorStr = @"0";
         self.podu = @"0";
         self.pashenglv = @"0.0";
-        self.bpm = @"0";
+        self.bpm = 0;
         
     }
     

@@ -11,7 +11,7 @@
 #import "UserInfoHeaderCell.h"
 #import "UserInfoClass.h"
 
-@interface UserInfoViewController ()
+@interface UserInfoViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     NSArray *titles_arr;
     MBProgressHUD *loading;
@@ -19,6 +19,8 @@
     UserInfoClass *userInfo;
     
     BOOL haveChange;//判断是否有改变
+    
+    UserInfoHeaderCell *cell_header;//头像cell
 }
 
 @end
@@ -111,6 +113,10 @@
         
         if (success == 1) {
             
+            NSString *userName = [result objectForKey:@"nickName"];
+            
+            [LTools cache:userName ForKey:USER_NAME];
+            
             [LTools showMBProgressWithText:@"个人资料修改成功" addToView:self.view];
             
             haveChange = NO;
@@ -144,6 +150,7 @@
         
         userInfo = [[UserInfoClass alloc]initWithDictionary:result];
         
+        [LTools cache:userInfo.nickName ForKey:USER_NAME];
         
         [self.tableView reloadData];
         
@@ -320,7 +327,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
+    if (indexPath.row == 0) {
+        
+        //头像
+        
+        UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从手机相册选择", nil];
+        [sheet showInView:self.view];
+        
+        
+    }else if (indexPath.row == 1) {
         
         //昵称
         
@@ -367,19 +382,29 @@
     if (indexPath.row == 0) {
         static NSString * identifier1= @"UserInfoHeaderCell";
         
-        UserInfoHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
-        if (cell == nil) {
-            cell = [[[NSBundle mainBundle]loadNibNamed:@"UserInfoHeaderCell" owner:self options:nil]objectAtIndex:0];
+        cell_header = [tableView dequeueReusableCellWithIdentifier:identifier1];
+        if (cell_header == nil) {
+            cell_header = [[[NSBundle mainBundle]loadNibNamed:@"UserInfoHeaderCell" owner:self options:nil]objectAtIndex:0];
         }
-        cell.separatorInset = UIEdgeInsetsMake(7, 10, 10, 10);
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.aTitleLabel.text = [titles_arr objectAtIndex:indexPath.row];
+        cell_header.separatorInset = UIEdgeInsetsMake(7, 10, 10, 10);
+        cell_header.backgroundColor = [UIColor clearColor];
+        cell_header.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell_header.aTitleLabel.text = [titles_arr objectAtIndex:indexPath.row];
         
-        NSString *head = [LTools cacheForKey:USER_HEAD_IMAGEURL];
-        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:head] placeholderImage:nil];
+//        NSString *head = [LTools cacheForKey:USER_HEAD_IMAGEURL];
+//        [cell_header.headImageView sd_setImageWithURL:[NSURL URLWithString:head] placeholderImage:nil];
         
-        return cell;
+        UIImage *headImage = [LTools getImageForUserId:[LTools cacheForKey:USER_CUSTID]];
+        
+        if (headImage) {
+            
+            cell_header.headImageView.image = headImage;
+        }else
+        {
+            cell_header.headImageView.image = [UIImage imageNamed:@"bike_default"];
+        }
+        
+        return cell_header;
         
     }
     
@@ -426,4 +451,106 @@
     return cell;
     
 }
+
+#pragma - mark imagePicker 代理
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    
+    if ([mediaType isEqualToString:@"public.image"]) {
+        
+        //压缩图片 不展示原图
+        UIImage *originImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        
+        UIImage * scaleImage = [self scaleToSizeWithImage:originImage size:CGSizeMake(56, 56)];
+        
+        NSData *data;
+        
+        //以下这两步都是比较耗时的操作，最好开一个HUD提示用户，这样体验会好些，不至于阻塞界面
+        if (UIImagePNGRepresentation(scaleImage) == nil) {
+            //将图片转换为JPG格式的二进制数据
+            data = UIImageJPEGRepresentation(scaleImage, 1.0);
+        } else {
+            //将图片转换为PNG格式的二进制数据
+            data = UIImagePNGRepresentation(scaleImage);
+        }
+        
+        //将二进制数据生成UIImage
+        UIImage *image = [UIImage imageWithData:data];
+        
+        
+        cell_header.headImageView.image = image;
+        
+        
+        [LTools saveImageToDocWithUserId:[LTools cacheForKey:USER_CUSTID] WithImage:image];
+        
+        [picker dismissViewControllerAnimated:NO completion:^{
+            
+            
+        }];
+        
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (UIImage *)scaleToSizeWithImage:(UIImage *)img size:(CGSize)size{
+    UIGraphicsBeginImageContext(size);
+    [img drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
+#pragma - mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        
+        BOOL is =  [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+        if (is) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+            picker.delegate = self;
+            
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            [self presentViewController:picker animated:YES completion:^{
+                
+            }];
+        }else
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"不支持相机" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+
+        
+    }else if (buttonIndex == 1){
+        
+        
+        BOOL is =  [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
+        if (is) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+            picker.delegate = self;
+            
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            [self presentViewController:picker animated:YES completion:^{
+                
+            }];
+        }else
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"不支持相册" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+    }
+}
+
 @end

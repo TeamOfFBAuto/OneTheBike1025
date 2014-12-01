@@ -195,7 +195,7 @@
     cell.ranking_num.text = model.rowid;
     cell.username_label.text = model.nickName;
     [cell.header_imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BASE_URL,model.headPhoto]] placeholderImage:nil];
-    cell.distance_label.text = [NSString stringWithFormat:@"里程:%@Km",model.sumCyclingKm];
+    cell.distance_label.text = [NSString stringWithFormat:@"里程:%.2fKm",[model.sumCyclingKm floatValue]];
     
     return cell;
 }

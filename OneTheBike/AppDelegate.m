@@ -34,10 +34,17 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaHandler.h"
 
+#import "UMSocialTencentWeiboHandler.h"
+
 #define UmengAppkey @"5423e48cfd98c58eed00664f"
 
+//骑叭
 #define SinaAppKey @"2470821654"
 #define SinaAppSecret @"bea7d21c9647406a25960a617a8e40a8"
+
+////fbauto
+//#define SinaAppKey @"2437553400"
+//#define SinaAppSecret @"7379cf0aa245ba45a66cc7c9ae9b1dba"
 
 //bike
 #define QQAPPID @"1103196390" //十六进制:41C170E6; 生成方法:echo 'ibase=10;obase=16;1103196390'|bc
@@ -53,6 +60,11 @@
 #define REN_APPID @"272107"
 #define REN_APIKEY @"8399387c4fe34861b73585d5f99d93c4"
 #define REN_SecretKey @"1762208535a047e18bd0799b7a21b7ab"
+
+//腾讯微博
+
+#define TENCENT_APPKEY @"801549982"
+#define TENCENT_APPSECRET @"4305f299c4774e5c80d4582ef4128928"
 
 //高德地图
 #import <MAMapKit/MAMapKit.h>
@@ -206,7 +218,8 @@
 #pragma mark - 开始后点击返回按钮
 -(void)gKeepStart{
     
-    [_navc3.tabBarItem setImage:nil];
+    [_navc3.tabBarItem setImage:[UIImage imageNamed:@"gqixingzhong.png"]];
+    [_navc3.tabBarItem setImageInsets:UIEdgeInsetsMake(-2, 0, 2, 0)];
     [_navc3.tabBarItem setTitle:@"骑行中"];
     _isStart = YES;
     
@@ -417,6 +430,8 @@
     
     //设置微信AppId，设置分享url，默认使用友盟的网址
     [UMSocialWechatHandler setWXAppId:WXAPPID appSecret:WXAPPSECRET url:@"http://www.umeng.com/social"];
+    
+    [UMSocialTencentWeiboHandler openSSOWithRedirectUrl:@"http://sns.whalecloud.com/tencent2/callback"];
 
 }
 

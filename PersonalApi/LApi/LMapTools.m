@@ -28,19 +28,6 @@
             
             MAPolyline *temp = (MAPolyline *)pp;
             
-//            CLLocationCoordinate2D tempCoor[temp.pointCount];
-//            
-//            NSMutableArray *point_cor_arr = [NSMutableArray arrayWithCapacity:temp.pointCount * 2];
-//            
-//            [temp getCoordinates:tempCoor range:NSMakeRange(0, temp.pointCount)];
-//            
-//            for (int i = 0; i < temp.pointCount; i ++) {
-//                CLLocationCoordinate2D temp = tempCoor[i];
-//                
-//                [point_cor_arr addObject:[NSString stringWithFormat:@"%f",temp.longitude]];
-//                [point_cor_arr addObject:[NSString stringWithFormat:@"%f",temp.latitude]];
-//            }
-            
             NSString *coordinatesString = [self coordinateStringPolyline:temp];
             
             LMaplineClass *polyLine = [[LMaplineClass alloc]initMAPolylineWithMapPointX:temp.points->x pointY:temp.points->y pointCount:temp.pointCount type:@"MAPolyline" coordinatesString:coordinatesString];

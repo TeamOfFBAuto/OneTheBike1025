@@ -36,7 +36,7 @@
     
     
     
-//    //测试颜色
+    //测试颜色
 //    self.titleLable.backgroundColor = [UIColor redColor];
 //    self.contentLable.backgroundColor = [UIColor grayColor];
 //    self.danweiLabel.backgroundColor = [UIColor orangeColor];

@@ -8,7 +8,7 @@
 
 #import "GHistoryDetailViewController.h"
 #import "ShareView.h"
-
+#import "Gmap.h"
 @interface GHistoryDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ShareViewDelegate>
 @property (nonatomic, strong) NSMutableArray *overlays;
 @end
@@ -21,30 +21,24 @@
 
 
 -(void)dealloc{
-    [self returnAction];
+    
+    
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [self returnAction];
+}
 
 #pragma mark - 地图相关内存管理 点击返回按钮vc释放的时候走
 - (void)returnAction
 {
     [self clearMapView];
     
-    
-    
-    self.mapView.userTrackingMode  = MAUserTrackingModeNone;
-    
-//    [self.mapView removeObserver:self forKeyPath:@"showsUserLocation"];
-    
 }
 - (void)clearMapView
 {
-    self.mapView.showsUserLocation = NO;
-    
     [self.mapView removeAnnotations:self.mapView.annotations];
-    
     [self.mapView removeOverlays:self.mapView.overlays];
-    
     self.mapView.delegate = nil;
 }
 
@@ -58,7 +52,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     
-    
+    _isShowMap = NO;
     
     
     
@@ -68,11 +62,11 @@
     
     
     //自定义导航栏
-    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 35)];
+    UIView *shangGrayView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 44)];
     shangGrayView.backgroundColor = RGBCOLOR(105, 105, 105);
     
-    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, 3, 60, 30)];
-    titielLabel.font = [UIFont systemFontOfSize:16];
+    UILabel *titielLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, 7, 60, 30)];
+    titielLabel.font = [UIFont systemFontOfSize:17];
     titielLabel.textColor = [UIColor whiteColor];
     titielLabel.textAlignment = NSTextAlignmentCenter;
     titielLabel.text = @"详细";
@@ -85,14 +79,14 @@
     
     [shareBtn addTarget:self action:@selector(gshare) forControlEvents:UIControlEventTouchUpInside];
     
-    shareBtn.frame = CGRectMake(270, 3, 30, 30);
+    shareBtn.frame = CGRectMake(270, 3, 40, 40);
     [shangGrayView addSubview:shareBtn];
     
     
     //返回按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:[UIImage imageNamed:@"backButton.png"] forState:UIControlStateNormal];
-    [btn setFrame:CGRectMake(5, 0, 35, 35)];
+    [btn setFrame:CGRectMake(5, 3, 40, 40)];
     [btn addTarget:self action:@selector(gGoBackVc) forControlEvents:UIControlEventTouchUpInside];
     [shangGrayView addSubview:btn];
     [self.view addSubview:shangGrayView];
@@ -100,6 +94,8 @@
     
     
     [self initMap];
+    
+    [self initGestureRecognizer];
     
     [self showRoadLineInMapViewWith:self.passModel];
     
@@ -131,26 +127,29 @@
 -(void)customTabelView{
     
     
-    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"ghaiba.png"],[UIImage imageNamed:@"gbpm.png"]];
-    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"当前海拔",@"卡路里"];
+    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
+    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
     
     
     
     
-    UIView *tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.mapView.frame), 320, 30)];
-    tableHeaderView.backgroundColor = RGBCOLOR(105, 105, 105);
+    _tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.mapView.frame), 320, 30)];
+    _tableHeaderView.backgroundColor = RGBCOLOR(105, 105, 105);
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 80, 20)];
     titleLabel.font = [UIFont systemFontOfSize:15];
     titleLabel.text = @"运动信息";
     titleLabel.textColor = [UIColor whiteColor];
-    [tableHeaderView addSubview:titleLabel];
-    [self.view addSubview:tableHeaderView];
+    [_tableHeaderView addSubview:titleLabel];
+    [self.view addSubview:_tableHeaderView];
     
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(tableHeaderView.frame), 320, iPhone5?568-35-64-30:480-35-64-30) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_tableHeaderView.frame), 320, iPhone5?568-64-200-30:480-64-150-30) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    
+    
+    NSLog(@"%@   %@",NSStringFromCGRect(_tableHeaderView.frame),NSStringFromCGRect(_tableView.frame));
     
     
 }
@@ -198,13 +197,73 @@
     //    contentLabel.backgroundColor = [UIColor orangeColor];
     
     
+    switch (indexPath.row) {
+        case 0://时间
+        {
+            contentLabel.text = [self.passModel.startTime substringWithRange:NSMakeRange(0, 10)];
+        }
+            break;
+        case 1://坡度
+        {
+            contentLabel.text = self.passModel.podu;
+        }
+            break;
+        case 2://配速
+        {
+            contentLabel.text = self.passModel.peisu;
+        }
+            break;
+        case 3://爬升率
+        {
+            contentLabel.text = self.passModel.pashenglv;
+        }
+            break;
+        case 4://海拔上升
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%d米",self.passModel.haibaUp];
+        }
+            break;
+        case 5://海拔下降
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%d米",self.passModel.haibaDown];
+        }
+            break;
+        case 6://平均速度
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.passModel.pingjunsudu];
+        }
+            break;
+        case 7://最高速度
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.passModel.maxSudu];
+        }
+            break;
+        case 8://距离
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%.1fkm",self.passModel.juli];
+        }
+            break;
+        case 9://卡路里
+        {
+            contentLabel.text = [NSString stringWithFormat:@"%dbpm",self.passModel.bpm];
+        }
+            break;
+            
+            
+            
+        default:
+            break;
+    }
+    
+    
+    
     
     return cell;
 }
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 11;
+    return 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -220,7 +279,9 @@
 ///初始化地图
 -(void)initMap{
     //地图相关初始化
-    self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0, 55, 320, iPhone5?250:200)];
+    self.mapView = [Gmap sharedMap];
+    [self.mapView setFrame:CGRectMake(0, 64, 320, iPhone5?200:150)];
+//    self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0, 64, 320, iPhone5?200:150)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
     
@@ -310,12 +371,12 @@
         /* 起点. */
         if ([[annotation title] isEqualToString:NavigationViewControllerStartTitle])
         {
-            poiAnnotationView.image = [UIImage imageNamed:@"road_start"];
+            poiAnnotationView.image = [UIImage imageNamed:@"gGuijiStart.png"];
         }
         /* 终点. */
         else if([[annotation title] isEqualToString:NavigationViewControllerDestinationTitle])
         {
-            poiAnnotationView.image = [UIImage imageNamed:@"road_end"];
+            poiAnnotationView.image = [UIImage imageNamed:@"gGuijiEnd.png"];
         }
         /* 途经点. */
         else if([[annotation title] isEqualToString:NavigationViewControllerMiddleTitle])
@@ -354,6 +415,9 @@
     NSString *lat = a[0];
     NSString *lon = a[1];
     start = CLLocationCoordinate2DMake([lat doubleValue], [lon doubleValue]);
+    
+    self.mapView.zoomLevel = 17;
+    self.mapView.centerCoordinate = start;
     
     CLLocationCoordinate2D end;
     NSArray *b = [model.coorStr componentsSeparatedByString:@","];
@@ -456,7 +520,49 @@
 }
 
 
+- (void)initGestureRecognizer
+{
+    UITapGestureRecognizer *longPress = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                            action:@selector(handleLongPress:)];
+    
+    [self.mapView addGestureRecognizer:longPress];
+}
 
+- (void)handleLongPress:(UITapGestureRecognizer *)longPress
+{
+    
+    
+    
+    self.mapView.frame = CGRectMake(0, 64, 320, iPhone5? 568-64:480-64);
+    
+    if (_isShowMap) {
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            _tableHeaderView.frame = TABLEHEADERVIEW_FRAME_UP;
+            _tableView.frame = TABLEVIEW_FRAME_UP;
+            self.mapView.frame = MAP_FRAME_UP;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }else{
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            _tableHeaderView.frame = TABLEHEADERVIEW_FRAME_DOWN;
+            _tableView.frame = TABLEVIEW_FRAME_DOWN;
+            self.mapView.frame = MAP_FRAME_DOWN;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+    _isShowMap = !_isShowMap;
+    
+    
+    
+    
+    
+}
 
 
 -(void)gGoBackVc{

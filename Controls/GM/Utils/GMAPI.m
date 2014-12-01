@@ -224,6 +224,8 @@
     return NO;
 }
 
+
+
 + (NSDictionary *)getRoadLinesForRoadId:(int)roadId
 {
     //打开数据库
@@ -309,6 +311,62 @@
     }
     sqlite3_finalize(stmt);
     return arr;
+}
+
+
++ (LRoadClass *)getRoadLinesForDateLineId:(NSString *)dateLineId
+{
+    //打开数据库
+    sqlite3 *db = [DataBase openDB];
+    //创建操作指针
+    sqlite3_stmt *stmt = nil;
+    //执行SQL语句
+    int result = sqlite3_prepare_v2(db, "select * from RoadLines where serverRoadId = ?", -1, &stmt, nil);
+    
+    
+    if (result == SQLITE_OK) {
+        
+        sqlite3_bind_text(stmt, 1, [dateLineId UTF8String], -1, NULL);
+        
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            
+            int roadid = sqlite3_column_int(stmt, 0);
+            NSString *startName = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 1)];
+            NSString *endName = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 2)];
+            NSString *distance = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 3)];
+            NSString *lineString = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 4)];
+            NSString *date = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 5)];
+            NSString *startStr = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 7)];
+            NSString *endStr = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 8)];
+            
+            int isOpen = sqlite3_column_int(stmt, 9);
+            int isUpload = sqlite3_column_int(stmt, 10);
+            
+            NSString *serverRoadId = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 11)];
+            
+            NSArray *start_arr = [startStr componentsSeparatedByString:@","];
+            
+            CLLocationCoordinate2D start;
+            if (start_arr.count == 2) {
+                start = CLLocationCoordinate2DMake([[start_arr objectAtIndex:0]floatValue], [[start_arr objectAtIndex:1]floatValue]);
+            }
+            
+            NSArray *end_arr = [endStr componentsSeparatedByString:@","];
+            CLLocationCoordinate2D end;
+            if (end_arr.count == 2) {
+                end = CLLocationCoordinate2DMake([[end_arr objectAtIndex:0]floatValue], [[end_arr objectAtIndex:1]floatValue]);
+            }
+            
+            LRoadClass *road = [[LRoadClass alloc]initWithRoadId:roadid startName:startName endName:endName distance:distance lineString:lineString dateline:date startCoor:start endCoor:end];
+            road.isOpen = isOpen;
+            road.isUpload = isUpload;
+            road.serverRoadId = serverRoadId;
+            
+            return road;
+        }
+    }
+    sqlite3_finalize(stmt);
+    return nil;
 }
 
 
@@ -611,11 +669,125 @@
 
 
 
++(NSString *)getWeekStrWithInt:(int)theDay{
+    NSString *xingqiStr = @"";
+    switch (theDay) {
+        case 1:
+        {
+            xingqiStr = @"星期日";
+        }
+            break;
+        case 2:
+        {
+            xingqiStr = @"星期一";
+        }
+            break;
+        case 3:
+        {
+            xingqiStr = @"星期二";
+        }
+            break;
+        case 4:
+        {
+            xingqiStr = @"星期三";
+        }
+            break;
+        case 5:
+        {
+            xingqiStr = @"星期四";
+        }
+            break;
+        case 6:
+        {
+            xingqiStr = @"星期五";
+        }
+            break;
+        case 7:
+        {
+            xingqiStr = @"星期六";
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return xingqiStr;
+}
+
++(int)getWeekDayFromDateStr:(NSString *)dateStr{
+    
+        
+        //根据字符串转换成一种时间格式 供下面解析
+//        NSString* string = @"2013-07-16 13:21";
+    
+        NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
+        
+        [inputFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+        
+        NSDate* inputDate = [inputFormatter dateFromString:dateStr];
+        
+        
+        
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        
+        NSInteger unitFlags = NSYearCalendarUnit |
+        
+        NSMonthCalendarUnit |
+        
+        NSDayCalendarUnit |
+        
+        NSWeekdayCalendarUnit |
+        
+        NSHourCalendarUnit |
+        
+        NSMinuteCalendarUnit |
+        
+        NSSecondCalendarUnit;
+        
+        
+        
+        comps = [calendar components:unitFlags fromDate:inputDate];
+        
+        int week = [comps weekday];
+        
+    return week;
+    
+    
+}
 
 
 
++(NSString *)getYearMonthDayHMS:(NSDate *)date{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    //设定时间格式,这里可以设置成自己需要的格式
+    
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    //用[NSDate date]可以获取系统当前时间
+    
+    NSString *currentDateStr = [dateFormatter stringFromDate:date];
+    
+    //输出格式为：2010-10-27 10:22:13
+    
+    return currentDateStr;
+}
 
 
+
++(NSString *)timechange:(NSString *)timeLine
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[timeLine doubleValue]];
+    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+    return confromTimespStr;
+}
 
 
 @end

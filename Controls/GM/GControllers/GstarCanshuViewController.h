@@ -7,7 +7,7 @@
 //
 
 
-//运动参数
+//运动参数界面
 #import <UIKit/UIKit.h>
 @class GStartViewController;
 

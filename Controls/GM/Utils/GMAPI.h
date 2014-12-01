@@ -15,6 +15,8 @@
 #define END_COOR_STRING @"endCoorString"
 #define LINE_JSONSTRING @"lineJsonString"//线的jsonString
 
+@class LRoadClass;
+
 typedef enum{
     Type_Road = 1,//路书
     Type_GUIJI //轨迹
@@ -27,8 +29,20 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
 
 @interface GMAPI : NSObject
 
-///根据时间获取星期
+///根据NSDate获取星期
 + (NSUInteger)getWeekdayFromDate:(NSDate*)date;
+
+///根据一个时间str获取星期
++(int)getWeekDayFromDateStr:(NSString *)dateStr;
+
+///传一个int 返回星期几str  1为星期日 。。。。。7为星期六
++(NSString *)getWeekStrWithInt:(int)theDay;
+
+///传一个date 返回年月日时分秒
++(NSString*)getYearMonthDayHMS:(NSDate*)date;
+
+///时间线转年月日时分秒
++(NSString *)timechange:(NSString *)timeLine;
 
 
 ///根据定位返回的地磁场doule值 返回方位 东 西 南 北 东北 东南 西南 西北
@@ -81,10 +95,6 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
              endName:(NSString *)endName
                 Open:(BOOL)isOpen;// yes 1 地图显示  NO 0 不显示
 
-
-
-
-
 + (void)updateRoadId:(int)roadId isUpload:(BOOL)finish;//是否上传成功
 
 + (void)updateRoadId:(int)roadId serverRoadId:(NSString *)serverRoadID isUpload:(BOOL)finish;//更改上传状态以及serverRoadID
@@ -116,7 +126,7 @@ const static NSString *APIKey_MAP = @"0b92a81f23cc5905c30dcb4c39da609d";
                           isOpen:(BOOL)open;//获取所有是否打开的路书或者轨迹
 
 
-
++ (LRoadClass *)getRoadLinesForDateLineId:(NSString *)dateLineId;//根据serverRoadId获取roadClass对象
 
 
 @end

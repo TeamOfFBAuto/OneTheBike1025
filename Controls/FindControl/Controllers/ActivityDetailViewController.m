@@ -39,7 +39,7 @@
     
     _data_array = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    self.title = @"详情";
     UIBarButtonItem *spaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spaceButton.width = -5;
     
@@ -55,7 +55,7 @@
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.text = @"活动详情";
     
-    _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT-64)];
+    _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT)];
     [self.view addSubview:_myScrollView];
     
     [self getData];
@@ -133,12 +133,12 @@
     
     CGRect rectr1 = [self.aModel.content boundingRectWithSize:CGSizeMake(DEVICE_WIDTH-20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]} context:nil];
     
-    UILabel * content_label = [[UILabel alloc] initWithFrame:CGRectMake(10,height+10,DEVICE_WIDTH-10,rectr1.size.height)];
-    content_label.text = _aModel.title;
+    UILabel * content_label = [[UILabel alloc] initWithFrame:CGRectMake(10,height+20,DEVICE_WIDTH-20,rectr1.size.height)];
+    content_label.text = _aModel.content;
     content_label.font = [UIFont systemFontOfSize:14];
     content_label.textAlignment = NSTextAlignmentLeft;
     content_label.numberOfLines = 0;
-    content_label.textColor = RGBCOLOR(3,3,3);
+    content_label.textColor = RGBCOLOR(39,39,39);
     [_myScrollView addSubview:content_label];
     
     height+=rectr1.size.height+10;

@@ -19,7 +19,7 @@
 #import "GTimeSwitch.h"
 #import "ShareView.h"
 
-@interface GhistoryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,UIScrollViewDelegate>
+@interface GhistoryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray * _fangkaiArray;
@@ -38,6 +38,10 @@
     
     //请求轨迹数据 count为0 _currentPage不加
     int _guijiCount;
+    
+    int isOpen[2000];
+    
+    
     
 }
 
