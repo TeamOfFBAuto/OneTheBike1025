@@ -33,6 +33,9 @@
 
 #import "CommonUtility.h"
 
+#import <math.h>
+
+#import "GHistoryDetailViewController.h"
 
 
 
@@ -143,6 +146,8 @@
     MAPointAnnotation *detinationAnnotation;//终点
     NSMutableArray *middleAnntations;//途经点
     
+    //轨迹
+    MAPointAnnotation *guijiStartAnnotation;//轨迹绿色起点
     
     
     
@@ -156,6 +161,15 @@
     
     UILabel *xxxxLabel;
     
+    
+    
+    int _shangyicihaiba;
+    int _shangyiciyongshi;
+    
+    
+    //跳转详细页面需要的lroad对象
+    LRoadClass *_passModel;
+    
 }
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *search;
@@ -167,8 +181,7 @@
 @property(nonatomic,strong) NSMutableArray *routeLineArray;
 @property(nonatomic,strong)NSMutableArray *needRemoveLineArray;
 
-@property(nonatomic,strong)NSString *jixushangchanURlStr;//上传失败继续上传的url字符串
-@property(nonatomic,strong)NSString *jixushangchanJsonStr;
+
 
 
 @property(nonatomic,strong)NSArray *lines;//小胖界面 跳转过来显示的路书线数组

@@ -11,6 +11,7 @@
 #define NavigationViewControllerStartTitle     @"起点"
 #define NavigationViewControllerDestinationTitle @"终点"
 #define NavigationViewControllerMiddleTitle      @"途经点"
+#define guijistart @"轨迹起点"
 
 
 #define L_START_POINT_COORDINATE @"start_point_coor"//起点坐标

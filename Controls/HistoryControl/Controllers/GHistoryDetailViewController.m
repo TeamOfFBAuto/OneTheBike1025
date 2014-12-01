@@ -9,7 +9,7 @@
 #import "GHistoryDetailViewController.h"
 #import "ShareView.h"
 #import "Gmap.h"
-@interface GHistoryDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ShareViewDelegate>
+@interface GHistoryDetailViewController ()<UITableViewDataSource,UITableViewDelegate,ShareViewDelegate,UMSocialUIDelegate>
 @property (nonatomic, strong) NSMutableArray *overlays;
 @end
 
@@ -55,7 +55,6 @@
     _isShowMap = NO;
     
     
-    
     if ([[[UIDevice currentDevice]systemVersion]doubleValue] >=7.0) {
         self.navigationController.navigationBar.translucent = NO;
     }
@@ -93,6 +92,7 @@
     
     
     
+    
     [self initMap];
     
     [self initGestureRecognizer];
@@ -104,6 +104,13 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,24 +119,17 @@
 }
 
 
-
--(void)gshare
-{
-    ShareView * share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
-    share_view.userInteractionEnabled = YES;
-    share_view.delegate = self;
-    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
-    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
-}
-
-
-
 -(void)customTabelView{
     
     
-    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
-    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
+//    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"gpodu.png"],[UIImage imageNamed:@"gpeisu.png"],[UIImage imageNamed:@"gpashenglv"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
+//    _titleArray = @[@"时间",@"坡度",@"配速",@"爬升率",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
     
+    
+    
+    
+    _imageArray = @[[UIImage imageNamed:@"gtime.png"],[UIImage imageNamed:@"ghaibashang.png"],[UIImage imageNamed:@"ghaibaxia.png"],[UIImage imageNamed:@"gpingjunsudu.png"],[UIImage imageNamed:@"gzuigaosudu.png"],[UIImage imageNamed:@"gongli.png"],[UIImage imageNamed:@"gbpm.png"]];
+    _titleArray = @[@"时间",@"海拔上升",@"海拔下降",@"平均速度",@"最高速度",@"距离",@"卡路里"];
     
     
     
@@ -203,47 +203,33 @@
             contentLabel.text = [self.passModel.startTime substringWithRange:NSMakeRange(0, 10)];
         }
             break;
-        case 1://坡度
-        {
-            contentLabel.text = self.passModel.podu;
-        }
-            break;
-        case 2://配速
-        {
-            contentLabel.text = self.passModel.peisu;
-        }
-            break;
-        case 3://爬升率
-        {
-            contentLabel.text = self.passModel.pashenglv;
-        }
-            break;
-        case 4://海拔上升
+        
+        case 1://海拔上升
         {
             contentLabel.text = [NSString stringWithFormat:@"%d米",self.passModel.haibaUp];
         }
             break;
-        case 5://海拔下降
+        case 2://海拔下降
         {
             contentLabel.text = [NSString stringWithFormat:@"%d米",self.passModel.haibaDown];
         }
             break;
-        case 6://平均速度
+        case 3://平均速度
         {
             contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.passModel.pingjunsudu];
         }
             break;
-        case 7://最高速度
+        case 4://最高速度
         {
             contentLabel.text = [NSString stringWithFormat:@"%.1fkm/h",self.passModel.maxSudu];
         }
             break;
-        case 8://距离
+        case 5://距离
         {
             contentLabel.text = [NSString stringWithFormat:@"%.1fkm",self.passModel.juli];
         }
             break;
-        case 9://卡路里
+        case 6://卡路里
         {
             contentLabel.text = [NSString stringWithFormat:@"%dbpm",self.passModel.bpm];
         }
@@ -263,7 +249,7 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return 7;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -567,6 +553,188 @@
 
 -(void)gGoBackVc{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+
+
+#pragma mark - 分享
+
+//截屏
+-(UIImage*)screenShots
+{
+    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+    if (NULL != UIGraphicsBeginImageContextWithOptions) {
+        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    }
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    for (UIWindow * window in [[UIApplication sharedApplication] windows]) {
+        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen]) {
+            CGContextSaveGState(context);
+            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            CGContextConcatCTM(context, [window transform]);
+            CGContextTranslateCTM(context, -[window bounds].size.width*[[window layer] anchorPoint].x, -[window bounds].size.height*[[window layer] anchorPoint].y);
+            [[window layer] renderInContext:context];
+            
+            CGContextRestoreGState(context);
+        }
+    }
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+    NSLog(@"Suceeded!");
+    return image;
+}
+
+////保存到相册
+//- (void)saveScreenshotToPhotosAlbum:(UIView *)view
+//{
+//    UIImageWriteToSavedPhotosAlbum([self captureScreen], nil, nil, nil);
+//}
+
+
+//合并图片
+-(UIImage *)mergerImage:(UIImage *)firstImage secodImage:(UIImage *)secondImage{
+    
+    CGSize imageSize = CGSizeMake(320, iPhone5?568:480);
+    UIGraphicsBeginImageContext(imageSize);
+    
+    [firstImage drawInRect:CGRectMake(0, 0, firstImage.size.width, firstImage.size.height)];
+    [secondImage drawInRect:CGRectMake(0, 64, secondImage.size.width, secondImage.size.height)];
+    
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resultImage;
+}
+
+//地图截屏
+-(void) captureAction: (CGRect) inRect
+{
+    _jiepingMapImage = [self.mapView takeSnapshotInRect:inRect] ;
+}
+
+
+
+//点击分享按钮
+-(void)gshare
+{
+    UIImage *im1 = [self screenShots];
+    
+    NSLog(@"%@",NSStringFromCGSize(im1.size));
+    
+    [self captureAction:CGRectMake(0, 0, 320,self.mapView.frame.size.height)];
+    
+    NSLog(@"%@",NSStringFromCGSize(_jiepingMapImage.size));
+    
+    _jiepingImage = [self mergerImage:im1 secodImage:_jiepingMapImage];
+    
+//    UIImageView *imv = [[UIImageView alloc]initWithFrame:CGRectMake(10, 50, 200, 400)];
+//    imv.image = _jiepingImage;
+//    [self.view addSubview:imv];
+    
+    ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
+    share_view.userInteractionEnabled = YES;
+    share_view.delegate = self;
+    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
+}
+
+-(void)shareTapWithType:(NSString *)type
+{
+    
+    [self autoShareTo:type];
+}
+
+
+- (void)autoShareTo:(NSString *)type
+{
+    NSString *content = [NSString stringWithFormat:@"#骑行分享抽奖#本次骑行%.1f公里，用时%@，均速%.1fkm/h，我来定义我的骑行@骑叭",self.passModel.juli,self.passModel.yongshi,self.passModel.pingjunsudu];
+    
+    NSString *url = @" ";
+    
+    UIImage *shareImage = _jiepingImage;
+    
+    if ([type isEqualToString:UMShareToQQ]) {
+        
+        
+        [UMSocialData defaultData].extConfig.qqData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ分享成功" addToView:self.view];
+                
+            }else{
+                
+                NSLog(@"分享失败");
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToSina]){
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:[NSString stringWithFormat:@"%@%@",content,url] shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToQzone]){
+        
+        //qqzone
+        [UMSocialData defaultData].extConfig.qzoneData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
+            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
+                
+                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
+                
+            }else{
+                
+                
+            }
+        }];
+        
+        
+    }else if ([type isEqualToString:UMShareToWechatSession]){
+        
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToWechatTimeline]){
+        
+        [UMSocialData defaultData].extConfig.wechatTimelineData.url = url; //设置你自己的url地址;
+        
+        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
+        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+        
+    }else if ([type isEqualToString:UMShareToTencent]){
+        
+        [UMSocialData defaultData].extConfig.tencentData.urlResource = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeImage url:url];
+        
+        //        [UMSocialSnsService presentSnsIconSheetView:self
+        //                                             appKey:@"5423e48cfd98c58eed00664f"
+        //                                          shareText:content
+        //                                         shareImage:shareImage
+        //                                    shareToSnsNames:@[UMShareToTencent]
+        //                                           delegate:self];
+        
+        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToTencent] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                NSLog(@"分享成功！");
+            }
+        }];
+        
+        
+    }
+    
+    
+    
 }
 
 

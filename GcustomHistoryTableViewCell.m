@@ -62,9 +62,16 @@
     //星期
     
     NSLog(@"%@",theModel.startTime);
-    NSString *tt = [theModel.startTime substringToIndex:theModel.startTime.length-3];
+    NSString *tt = @"0";
+    if (theModel.startTime.length >19) {
+        tt = [theModel.startTime substringToIndex:theModel.startTime.length-9];//本地数据保存到时分秒 +0000
+    }else{
+        tt = [theModel.startTime substringToIndex:theModel.startTime.length - 3];//网络数据返回到时分秒
+    }
     int xx = [GMAPI getWeekDayFromDateStr:tt];
     NSString *xingqiStr = [GMAPI getWeekStrWithInt:xx];
+    
+    
     //年月
     NSString *yearMonth = [NSString stringWithFormat:@"%@.%@",[theModel.startTime substringWithRange:NSMakeRange(5, 2)],[theModel.startTime substringWithRange:NSMakeRange(8, 2)]];
     //时分秒

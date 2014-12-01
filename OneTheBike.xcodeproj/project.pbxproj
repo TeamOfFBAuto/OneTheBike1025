@@ -203,10 +203,8 @@
 		19DAE80A19D30C2D00519D22 /* OneTheBike.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE80819D30C2D00519D22 /* OneTheBike.xcdatamodeld */; };
 		19DAE80D19D30C2D00519D22 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE80C19D30C2D00519D22 /* ViewController.m */; };
 		19DAE81019D30C2D00519D22 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE80E19D30C2D00519D22 /* Main.storyboard */; };
-		19DAE81519D30C2D00519D22 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE81319D30C2D00519D22 /* LaunchScreen.xib */; };
 		19DAE82119D30C2D00519D22 /* OneTheBikeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE82019D30C2D00519D22 /* OneTheBikeTests.m */; };
 		19DAE84119D30F3100519D22 /* FindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE84019D30F3100519D22 /* FindViewController.m */; };
-		19DAE84419D30F4E00519D22 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE84319D30F4E00519D22 /* HistoryViewController.m */; };
 		19DAE84719D30F6000519D22 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DAE84619D30F6000519D22 /* MainViewController.m */; };
 		19DAE97F19D311D300519D22 /* add_beijing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE85019D311D300519D22 /* add_beijing@2x.png */; };
 		19DAE98019D311D300519D22 /* add_fenlei@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DAE85119D311D300519D22 /* add_fenlei@2x.png */; };
@@ -506,6 +504,11 @@
 		E30B129319FBF3B5005D5DA9 /* SharePlatformView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30B128F19FBF3B5005D5DA9 /* SharePlatformView.xib */; };
 		E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = E30B129119FBF3B5005D5DA9 /* ShareView.m */; };
 		E31F584919F638450064959E /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F584819F638450064959E /* StartViewController.m */; };
+		E32965BC1A0DF3C60080F0C0 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = E32965B71A0DF3C60080F0C0 /* default.png */; };
+		E32965BD1A0DF3C60080F0C0 /* default@2x-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E32965B81A0DF3C60080F0C0 /* default@2x-1.png */; };
+		E32965BE1A0DF3C60080F0C0 /* default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E32965B91A0DF3C60080F0C0 /* default@2x.png */; };
+		E32965BF1A0DF3C60080F0C0 /* default568-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E32965BA1A0DF3C60080F0C0 /* default568-1.png */; };
+		E32965C01A0DF3C60080F0C0 /* default568.png in Resources */ = {isa = PBXBuildFile; fileRef = E32965BB1A0DF3C60080F0C0 /* default568.png */; };
 		E361DA631A01A21100CA4EFA /* GTimeSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA621A01A21100CA4EFA /* GTimeSwitch.m */; };
 		E361DA661A01BA7100CA4EFA /* GhistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */; };
 		E36271F71A025A7800F35C2F /* gqixingzhong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */; };
@@ -854,14 +857,11 @@
 		19DAE80B19D30C2D00519D22 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		19DAE80C19D30C2D00519D22 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		19DAE80F19D30C2D00519D22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		19DAE81419D30C2D00519D22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		19DAE81A19D30C2D00519D22 /* OneTheBikeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTheBikeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19DAE81F19D30C2D00519D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19DAE82019D30C2D00519D22 /* OneTheBikeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneTheBikeTests.m; sourceTree = "<group>"; };
 		19DAE83F19D30F3100519D22 /* FindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindViewController.h; sourceTree = "<group>"; };
 		19DAE84019D30F3100519D22 /* FindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindViewController.m; sourceTree = "<group>"; };
-		19DAE84219D30F4E00519D22 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
-		19DAE84319D30F4E00519D22 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		19DAE84519D30F6000519D22 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		19DAE84619D30F6000519D22 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		19DAE85019D311D300519D22 /* add_beijing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_beijing@2x.png"; sourceTree = "<group>"; };
@@ -1181,8 +1181,13 @@
 		E30B129119FBF3B5005D5DA9 /* ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareView.m; sourceTree = "<group>"; };
 		E31F584719F638450064959E /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		E31F584819F638450064959E /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		E32965B71A0DF3C60080F0C0 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		E32965B81A0DF3C60080F0C0 /* default@2x-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x-1.png"; sourceTree = "<group>"; };
+		E32965B91A0DF3C60080F0C0 /* default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default@2x.png"; sourceTree = "<group>"; };
+		E32965BA1A0DF3C60080F0C0 /* default568-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default568-1.png"; sourceTree = "<group>"; };
+		E32965BB1A0DF3C60080F0C0 /* default568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default568.png; sourceTree = "<group>"; };
 		E361DA611A01A21100CA4EFA /* GTimeSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTimeSwitch.h; sourceTree = "<group>"; };
-		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTimeSwitch.m; sourceTree = "<group>"; };
+		E361DA621A01A21100CA4EFA /* GTimeSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTimeSwitch.m; path = ../Controls/GM/Utils/GTimeSwitch.m; sourceTree = "<group>"; };
 		E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhistoryViewController.h; sourceTree = "<group>"; };
 		E361DA651A01BA7100CA4EFA /* GhistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhistoryViewController.m; sourceTree = "<group>"; };
 		E36271F61A025A7800F35C2F /* gqixingzhong@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gqixingzhong@2x.png"; sourceTree = "<group>"; };
@@ -1835,7 +1840,6 @@
 				13736EA719FD13D6009E50D2 /* RootViewController.h */,
 				13736EA819FD13D6009E50D2 /* RootViewController.m */,
 				19DAE80E19D30C2D00519D22 /* Main.storyboard */,
-				19DAE81319D30C2D00519D22 /* LaunchScreen.xib */,
 				19DAE80819D30C2D00519D22 /* OneTheBike.xcdatamodeld */,
 				13B4AFA51A02842100E16EFA /* Images.xcassets */,
 				19DAE80119D30C2D00519D22 /* Supporting Files */,
@@ -1861,6 +1865,11 @@
 		19DAE81D19D30C2D00519D22 /* OneTheBikeTests */ = {
 			isa = PBXGroup;
 			children = (
+				E32965B71A0DF3C60080F0C0 /* default.png */,
+				E32965B81A0DF3C60080F0C0 /* default@2x-1.png */,
+				E32965B91A0DF3C60080F0C0 /* default@2x.png */,
+				E32965BA1A0DF3C60080F0C0 /* default568-1.png */,
+				E32965BB1A0DF3C60080F0C0 /* default568.png */,
 				19DAE82019D30C2D00519D22 /* OneTheBikeTests.m */,
 				19DAE81E19D30C2D00519D22 /* Supporting Files */,
 			);
@@ -1947,8 +1956,6 @@
 		19DAE83019D30EEE00519D22 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				19DAE84219D30F4E00519D22 /* HistoryViewController.h */,
-				19DAE84319D30F4E00519D22 /* HistoryViewController.m */,
 				E37C9DDB19FF86DE00B7F4BB /* GHistoryDetailViewController.h */,
 				E37C9DDC19FF86DE00B7F4BB /* GHistoryDetailViewController.m */,
 				E361DA641A01BA7100CA4EFA /* GhistoryViewController.h */,
@@ -2652,6 +2659,7 @@
 		19DAEA8619D3133600519D22 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
+				E361DA621A01A21100CA4EFA /* GTimeSwitch.m */,
 				565DF20E19FBE27F00DE99EA /* 下拉刷新上拉加载 */,
 				56442DEF19F5467500BAE678 /* 滚动视图 */,
 				137D76CC19F4BB5B00DD29D7 /* MJExtension */,
@@ -2859,7 +2867,6 @@
 			isa = PBXGroup;
 			children = (
 				E361DA611A01A21100CA4EFA /* GTimeSwitch.h */,
-				E361DA621A01A21100CA4EFA /* GTimeSwitch.m */,
 				E3B8027B19FC4E4900AF9831 /* LoadingIndicatorView.h */,
 				E3B8027C19FC4E4900AF9831 /* LoadingIndicatorView.m */,
 				E3B8027819FC4DAE00AF9831 /* EGORefreshTableHeaderView.h */,
@@ -3226,7 +3233,6 @@
 				137D9FBC19F25EC700B31100 /* more_recommend@2x.png in Resources */,
 				1965031119FB902800B19738 /* nav_btn_bg@2x.png in Resources */,
 				19DAEA3319D311D300519D22 /* jiazai@2x.png in Resources */,
-				19DAE81519D30C2D00519D22 /* LaunchScreen.xib in Resources */,
 				19DAE9A219D311D300519D22 /* fanhui-daohanglan-20_38@2x.png in Resources */,
 				13D21C9D19F4095C0015AAF2 /* 平均配速.png in Resources */,
 				13BE658A19FB8390006242A8 /* icon57.png in Resources */,
@@ -3448,6 +3454,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E32965BD1A0DF3C60080F0C0 /* default@2x-1.png in Resources */,
+				E32965BF1A0DF3C60080F0C0 /* default568-1.png in Resources */,
+				E32965C01A0DF3C60080F0C0 /* default568.png in Resources */,
+				E32965BC1A0DF3C60080F0C0 /* default.png in Resources */,
+				E32965BE1A0DF3C60080F0C0 /* default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3580,7 +3591,6 @@
 				13E8EE1619F60CE8006FA5CE /* LMaplineClass.m in Sources */,
 				E3AD66A619FD5455002E69CA /* MAHeaderView.m in Sources */,
 				19DAE80419D30C2D00519D22 /* main.m in Sources */,
-				19DAE84419D30F4E00519D22 /* HistoryViewController.m in Sources */,
 				137D9FE219F27A6500B31100 /* RoadProduceController.m in Sources */,
 				565DF21719FBE27F00DE99EA /* LRefreshTableHeaderView.m in Sources */,
 			);
@@ -3622,14 +3632,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		19DAE81319D30C2D00519D22 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				19DAE81419D30C2D00519D22 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -3650,8 +3652,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yanrui zhang (86JB758P8H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yanrui zhang (86JB758P8H)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3671,7 +3673,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "f0f07b52-40c5-4f8a-86b2-fee6114d7a20";
+=======
+				PROVISIONING_PROFILE = "f6720213-447d-4409-b3e2-81176c41a65c";
+>>>>>>> FETCH_HEAD
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3693,8 +3699,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yanrui zhang (86JB758P8H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yanrui zhang (86JB758P8H)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3707,7 +3713,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "f0f07b52-40c5-4f8a-86b2-fee6114d7a20";
+=======
+				PROVISIONING_PROFILE = "f6720213-447d-4409-b3e2-81176c41a65c";
+>>>>>>> FETCH_HEAD
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3721,8 +3731,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yanrui zhang (86JB758P8H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yanrui zhang (86JB758P8H)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -3742,7 +3752,11 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "f0f07b52-40c5-4f8a-86b2-fee6114d7a20";
+=======
+				PROVISIONING_PROFILE = "f6720213-447d-4409-b3e2-81176c41a65c";
+>>>>>>> FETCH_HEAD
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -3756,8 +3770,8 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Jin (KMZ2AD5LZY)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yanrui zhang (86JB758P8H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yanrui zhang (86JB758P8H)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HelperTools/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -3777,7 +3791,11 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "f0f07b52-40c5-4f8a-86b2-fee6114d7a20";
+=======
+				PROVISIONING_PROFILE = "f6720213-447d-4409-b3e2-81176c41a65c";
+>>>>>>> FETCH_HEAD
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				VALID_ARCHS = "armv7 armv7s";
 			};

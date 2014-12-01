@@ -14,8 +14,8 @@
 
 
 
-@property(nonatomic,strong)NSString* podu;//坡度
-@property(nonatomic,strong)NSString* pashenglv;//爬升率
+@property(nonatomic,assign)double podu;//坡度
+@property(nonatomic,assign)double pashenglv;//爬升率
 @property(nonatomic,assign)int bpm;//卡路里
 @property(nonatomic,assign)int xinlv;//心率
 
@@ -34,10 +34,12 @@
 @property(nonatomic,assign)int maxHaiba;//最高海拔
 @property(nonatomic,assign)int minHaiba;//最低海拔
 @property(nonatomic,assign)int haiba;//实时海拔 完成骑行之后这个参数为终点海拔
-@property(nonatomic,assign)int haibaUp;//
-@property(nonatomic,assign)int haibaDown;
+@property(nonatomic,assign)int haibaUp;//海拔下降
+@property(nonatomic,assign)int haibaDown;//海拔下降
 
-@property(nonatomic,strong)NSString *fuwuqiId;//服务器返回的id 用于删除
+@property(nonatomic,strong)NSString *serverRoadId;//保存本地时候的一个时间戳 上传完成时候存的是服务器返回的id 用于在历史界面的删除
+
+@property(nonatomic,assign)NSInteger localId;//本地id
 
 
 
@@ -45,12 +47,14 @@
 @property(nonatomic,strong)NSString *coorStr;//实时经纬度 定位结束后为终点经纬度
 
 @property(nonatomic,strong)NSString *jsonStr;//轨迹
+@property(nonatomic,assign)BOOL isUpLoad;//是否上传
 
 
 @property(nonatomic,assign)MAUserLocation *userLocation;//用户定位信息
 
 @property(nonatomic,assign)BOOL time;
 
+@property(nonatomic,assign)NSInteger yongshiMiao;
 
 
 //计时器label

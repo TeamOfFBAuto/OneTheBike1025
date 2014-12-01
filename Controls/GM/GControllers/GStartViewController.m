@@ -9,6 +9,7 @@
 #import "GStartViewController.h"
 #import "LoginViewController.h"
 #import "ShareView.h"
+#import "AppDelegate.h"
 
 
 @interface GStartViewController ()<UIActionSheetDelegate,UIAlertViewDelegate>
@@ -24,6 +25,10 @@
 - (void)dealloc
 {
     [self returnAction];
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
     
 }
 
@@ -95,7 +100,8 @@
     _isTimeOutClicked = NO;
     _distance = 0.0f;
     _isFirstStartCanshu = NO;
-    
+    _shangyicihaiba = 0;
+    _shangyiciyongshi = 0;
     self.lines = [NSArray array];
     
     self.routeLineArray = [NSMutableArray arrayWithCapacity:1];
@@ -144,7 +150,7 @@
     [main addTimer:_localTimer forMode:NSRunLoopCommonModes];
     
     
-    _pointArrayTimer = [NSTimer scheduledTimerWithTimeInterval:3
+    _pointArrayTimer = [NSTimer scheduledTimerWithTimeInterval:5
                                                          target:self
                                                        selector:@selector(addLocationPoint)
                                                        userInfo:nil
@@ -166,7 +172,15 @@
     
     if (self.mapView.showsUserLocation && _currentLocation) {
         [_points addObject:_currentLocation];
-        self.mapView.centerCoordinate = _currentLocation.coordinate;
+        if (self.mapView.userTrackingMode !=2) {
+            self.mapView.centerCoordinate = _currentLocation.coordinate;
+        }
+        
+    }
+    
+    
+    if (_points.count >1) {
+        [self addGuijiStartAnnotation];
     }
     
 }
@@ -806,6 +820,7 @@
 #pragma mark - 计时label=======
         self.gYunDongCanShuModel.timeRunLabel.text = [[NSString alloc]initWithFormat:@"%02d:%02d:%02d",_timerHour,timerMin,timerSecond];
         
+        
 #pragma mark - 用时=======
         self.gYunDongCanShuModel.yongshi = self.gYunDongCanShuModel.timeRunLabel.text;
     
@@ -888,9 +903,6 @@
     NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
     
     self.gYunDongCanShuModel.endTime = [NSString stringWithFormat:@"%@",localeDate];
-    
-    
-    
     UIActionSheet *actionsheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"放弃记录" otherButtonTitles:@"保存分享", nil];
     actionsheet.tag = 101;
     [actionsheet showInView:self.view];
@@ -899,35 +911,24 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (actionSheet.tag == 101) {
         if (buttonIndex == 1) {//保存记录
-            
             self.mapView.showsUserLocation = NO;
             _distance = 0.0f;
             reset = YES;//停止计时器
             _downView.hidden = YES;
             [self hideTabBar:NO];
-            
-            
-            
-            [self youhuaPoints];
-            
+            [self youhuaPoints];//优化点数组
             CLLocation *ggstart = [_points firstObject];
             CLLocation *ggend = [_points lastObject];
-            
             self.gYunDongCanShuModel.startCoorStr =[NSString stringWithFormat:@"%f,%f",ggstart.coordinate.latitude,ggstart.coordinate.longitude];
             self.gYunDongCanShuModel.coorStr = [NSString stringWithFormat:@"%f,%f",ggend.coordinate.latitude,ggend.coordinate.longitude];
-            
             [self makePoLine];
             
             NSArray *dic_arr = [NSArray array];
-            
             if (_points.count>1) {
-                
                 dic_arr = [LMapTools saveMaplines:self.routeLineArray];
             }else{
-                
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"轨迹太短无法保存" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [al show];
-                
                 for (GyundongCustomView *view in self.fiveCustomView) {
                     
                     [self.gYunDongCanShuModel cleanAllData];
@@ -938,38 +939,20 @@
                         view.contentLable.text = @"0.0";
                     }
                 }
-                
-                _distance = 0.0f;
-                
-                [self.mapView removeOverlays:self.needRemoveLineArray];
-                [_points removeAllObjects];
-                [self.routeLineArray removeAllObjects];
-                [self.needRemoveLineArray removeAllObjects];
-                [self.gYunDongCanShuModel cleanAllData];
-                _downView.hidden = YES;
-                [self hideTabBar:NO];
-                
-                self.mapView.showsUserLocation = NO;
-                reset = YES;//停止计时器
+                [self allCleanAndNewStart];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
-                
-                
                 return;
             }
             
             int dic_arr_count = dic_arr.count;
             NSLog(@"dic_arr.count %d",dic_arr.count);
-            
             if (dic_arr_count == 0) {
                 UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"轨迹太短无法保存" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [al show];
             }else{
-                
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                  NSString *jsonStr = [dic_arr JSONString];
-                
                 NSLog(@" jsonStr = %@",jsonStr);
-                
                 //网络上传参数
                 NSString *custIdStr = [LTools cacheForKey:USER_CUSTID];
                 CGFloat juli = self.gYunDongCanShuModel.juli;
@@ -977,50 +960,96 @@
                 CGFloat topSpeed = self.gYunDongCanShuModel.maxSudu;
                 int upMetre = (self.gYunDongCanShuModel.maxHaiba - self.gYunDongCanShuModel.minHaiba);
                 int downMetre = (self.gYunDongCanShuModel.haiba  - self.gYunDongCanShuModel.minHaiba);
-                self.gYunDongCanShuModel.bpm = 50;
                 int costCalories = self.gYunDongCanShuModel.bpm;
                 self.gYunDongCanShuModel.xinlv = 70;
                 int heartRate = self.gYunDongCanShuModel.xinlv;
                 
                 
-                
-                
                 NSString *beginTimeStr = [self.gYunDongCanShuModel.startTime substringToIndex:19];
                 NSString *endTimeStr = [self.gYunDongCanShuModel.endTime substringToIndex:19];
-                
-                
-                
-                
+
                 
                 NSString *costTimeStr = self.gYunDongCanShuModel.yongshi;
                 NSString *beginCoordinatesStr = self.gYunDongCanShuModel.startCoorStr;//
                 NSString *endCoordinatesStr = self.gYunDongCanShuModel.coorStr;//
                 NSLog(@"终点经纬度 %@",endCoordinatesStr);
+                NSInteger yongshiMiao = 0;
                 
+                if (self.gYunDongCanShuModel.yongshi.length>1) {
+                    NSString *hhStr = [self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(0, 2)];
+                    NSString *mmStr = [self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(3, 2)];
+                    NSString *ssStr = [self.gYunDongCanShuModel.yongshi substringWithRange:NSMakeRange(6, 2)];
+                    int hh;
+                    int mm;
+                    int ss;
+                    if ([hhStr intValue]) {
+                        hh = [hhStr intValue];
+                    }else{
+                        hh = 0;
+                    }
+                    if ([mmStr intValue]) {
+                        mm = [mmStr intValue];
+                    }else{
+                        mm = 0;
+                    }
+                    if ([ssStr intValue]) {
+                        ss = [ssStr intValue];
+                    }else{
+                        ss = 0;
+                    }
+                    yongshiMiao = hh*3600+mm*60*ss;
+                }
                 
-                
-                
+                self.gYunDongCanShuModel.yongshiMiao = yongshiMiao;
                 
                 //本地数据保存
+                NSDate *date = [NSDate date];
+                NSTimeZone *zone = [NSTimeZone systemTimeZone];
+                NSInteger interval = [zone secondsFromGMTForDate: date];
+                NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
+                self.gYunDongCanShuModel.endTime = [NSString stringWithFormat:@"%@",localeDate];
                 
-                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",self.gYunDongCanShuModel.startTime,self.gYunDongCanShuModel.endTime,costTimeStr];
-                NSString *gEndName = [NSString stringWithFormat:@"%.1f,%.1f,%.1f,%d,%d,%d,%d",juli,avgSpeed,topSpeed,upMetre,downMetre,costCalories,heartRate];
+                NSString *gStartName = [NSString stringWithFormat:@"%@,%@,%@",beginTimeStr,endTimeStr,costTimeStr];
+                NSString *gEndName = [NSString stringWithFormat:@"%.1f,%.1f,%.1f,%d,%d,%d,%d,%d",juli,avgSpeed,topSpeed,upMetre,downMetre,costCalories,heartRate,yongshiMiao];
                 NSString *gDistance = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.juli];
                 NSString *gStartCoorStr = self.gYunDongCanShuModel.startCoorStr;
                 NSString *gEndCoorStr = self.gYunDongCanShuModel.coorStr;
+               
+
+                
                 
                 if (jsonStr) {
 #pragma mark - 保存轨迹到本地数据库
                     //本地保存数据
                     //jsostr 轨迹数据
                     //startName 开始时间 结束时间 用时
-                    //endName 距离 平均速度 最高速度 上升海拔 下降海拔 卡路里 心率
+                    //endName 距离 平均速度 最高速度 上升海拔 下降海拔 卡路里 心率 用时(秒)
                     //distance 距离
                     //type 1为路书 2为轨迹
                     //startCoorStr 开始经纬度
                     //endCoorStr 结束经纬度
-                    _nowSaveAndWaittingUpGuijiId = [LTools timechangeToDateline];
-                    [GMAPI addRoadLinesJsonString:jsonStr startName:gStartName endName:gEndName distance:gDistance type:2 startCoorStr:gStartCoorStr endCoorStr:gEndCoorStr serverRoadId:_nowSaveAndWaittingUpGuijiId isUpload:NO];
+                    //serverRoadId :保存本地时存时间戳 上传成功后存服务器返回的id
+                    
+                    NSString *serverid = [LTools timechangeToDateline];
+                    
+                    [GMAPI addRoadLinesJsonString:jsonStr
+                                        startName:gStartName
+                                          endName:gEndName
+                                         distance:gDistance
+                                             type:2
+                                     startCoorStr:gStartCoorStr
+                                       endCoorStr:gEndCoorStr
+                                     serverRoadId:serverid
+                                         isUpload:NO];
+                    
+                    
+                   NSArray *arr = [GMAPI getRoadLinesForType:2];
+                    for (LRoadClass *model in arr) {
+                        if ([model.serverRoadId isEqualToString: serverid]) {
+                            _passModel = model;
+                        }
+                    }
+                    
                     
                     
 #pragma mark - 上传轨迹到服务器
@@ -1042,44 +1071,33 @@
                     //beginCoordinates: 起点经纬度
                     //endCoordinates: 终点经纬度
                     
-                    [self saveRoadlinesJsonString:jsonStr custId:custIdStr cyclingKm:juli upMetre:upMetre downMetre:downMetre costCalories:costCalories avgSpeed:avgSpeed topSpeed:topSpeed heartRate:heartRate beginTime:beginTimeStr endTime:endTimeStr costTime:costTimeStr beginSite:@" " endSite:@" " beginCoordinates:beginCoordinatesStr endCoordinates:endCoordinatesStr];
+                    [self saveRoadlinesJsonString:jsonStr
+                                           custId:custIdStr
+                                        cyclingKm:juli
+                                          upMetre:upMetre
+                                        downMetre:downMetre
+                                     costCalories:costCalories
+                                         avgSpeed:avgSpeed
+                                         topSpeed:topSpeed
+                                        heartRate:heartRate
+                                        beginTime:beginTimeStr
+                                          endTime:endTimeStr
+                                         costTime:costTimeStr
+                                        beginSite:@" "
+                                          endSite:@" "
+                                 beginCoordinates:beginCoordinatesStr
+                                   endCoordinates:endCoordinatesStr
+                                     serverRoadId:serverid];
                 }else{
                     UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有轨迹" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [al show];
                 }
                 
-                
-                
             }
-            
 
-            
-//            if (jsonStr) {//有轨迹再往本地存
-//                if (jsonStr && startNameStr && endNameStr && self.gYunDongCanShuModel.juli && self.gYunDongCanShuModel.startCoorStr && self.gYunDongCanShuModel.coorStr) {
-//                    
-//                    [GMAPI addRoadLinesJsonString:jsonStr startName:startNameStr endName:endNameStr distance:self.gYunDongCanShuModel.juli type:2 startCoorStr:self.gYunDongCanShuModel.startCoorStr endCoorStr:self.gYunDongCanShuModel.coorStr];
-            
-            
-            
-            
-            
-//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"起点和终点" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
-//            
-//            alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-//            
-//            [alert show];
-//            
-//            first = [alert textFieldAtIndex:0];
-//            first.text = startName;
-//            
-//            second = [alert textFieldAtIndex:1];
-//            second.text = endName;
-//            second.secureTextEntry = NO;
-            
-            
-//            [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandsave" object:nil];
-            
-            
+            GHistoryDetailViewController *gcc = [[GHistoryDetailViewController alloc]init];
+            gcc.passModel = [self changeLroadToGyundongModel:_passModel];
+            gcc.hidesBottomBarWhenPushed = YES;
             
             for (GyundongCustomView *view in self.fiveCustomView) {
                 
@@ -1091,23 +1109,19 @@
                     view.contentLable.text = @"0.0";
                 }
             }
-            
-            
-            
-            self.mapView.showsUserLocation = NO;
-            reset = YES;//停止计时器
+            [self allCleanAndNewStart];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
             
             
             
             
+            [self.navigationController pushViewController:gcc animated:YES];
+            
+            
             
         }else if (buttonIndex == 0){//放弃保存
-            
+            [self.gYunDongCanShuModel cleanAllData];
             for (GyundongCustomView *view in self.fiveCustomView) {
-                
-                [self.gYunDongCanShuModel cleanAllData];
-                
                 if ([view.viewTypeStr isEqualToString:@"计时"]) {
                     view.contentLable.text = @"00:00:00";
                 }else{
@@ -1115,18 +1129,7 @@
                 }
             }
             
-            _distance = 0.0f;
-            
-            [self.mapView removeOverlays:self.needRemoveLineArray];
-            [_points removeAllObjects];
-            [self.routeLineArray removeAllObjects];
-            [self.needRemoveLineArray removeAllObjects];
-            [self.gYunDongCanShuModel cleanAllData];
-            _downView.hidden = YES;
-            [self hideTabBar:NO];
-            
-            self.mapView.showsUserLocation = NO;
-            reset = YES;//停止计时器
+            [self allCleanAndNewStart];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"gstopandnosave" object:nil];
         }else if (buttonIndex == 2){//取消按钮
             if (_isTimeOutClicked) {
@@ -1142,6 +1145,72 @@
     
 }
 
+
+
+
+-(GyundongCanshuModel *)changeLroadToGyundongModel:(LRoadClass*)model{
+    NSString *startNameStr = model.startName;
+    NSString *endNameStr = model.endName;
+    NSArray * startArr = [startNameStr componentsSeparatedByString:@","];
+    NSArray *endArr = [endNameStr componentsSeparatedByString:@","];
+    
+    GyundongCanshuModel *gmodel = [[GyundongCanshuModel alloc]init];
+    gmodel.jsonStr = model.lineString;
+    gmodel.startTime = startArr[0];
+    gmodel.endTime = startArr[1];
+    gmodel.yongshi = startArr[2];
+    gmodel.juli = [endArr[0]floatValue];
+    gmodel.pingjunsudu = [endArr[1]floatValue];
+    gmodel.maxSudu = [endArr[2]floatValue];
+    gmodel.haibaUp = [endArr[3]floatValue];
+    gmodel.haibaDown = [endArr[4]intValue];
+    gmodel.bpm = [endArr[5]intValue];
+    gmodel.xinlv = [endArr[6]intValue];
+    
+    if (endArr.count>7) {
+        gmodel.yongshiMiao = [endArr[7]intValue];
+    }
+    
+    gmodel.juli = [model.distance floatValue];
+    gmodel.startCoorStr = [NSString stringWithFormat:@"%f,%f",model.startCoor.latitude,model.startCoor.longitude];
+    gmodel.coorStr = [NSString stringWithFormat:@"%f,%f",model.endCoor.latitude,model.endCoor.longitude];
+    gmodel.serverRoadId = model.serverRoadId;
+    
+    NSInteger localeid = model.roadId;
+    gmodel.localId = localeid;
+    gmodel.isUpLoad = model.isUpload;
+    
+    
+    return gmodel;
+}
+
+
+//清空数据重新开始
+-(void)allCleanAndNewStart{
+    _distance = 0.0f;
+    [self.mapView removeAnnotation:guijiStartAnnotation];
+    [self.mapView removeOverlays:self.needRemoveLineArray];
+    [_points removeAllObjects];
+    [self.routeLineArray removeAllObjects];
+    [self.needRemoveLineArray removeAllObjects];
+    [self.gYunDongCanShuModel cleanAllData];
+    _downView.hidden = YES;
+    [self hideTabBar:NO];
+    self.mapView.showsUserLocation = NO;
+    reset = YES;//停止计时器
+    _isTimeOutClicked = NO;
+    _distance = 0.0f;
+    _isFirstStartCanshu = NO;
+    _shangyicihaiba = 0;
+    _shangyiciyongshi = 0;
+    _totalTakt = 0;
+    _lapTakt = 0;
+    reset = NO;
+    self.lines = [NSArray array];
+    self.routeLineArray = [NSMutableArray arrayWithCapacity:1];
+    self.needRemoveLineArray = [NSMutableArray arrayWithCapacity:1];
+    _passModel = nil;
+}
 
 
 #pragma mark - 地图变大 upview上移动
@@ -1189,8 +1258,6 @@
     [self clearSearch];
     
     self.mapView.userTrackingMode  = MAUserTrackingModeNone;
-    
-    [self.mapView removeObserver:self forKeyPath:@"showsUserLocation"];
     
 }
 - (void)clearMapView
@@ -1483,6 +1550,10 @@
         {
             poiAnnotationView.image = [UIImage imageNamed:@"road_middle"];
         }
+        else if([[annotation title] isEqualToString:guijistart])
+        {
+            poiAnnotationView.image = [UIImage imageNamed:@"gGuijiStart.png"];
+        }
         
         return poiAnnotationView;
     }
@@ -1511,6 +1582,13 @@
 
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
+    
+    
+    
+    if (_points.count>0) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
+    
     CLLocationAccuracy horizontal = userLocation.location.horizontalAccuracy;//水平方向的精度
     CLLocationAccuracy vertical = userLocation.location.verticalAccuracy;//垂直方向的精度
     
@@ -1554,7 +1632,7 @@
 
     
     
-    if (horizontal>0 &&horizontal<50 && vertical>0 && vertical<80) {
+    if (horizontal>0 && horizontal<70 && vertical>0 && vertical<50) {
 #pragma mark - 给数据model赋值=========== 海拔(最高 最低 实时) 经纬度(开始，实时)
         //海拔
         CLLocation *currentLocation = userLocation.location;
@@ -1563,32 +1641,87 @@
             int alti = (int)currentLocation.altitude;
             
             if (_isFirstStartCanshu) {
-                if (alti != 0) {
+                if (alti != 0 && vertical < 15) {
                     self.gYunDongCanShuModel.startHaiba = alti;//开始海拔
                     self.gYunDongCanShuModel.maxHaiba = alti;
                     self.gYunDongCanShuModel.minHaiba = alti;
                 }
-                //            //开始时的经纬度
-                //            self.gYunDongCanShuModel.startCoorStr = [NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude];
 #pragma makr - 第一次的各个参数
                 _isFirstStartCanshu = NO;
             }
             
-            if (alti > self.gYunDongCanShuModel.maxHaiba) {
-                self.gYunDongCanShuModel.maxHaiba = alti;//最高海拔
+            
+            if (vertical >0 && vertical < 15) {
+                if (alti > self.gYunDongCanShuModel.maxHaiba) {
+                    self.gYunDongCanShuModel.maxHaiba = alti;//最高海拔
+                }
+                if ( (alti <self.gYunDongCanShuModel.minHaiba) && alti !=0 ) {
+                    self.gYunDongCanShuModel.minHaiba = alti;//最低海拔
+                }
             }
             
-            if ( (alti <self.gYunDongCanShuModel.minHaiba) && alti !=0 ) {
-                self.gYunDongCanShuModel.minHaiba = alti;//最低海拔
+            
+            
+            
+            
+#pragma mark - 给数据model赋值 - 海拔上升 海拔下降
+            //海拔下降海拔上升
+            if (_shangyicihaiba != 0) {
+                int haibacha = self.gYunDongCanShuModel.haiba - _shangyicihaiba;
+                if (haibacha>0) {
+                    self.gYunDongCanShuModel.haibaUp = haibacha;
+                    for (GyundongCustomView *view in self.fiveCustomView) {
+                        if ([view.viewTypeStr isEqualToString:@"海拔上升"]) {
+                            view.contentLable.text = [NSString stringWithFormat:@"%d",self.gYunDongCanShuModel.haibaUp];
+                        }
+                    }
+                    
+                }else{
+                    self.gYunDongCanShuModel.haibaDown = -haibacha;
+                    for (GyundongCustomView *view in self.fiveCustomView) {
+                        if ([view.viewTypeStr isEqualToString:@"海拔下降"]) {
+                            view.contentLable.text = [NSString stringWithFormat:@"%d",self.gYunDongCanShuModel.haibaDown];
+                        }
+                    }
+                }
+                
+                
             }
             
             
+            
+            
+#pragma mark - 数据modle赋值 坡度
+            
+            int haibacha = self.gYunDongCanShuModel.haiba - _shangyicihaiba;
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:userLocation.coordinate.latitude
+                                                              longitude:userLocation.coordinate.longitude];
+            CLLocationDistance distance = [location distanceFromLocation:_currentLocation];
+            double pingfangcha = distance * distance - haibacha * haibacha;
+            double zhijiaobian = sqrt(pingfangcha);
+            
+            if (zhijiaobian!=0) {
+                self.gYunDongCanShuModel.podu = haibacha/zhijiaobian * 100;
+                if (!self.gYunDongCanShuModel.podu) {
+                    self.gYunDongCanShuModel.podu = 0.0;
+                }
+            }
+            
+            
+            NSLog(@"%.1f",self.gYunDongCanShuModel.podu);
+            
+            for (GyundongCustomView *view in self.fiveCustomView) {
+                if ([view.viewTypeStr isEqualToString:@"坡度"]) {
+                    NSString *contentStr = [NSString stringWithFormat:@"%.1f",self.gYunDongCanShuModel.podu];
+                    contentStr = [contentStr stringByAppendingString:@"%"];
+                    view.contentLable.text = contentStr;
+                }
+            }
+            
+            
+            
+#pragma mark - 给数据model赋值 -- 实时海拔
             self.gYunDongCanShuModel.haiba = alti;//实时海拔
-            //        self.gYunDongCanShuModel.coorStr = [NSString stringWithFormat:@"%f,%f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude];//实时经纬度 定位结束后为终点经纬度
-            
-            
-            
-            
             for (GyundongCustomView *view in self.fiveCustomView) {
                 if ([view.viewTypeStr isEqualToString:@"海拔"]) {
                     
@@ -1596,6 +1729,13 @@
                     
                 }
             }
+            
+            
+            
+            
+            
+            
+            
         }
         
         
@@ -1626,6 +1766,13 @@
         
 #pragma mark --  划线- end
         
+        
+        
+
+        
+        
+        
+        
 #pragma mark - 数据model赋值 -- 距离
         _distance += distance;
         NSLog(@"距离---- %f 米",_distance);
@@ -1641,8 +1788,13 @@
         }
         
         //    }
-        
-        
+#pragma mark - 数据model赋值 -- 卡路里
+        self.gYunDongCanShuModel.bpm = 60 * self.gYunDongCanShuModel.juli * 1.036;
+        for (GyundongCustomView *view in self.fiveCustomView) {
+            if ([view.viewTypeStr isEqualToString:@"热量"]) {
+                view.contentLable.text = [NSString stringWithFormat:@"%d",self.gYunDongCanShuModel.bpm];
+            }
+        }
         
 #pragma mark - 数据model赋值 -- 最高速度
         
@@ -1665,6 +1817,12 @@
                 
             }
         }
+        
+        
+
+        
+        
+        
 #pragma mark - 数据model赋值 -- 平均速度
         double zjuli = _distance/1000;//单位：公里
         
@@ -1710,7 +1868,7 @@
             //        self.gYunDongCanShuModel.pingjunsudu = pjsd;
             
             
-            self.gYunDongCanShuModel.pingjunsudu = pjsd * 3.6;
+            self.gYunDongCanShuModel.pingjunsudu = pjsd;
             if (self.gYunDongCanShuModel.pingjunsudu<0 || self.gYunDongCanShuModel.pingjunsudu >100) {
                 self.gYunDongCanShuModel.pingjunsudu = 0.0;
             }
@@ -1724,7 +1882,31 @@
                 
             }
             
+            
+            
+            
+            
+            
+#pragma mark - 爬升率
+            
+            
+            //用时差
+            int yongshicha = yongshi - _shangyiciyongshi;
+            _shangyiciyongshi = yongshi;
+            //海拔差
+            int haibachazhi = userLocation.location.altitude - _shangyicihaiba;
+            
+            self.gYunDongCanShuModel.pashenglv = haibachazhi/yongshicha *60; //单位 米/分钟
+            _shangyicihaiba = userLocation.location.altitude;
+            
+            for (GyundongCustomView *view in self.fiveCustomView) {
+                if ([view.viewTypeStr isEqualToString:@"爬升率"]) {
+                    view.contentLable.text = [NSString stringWithFormat:@"%.1f米/分钟",self.gYunDongCanShuModel.pashenglv];
+                }
+            }
+            
         }
+        
         
         
     }
@@ -1957,11 +2139,15 @@
     _downView.hidden = NO;
     self.mapView.showsUserLocation = YES;//开启定位
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     //接收到appdelegate通知 开始骑行 下面这个是判断 是否为暂停后点击返回然后再点击开始骑行进入的
     if (_isTimeOutClicked) {
         
     }else{
+        
         started = YES;
+        
         NSDate *date = [NSDate date];
         NSTimeZone *zone = [NSTimeZone systemTimeZone];
         NSInteger interval = [zone secondsFromGMTForDate: date];
@@ -2084,6 +2270,18 @@
 }
 
 
+//添加轨迹起点
+-(void)addGuijiStartAnnotation{
+    if (guijiStartAnnotation) {
+        [self.mapView removeAnnotation:guijiStartAnnotation];
+    }
+    
+    guijiStartAnnotation = [[MAPointAnnotation alloc] init];
+    guijiStartAnnotation.title = guijistart;
+    CLLocation *cc = [_points firstObject];
+    guijiStartAnnotation.coordinate = cc.coordinate;
+    [self.mapView addAnnotation:guijiStartAnnotation];
+}
 
 #pragma mark 添加\取消 标志
 
@@ -2179,7 +2377,7 @@
                         endSite:(NSString *)jiesudidian
                beginCoordinates:(NSString *)kaishijingweidu
                  endCoordinates:(NSString *)jiesujingweidu
-
+                   serverRoadId:(NSString *)serverId
 {
     NSString *custId =  [LTools cacheForKey:USER_CUSTID];
     
@@ -2190,8 +2388,7 @@
     
     NSString *url = [NSString stringWithFormat:BIKE_ROAD_LINE_GUIJI,custId,juli,haibashangsheng,haibaxiajiang,kaluli,pingjunsudu,zuigaosudu,xinlv,kaishishijian,jiesushijian,yongshi,kaishididian,jiesudidian,kaishijingweidu,jiesujingweidu];
     
-    self.jixushangchanURlStr = url;
-    self.jixushangchanJsonStr = jsonStr;
+    
     NSLog(@"上传轨迹请求的url : %@",url);
     
     LTools *tool = [[LTools alloc]initWithUrl:url isPost:YES postData:postData];
@@ -2205,123 +2402,26 @@
             
             NSLog(@"上传返回的dic ： %@",result);
             
-            LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:_nowSaveAndWaittingUpGuijiId];
-            [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:@"已上传" isUpload:YES];
+            NSString *fuwuqiid = [result objectForKey:@"cycId"];
+            LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:serverId];
+            [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:fuwuqiid isUpload:YES];
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [LTools showMBProgressWithText:@"上传成功" addToView:self.view];
             
-            self.jixushangchanJsonStr = @" ";
-            self.jixushangchanURlStr = @" ";
-            _distance = 0.0f;
-            [self.mapView removeOverlays:self.needRemoveLineArray];
-            [_points removeAllObjects];
-            [self.routeLineArray removeAllObjects];
-            [self.needRemoveLineArray removeAllObjects];
-            [self.gYunDongCanShuModel cleanAllData];
-            _downView.hidden = YES;
-            [self hideTabBar:NO];
             
-        }else
-        {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            NSLog(@"上传返回的dic ： %@",result);
-            UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            al.tag = 666;
-            [al show];
+            [self allCleanAndNewStart];
             
         }
         
         
     } failBlock:^(NSDictionary *failDic, NSError *erro) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSLog(@"failDic %@ erro %@",failDic,[failDic objectForKey:@"ERRO_INFO"]);
-        UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        al.tag = 666;
-        [al show];
-        
         
     }];
 }
 
-
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    NSLog(@"%d",buttonIndex);
-    
-    if (alertView.tag == 666) {//保存上传服务器失败
-        
-        if (buttonIndex == 1) {//继续上传
-            
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            
-            NSString *post = [NSString stringWithFormat:@"&roadlines=%@",self.jixushangchanJsonStr];
-            NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-            LTools *tool = [[LTools alloc]initWithUrl:self.jixushangchanURlStr isPost:YES postData:postData];
-            [tool requestSpecialCompletion:^(NSDictionary *result, NSError *erro) {
-                
-                NSLog(@"result %@ erro %@",result,erro);
-                
-                int status = [[result objectForKey:@"status"]integerValue];
-                
-                if (status == 1) {
-                    
-                    NSLog(@"上传返回的dic ： %@",result);
-                    
-                    LRoadClass *needUpDataModel = [GMAPI getRoadLinesForDateLineId:_nowSaveAndWaittingUpGuijiId];
-                    [GMAPI updateRoadId:needUpDataModel.roadId serverRoadId:@"已上传" isUpload:YES];
-                    
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    [LTools showMBProgressWithText:@"上传成功" addToView:self.view];
-                    
-                    self.jixushangchanJsonStr = @" ";
-                    self.jixushangchanURlStr = @" ";
-                    _distance = 0.0f;
-                    [self.mapView removeOverlays:self.needRemoveLineArray];
-                    [_points removeAllObjects];
-                    [self.routeLineArray removeAllObjects];
-                    [self.needRemoveLineArray removeAllObjects];
-                    [self.gYunDongCanShuModel cleanAllData];
-                    _downView.hidden = YES;
-                    [self hideTabBar:NO];
-                    
-                    
-                }else
-                {
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    NSLog(@"上传返回的dic ： %@",result);
-                    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                    al.tag = 666;
-                    [al show];
-                    
-                }
-                
-                
-            } failBlock:^(NSDictionary *failDic, NSError *erro) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                NSLog(@"failDic %@ erro %@",failDic,[failDic objectForKey:@"ERRO_INFO"]);
-                UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"提示" message:@"上传失败,是否重新上传?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                al.tag = 666;
-                [al show];
-                
-                
-            }];
-        }else if (buttonIndex == 0){
-            _distance = 0.0f;
-            [self.mapView removeOverlays:self.needRemoveLineArray];
-            [_points removeAllObjects];
-            [self.routeLineArray removeAllObjects];
-            [self.needRemoveLineArray removeAllObjects];
-            [self.gYunDongCanShuModel cleanAllData];
-            _downView.hidden = YES;
-            [self hideTabBar:NO];
-        }
-    }
-}
-
-
-
+#pragma 拍照
 -(void)gTakePhotos{
     UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -2340,125 +2440,27 @@
 }
 
 
+//使用图片拾取器要实现的代理方法
 
+//选择了图片以后触发的方法
 
-#pragma mark - 分享
--(void)ShowShareView
-{
-    ShareView *share_view = [[ShareView alloc] initWithFrame:self.view.bounds];
-    share_view.userInteractionEnabled = YES;
-    share_view.delegate = self;
-    share_view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
-    [share_view showInView:[UIApplication sharedApplication].keyWindow WithAnimation:YES];
-}
-
--(void)shareTapWithType:(NSString *)type
-{
-    //    [[UMSocialControllerService defaultControllerService] setShareText:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" shareImage:[UIImage imageNamed:@"bike_share_check.png"] socialUIDelegate:self];        //设置分享内容和回调对象
-    //    [UMSocialSnsPlatformManager getSocialPlatformWithName:type].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo NS_DEPRECATED_IOS(2_0, 3_0){
+    NSLog(@"用户选择 了照片了%@",editingInfo);
     
-    [self autoShareTo:type];
-}
-
-//
-//NSString *url = @"http://www.baidu.com";
-//
-//NSString *content = [NSString stringWithFormat:@"%@",]
-//
-//UMSocialUrlResource *rr = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeDefault url:url];
-//
-//UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
-//[[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" image:shareImage location:nil urlResource:rr presentedController:self completion:^(UMSocialResponseEntity *response){
-//    if (response.responseCode == UMSResponseCodeSuccess) {
-//        NSLog(@"分享成功！");
-//    }
-//}];
-
-- (void)autoShareTo:(NSString *)type
-{
-    NSString *content = @"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~";
     
-    NSString *url = @"http://www.baidu.com";
-    
-    UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
-    
-    if ([type isEqualToString:UMShareToQQ]) {
-        
-        
-        [UMSocialData defaultData].extConfig.qqData.url = url; //设置你自己的url地址;
-        
-        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
-            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
-                
-                [LTools showMBProgressWithText:@"QQ分享成功" addToView:self.view];
-                
-            }else{
-                
-                NSLog(@"分享失败");
-            }
-        }];
-        
-        
-    }else if ([type isEqualToString:UMShareToSina]){
-        
-        [[UMSocialControllerService defaultControllerService] setShareText:[NSString stringWithFormat:@"%@%@",content,url] shareImage:shareImage socialUIDelegate:self];
-        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
-        
-    }else if ([type isEqualToString:UMShareToQzone]){
-        
-        //qqzone
-        [UMSocialData defaultData].extConfig.qzoneData.url = url; //设置你自己的url地址;
-        
-        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
-            if (shareResponse.responseCode == UMSResponseCodeSuccess) {
-                
-                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
-                
-            }else{
-                
-                
-            }
-        }];
-        
-        
-    }else if ([type isEqualToString:UMShareToWechatSession]){
-        
-        [UMSocialData defaultData].extConfig.wechatSessionData.url = url; //设置你自己的url地址;
-        
-        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
-        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
-        snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
-        
-    }else if ([type isEqualToString:UMShareToWechatTimeline]){
-        
-        [UMSocialData defaultData].extConfig.wechatTimelineData.url = url; //设置你自己的url地址;
-        
-        [[UMSocialControllerService defaultControllerService] setShareText:content shareImage:shareImage socialUIDelegate:self];
-        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
-        
-    }else if ([type isEqualToString:UMShareToTencent]){
-        
-        [UMSocialData defaultData].extConfig.tencentData.urlResource = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeImage url:url];
-        
-        //        [UMSocialSnsService presentSnsIconSheetView:self
-        //                                             appKey:@"5423e48cfd98c58eed00664f"
-        //                                          shareText:content
-        //                                         shareImage:shareImage
-        //                                    shareToSnsNames:@[UMShareToTencent]
-        //                                           delegate:self];
-        
-        [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToTencent] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
-            if (response.responseCode == UMSResponseCodeSuccess) {
-                NSLog(@"分享成功！");
-            }
-        }];
-        
-        
-    }
-    
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+    //选择框消失
+    [picker dismissViewControllerAnimated:YES completion:nil];
     
     
 }
+
+
+
+
+
+
+
 
 
 

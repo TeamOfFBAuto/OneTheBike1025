@@ -43,6 +43,10 @@
     
     
     
+    NSArray *_localArray;//本地数据库数组
+    
+    
+    
 }
 
 @property(nonatomic,strong)NSMutableArray *netDataArray;//请求到的网络数据数组

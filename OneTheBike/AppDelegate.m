@@ -10,7 +10,6 @@
 
 #import "MainViewController.h"
 
-#import "HistoryViewController.h"
 
 #import "StartViewController.h"
 
@@ -90,6 +89,11 @@
     
     //骑行完成后tabbar调到历史标签
     RootViewController * _tabbarVC;
+    
+    
+    GStartViewController * mainVC;
+    
+     
 }
 @end
 
@@ -102,7 +106,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    GStartViewController * mainVC = [[GStartViewController alloc] init];
+    mainVC = [[GStartViewController alloc] init];
     
 //    HistoryViewController * microBBSVC = [[HistoryViewController alloc] init];//带网络数据的
     GhistoryViewController *microBBSVC = [[GhistoryViewController alloc]init];
@@ -217,11 +221,11 @@
 
 #pragma mark - 开始后点击返回按钮
 -(void)gKeepStart{
-    
+    _isStart = YES;
     [_navc3.tabBarItem setImage:[UIImage imageNamed:@"gqixingzhong.png"]];
     [_navc3.tabBarItem setImageInsets:UIEdgeInsetsMake(-2, 0, 2, 0)];
     [_navc3.tabBarItem setTitle:@"骑行中"];
-    _isStart = YES;
+    
     
 }
 
@@ -297,6 +301,11 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    [_locationmanager startUpdatingLocation];
+    [self backgroundHandler];
+    
+    
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -434,5 +443,42 @@
     [UMSocialTencentWeiboHandler openSSOWithRedirectUrl:@"http://sns.whalecloud.com/tencent2/callback"];
 
 }
+
+
+
+
+- (void)backgroundHandler {
+    
+//    self.loca.locationSpace = YES; //这个属性设置再后台定位的时间间隔 自己在定位类中加个定时器就行了
+    
+    UIApplication * app = [UIApplication sharedApplication];
+    
+    //声明一个任务标记 可在.h中声明为全局的  __block    UIBackgroundTaskIdentifier bgTask;
+    bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (bgTask != UIBackgroundTaskInvalid) {
+                bgTask = UIBackgroundTaskInvalid;
+            }
+        });
+        
+    }];
+    
+    // 开始执行长时间后台执行的任务 项目中启动后定位就开始了 这里不需要再去执行定位 可根据自己的项目做执行任务调整
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        while (1) {
+
+            if (mainVC.mapView.showsUserLocation == YES) {
+                mainVC.mapView.showsUserLocation = YES;
+            }
+            
+            sleep(1);
+        }
+        
+    });
+}
+
+
 
 @end
