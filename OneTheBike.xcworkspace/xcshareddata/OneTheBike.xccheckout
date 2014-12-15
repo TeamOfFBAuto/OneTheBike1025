@@ -12,8 +12,6 @@
 	<dict>
 		<key>2F9BAF96CDA3EBF91E2379287841432026F1C97F</key>
 		<string>https://github.com/TeamOfFBAuto/OneTheBike1025.git</string>
-		<key>95147B85624912964C5D8554F036A201730F00CF</key>
-		<string>https://github.com/TeamOfFBAuto/YouKnow.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>OneTheBike.xcworkspace</string>
@@ -21,8 +19,6 @@
 	<dict>
 		<key>2F9BAF96CDA3EBF91E2379287841432026F1C97F</key>
 		<string>..</string>
-		<key>95147B85624912964C5D8554F036A201730F00CF</key>
-		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/TeamOfFBAuto/OneTheBike1025.git</string>
@@ -32,14 +28,6 @@
 	<string>2F9BAF96CDA3EBF91E2379287841432026F1C97F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>95147B85624912964C5D8554F036A201730F00CF</string>
-			<key>IDESourceControlWCCName</key>
-			<string></string>
-		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

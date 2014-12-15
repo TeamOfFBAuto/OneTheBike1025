@@ -181,6 +181,15 @@
     _locationmanager.delegate = self;
     
     
+    
+//    UIDevice* device = [UIDevice currentDevice];
+//    BOOL backgroundSupported = NO;
+//    if ([device respondsToSelector:@selector(isMultitaskingSupported)]){
+//        backgroundSupported = device.multitaskingSupported;
+//    }
+    
+    
+    
     self.window.rootViewController = _tabbarVC;
     
     
@@ -302,7 +311,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
-    [_locationmanager startUpdatingLocation];
+//    [_locationmanager startUpdatingLocation];
     [self backgroundHandler];
     
     

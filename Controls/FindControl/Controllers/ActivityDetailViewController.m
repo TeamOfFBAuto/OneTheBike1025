@@ -36,10 +36,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title = @"详情";
     _data_array = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"详情";
+    
     UIBarButtonItem *spaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spaceButton.width = -5;
     
@@ -55,7 +55,7 @@
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.text = @"活动详情";
     
-    _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT)];
+    _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,DEVICE_WIDTH,DEVICE_HEIGHT-64)];
     [self.view addSubview:_myScrollView];
     
     [self getData];
@@ -89,9 +89,9 @@
                     }
                 }
                 
-                
-                [bself setup];
             }
+            
+            [bself setup];
         }
         @catch (NSException *exception) {
             
@@ -114,7 +114,7 @@
     float height = 20;
     
     CGRect rectr = [self.aModel.title boundingRectWithSize:CGSizeMake(DEVICE_WIDTH-20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16]} context:nil];
-    UILabel * title_label = [[UILabel alloc] initWithFrame:CGRectMake(10,height,DEVICE_WIDTH-10,rectr.size.height)];
+    UILabel * title_label = [[UILabel alloc] initWithFrame:CGRectMake(10,height,DEVICE_WIDTH-10 - 20,rectr.size.height)];
     title_label.text = _aModel.title;
     title_label.numberOfLines = 0;
     title_label.font = [UIFont systemFontOfSize:16];
@@ -123,17 +123,22 @@
     [_myScrollView addSubview:title_label];
     height += rectr.size.height;
     
-    self.mainScorllView = [[CycleScrollView alloc] initWithFrame:CGRectMake(0,height+10,320,175) animationDuration:5.0f WithDataArray:self.data_array];
-    self.mainScorllView.backgroundColor = [[UIColor purpleColor] colorWithAlphaComponent:0.1];
-    self.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%d个",pageIndex);
-    };
-    [_myScrollView addSubview:self.mainScorllView];
-    height += 175;
+    if (self.data_array.count > 0) {
+        self.mainScorllView = [[CycleScrollView alloc] initWithFrame:CGRectMake(0,height+10,320,175) animationDuration:5.0f WithDataArray:self.data_array];
+        self.mainScorllView.backgroundColor = [[UIColor purpleColor] colorWithAlphaComponent:0.1];
+        self.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
+            NSLog(@"点击了第%d个",pageIndex);
+        };
+        [_myScrollView addSubview:self.mainScorllView];
+        height += 175;
+    }
+    
+    
+    NSLog(@"0-----0");
     
     CGRect rectr1 = [self.aModel.content boundingRectWithSize:CGSizeMake(DEVICE_WIDTH-20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]} context:nil];
     
-    UILabel * content_label = [[UILabel alloc] initWithFrame:CGRectMake(10,height+20,DEVICE_WIDTH-20,rectr1.size.height)];
+    UILabel * content_label = [[UILabel alloc] initWithFrame:CGRectMake(10,height+10,DEVICE_WIDTH-10 - 10,rectr1.size.height)];
     content_label.text = _aModel.content;
     content_label.font = [UIFont systemFontOfSize:14];
     content_label.textAlignment = NSTextAlignmentLeft;
