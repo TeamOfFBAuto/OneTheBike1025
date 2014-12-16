@@ -82,6 +82,7 @@
 		137D9FDE19F272E500B31100 /* RoadManagerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 137D9FDC19F272E500B31100 /* RoadManagerController.xib */; };
 		137D9FE219F27A6500B31100 /* RoadProduceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137D9FE019F27A6500B31100 /* RoadProduceController.m */; };
 		137D9FE319F27A6500B31100 /* RoadProduceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 137D9FE119F27A6500B31100 /* RoadProduceController.xib */; };
+		138F59F91A3E7B25009B0612 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 138F59F81A3E7B25009B0612 /* HelpViewController.m */; };
 		139467E019F4F80D001DAEA9 /* MapCacheDashClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 139467DF19F4F80D001DAEA9 /* MapCacheDashClass.m */; };
 		13A146F919F75B3000F8D442 /* RoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A146F719F75B3000F8D442 /* RoadCell.m */; };
 		13A146FA19F75B3000F8D442 /* RoadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A146F819F75B3000F8D442 /* RoadCell.xib */; };
@@ -698,6 +699,8 @@
 		137D9FDF19F27A6500B31100 /* RoadProduceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoadProduceController.h; sourceTree = "<group>"; };
 		137D9FE019F27A6500B31100 /* RoadProduceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoadProduceController.m; sourceTree = "<group>"; };
 		137D9FE119F27A6500B31100 /* RoadProduceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoadProduceController.xib; sourceTree = "<group>"; };
+		138F59F71A3E7B25009B0612 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		138F59F81A3E7B25009B0612 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		139467DE19F4F80D001DAEA9 /* MapCacheDashClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapCacheDashClass.h; sourceTree = "<group>"; };
 		139467DF19F4F80D001DAEA9 /* MapCacheDashClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapCacheDashClass.m; sourceTree = "<group>"; };
 		13A146F619F75B3000F8D442 /* RoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoadCell.h; sourceTree = "<group>"; };
@@ -1656,6 +1659,8 @@
 				13A1470019F75EE100F8D442 /* RoadInfoViewController.h */,
 				13A1470119F75EE100F8D442 /* RoadInfoViewController.m */,
 				13A1470219F75EE100F8D442 /* RoadInfoViewController.xib */,
+				138F59F71A3E7B25009B0612 /* HelpViewController.h */,
+				138F59F81A3E7B25009B0612 /* HelpViewController.m */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -3569,6 +3574,7 @@
 				E31F584919F638450064959E /* StartViewController.m in Sources */,
 				E3B8022819FC0C2600AF9831 /* GOffLineMapViewController.m in Sources */,
 				E30B129419FBF3B5005D5DA9 /* ShareView.m in Sources */,
+				138F59F91A3E7B25009B0612 /* HelpViewController.m in Sources */,
 				134BA69A19D9462900282D7D /* MineCellOne.m in Sources */,
 				565DF21819FBE27F00DE99EA /* RefreshTableView.m in Sources */,
 				E3B8024919FC0C2600AF9831 /* DataBase.m in Sources */,

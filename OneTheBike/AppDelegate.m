@@ -41,17 +41,14 @@
 #define SinaAppKey @"2470821654"
 #define SinaAppSecret @"bea7d21c9647406a25960a617a8e40a8"
 
-////fbauto
-//#define SinaAppKey @"2437553400"
-//#define SinaAppSecret @"7379cf0aa245ba45a66cc7c9ae9b1dba"
-
 //bike
 #define QQAPPID @"1103196390" //十六进制:41C170E6; 生成方法:echo 'ibase=10;obase=16;1103196390'|bc
 #define QQAPPKEY @"zc8ykXXrvWjKpyuh"
 
-//fbauto
-#define WXAPPID @"wx10280ad0d507a8933b9d"
-#define WXAPPSECRET @"SADSDAS"
+//骑行的
+
+#define WXAPPID @"wx82c3e96aa713fe3c"
+#define WXAPPSECRET @"ad09295dfc29f61b7e164ea413b68125"
 
 #define RedirectUrl @"http://sns.whalecloud.com/sina2/callback"
 
@@ -163,6 +160,9 @@
     //友盟第三方登录分享
     [self umengShare];
     
+    [[LTools shareInstance]versionForAppid:APP_ID Block:^(BOOL isNewVersion, NSString *updateUrl, NSString *updateContent) {
+        
+    }];
     
     
     //高德地图

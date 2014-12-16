@@ -213,7 +213,7 @@
 {
     NSString *content = @"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~";
     
-    NSString *url = @"http://www.baidu.com";
+    NSString *url = @"https://itunes.apple.com/cn/app/qi-ba/id933675147?mt=8";
     
     UIImage *shareImage = [UIImage imageNamed:@"bike_share_check.png"];
     
@@ -247,7 +247,7 @@
         [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
             if (shareResponse.responseCode == UMSResponseCodeSuccess) {
                 
-                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
+//                [LTools showMBProgressWithText:@"QQ空间分享成功" addToView:self.view];
                 
             }else{
                
@@ -274,18 +274,15 @@
     }else if ([type isEqualToString:UMShareToTencent]){
         
         [UMSocialData defaultData].extConfig.tencentData.urlResource = [[UMSocialUrlResource alloc]initWithSnsResourceType:UMSocialUrlResourceTypeImage url:url];
-        
-//        [UMSocialSnsService presentSnsIconSheetView:self
-//                                             appKey:@"5423e48cfd98c58eed00664f"
-//                                          shareText:content
-//                                         shareImage:shareImage
-//                                    shareToSnsNames:@[UMShareToTencent]
-//                                           delegate:self];
+
         
         [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToTencent] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
             if (response.responseCode == UMSResponseCodeSuccess) {
                 NSLog(@"分享成功！");
+                
+                [LTools showMBProgressWithText:@"分享成功" addToView:self.view];
             }
+            
         }];
         
         

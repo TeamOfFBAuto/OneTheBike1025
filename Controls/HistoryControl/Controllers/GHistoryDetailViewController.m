@@ -653,7 +653,7 @@
 
 - (void)autoShareTo:(NSString *)type
 {
-    NSString *content = [NSString stringWithFormat:@"#骑行分享抽奖#本次骑行%.1f公里，用时%@，均速%.1fkm/h，我来定义我的骑行@骑叭",self.passModel.juli,self.passModel.yongshi,self.passModel.pingjunsudu];
+    NSString *content = [NSString stringWithFormat:@"#骑行分享抽奖#本次骑行%.1f公里，用时%@，均速%.1fkm/h，我来定义我的骑行@骑叭官微",self.passModel.juli,self.passModel.yongshi,self.passModel.pingjunsudu];
     
     NSString *url = @" ";
     

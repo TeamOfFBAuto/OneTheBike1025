@@ -13,6 +13,8 @@
 
 #import "AppDelegate.h"
 
+#import "HelpViewController.h"
+
 @interface MoreViewController ()
 {
     NSArray *titles_arr;
@@ -144,6 +146,10 @@
         case 3:
         {
             NSLog(@"帮助说明");
+            
+            HelpViewController *help = [[HelpViewController alloc]init];
+            help.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:help animated:YES];
         }
             break;
         case 4:
@@ -186,6 +192,7 @@
     
     UMFeedbackViewController *feedbackViewController = [[UMFeedbackViewController alloc] initWithNibName:@"UMFeedbackViewController" bundle:nil];
     feedbackViewController.appkey = appkey;
+    feedbackViewController.hidesBottomBarWhenPushed = YES;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:feedbackViewController];
     //    navigationController.navigationBar.barStyle = UIBarStyleBlack;
     //    navigationController.navigationBar.translucent = NO;

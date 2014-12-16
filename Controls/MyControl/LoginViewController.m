@@ -104,7 +104,7 @@
 - (void)autoShareToSina
 {
     UIImage *shareImage = [UIImage imageNamed:@"share_Image"];
-    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToSina] content:@"@骑叭 安装完成，据说这是专门为自行车运动极客打造的骑行软件，先用为快了哦，哈哈" image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToSina] content:@"@骑叭官微 安装完成，据说这是专门为自行车运动极客打造的骑行软件，先用为快了哦，哈哈" image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
         if (response.responseCode == UMSResponseCodeSuccess) {
             NSLog(@"分享成功！");
         }
