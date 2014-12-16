@@ -118,7 +118,7 @@
     }];
         
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dataAarrayWithLocal) name:@"gstopandnosave" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(netDataWithPage:) name:@"gstopandnosave" object:nil];
     
 }
 
