@@ -29,6 +29,12 @@
 
 #import "ShareView.h"
 
+#import "UMSocial.h"
+
+#import <TencentOpenAPI/QQApi.h>
+
+#import "WXApi.h"
+
 @interface MineViewController ()<UIActionSheetDelegate,ShareViewDelegate,UMSocialUIDelegate>
 {
     NSArray *titleArray;
@@ -192,6 +198,19 @@
 //    [[UMSocialControllerService defaultControllerService] setShareText:@"我在用骑叭骑行软件骑行，这是专门为骑行爱好者量身打造的，你也来加入，咱们一起吧O(∩_∩)O~~" shareImage:[UIImage imageNamed:@"bike_share_check.png"] socialUIDelegate:self];        //设置分享内容和回调对象
 //    [UMSocialSnsPlatformManager getSocialPlatformWithName:type].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
     
+    
+    if ([type isEqualToString:UMShareToQQ] || [type isEqualToString:UMShareToQzone]) {
+        
+        [LTools alertText:@"抱歉,没有安装QQ客户端"];
+        return;
+    }
+    
+    if ([type isEqualToString:UMShareToWechatSession] || [type isEqualToString:UMShareToWechatTimeline]) {
+        
+        [LTools alertText:@"您的设备没有安装微信客户端"];
+        return;
+    }
+    
     [self autoShareTo:type];
 }
 
@@ -220,6 +239,8 @@
     if ([type isEqualToString:UMShareToQQ]) {
         
        
+        
+        
         [UMSocialData defaultData].extConfig.qqData.url = url; //设置你自己的url地址;
         
         [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:content image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *shareResponse){
